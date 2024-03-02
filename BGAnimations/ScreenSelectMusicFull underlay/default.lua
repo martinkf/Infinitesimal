@@ -18,7 +18,7 @@ t[#t+1] = Def.Quad {
 }
 ]]--
 
-t[#t+1] = LoadActor("MusicWheel") .. { Name="MusicWheel" }
+t[#t+1] = LoadActor("MusicWheel-43") .. { Name="MusicWheel" }
 
 for pn in ivalues(GAMESTATE:GetHumanPlayers()) do
     t[#t+1] = Def.ActorFrame {
