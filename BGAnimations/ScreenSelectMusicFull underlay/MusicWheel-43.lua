@@ -266,7 +266,7 @@ for i = 1, WheelSize do
         Def.ActorFrame {
             Def.Quad {
                 InitCommand=function(self)
-                    self:zoomto(60, 18):addy(-50)
+                    self:zoomto(60, 18):addy(-72)
                     :diffuse(0,0,0,0.6)
                     :fadeleft(0.3):faderight(0.3)
                 end
@@ -276,7 +276,7 @@ for i = 1, WheelSize do
                 Name="Index",
                 Font="Montserrat semibold 40px",
                 InitCommand=function(self)
-                    self:addy(-50):zoom(0.4):skewx(-0.1):diffusetopedge(0.95,0.95,0.95,0.8):shadowlength(1.5)
+                    self:addy(-72):zoom(0.4):skewx(-0.1):diffusetopedge(0.95,0.95,0.95,0.8):shadowlength(1.5)
                 end,
                 RefreshCommand=function(self,param) self:settext(Targets[i]) end
             }
