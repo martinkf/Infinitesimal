@@ -1,6 +1,7 @@
 setenv("IsBasicMode", false)
 local t = Def.ActorFrame {}
 
+--[[
 -- The column thing
 t[#t+1] = Def.Quad {
     InitCommand=function(self)
@@ -15,6 +16,7 @@ t[#t+1] = Def.Quad {
         self:stoptweening():decelerate(0.5):zoomy(0)
     end
 }
+]]--
 
 t[#t+1] = LoadActor("MusicWheel") .. { Name="MusicWheel" }
 
