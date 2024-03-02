@@ -72,7 +72,7 @@ t[#t+1] = Def.ActorFrame {
     
     LoadActor("../HudPanels"),
 
-    LoadActor("../CornerArrows"),
+    --LoadActor("../CornerArrows"),
     
     LoadActor("OptionsList"),
 
