@@ -70,7 +70,7 @@ t[#t+1] = Def.ActorFrame {
         end
     },
     
-    --LoadActor("../HudPanels"),
+    LoadActor("../HudPanels"),
 
     --LoadActor("../CornerArrows"),
     

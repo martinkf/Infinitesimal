@@ -1,5 +1,7 @@
-local FrameW = 1280
-local FrameH = 720
+local FrameW = 640
+local FrameH = 360
+local FrameW2 = 1600
+local FrameH2 = 900
 
 local PreviewDelay = THEME:GetMetric("ScreenSelectMusic", "SampleMusicDelay")
 local DisplayNotefield = false
@@ -7,21 +9,31 @@ local DisplayNotefield = false
 -- Video/background display
 local t = Def.ActorFrame {
     OnCommand=function(self)
-        self:zoom(1.0):addy(100):addx(40)
-		-- only reason addx is here is to remind you that its covering the optionslist icons
+        self:zoom(1.8):addy(100):addx(40)
+		-- only reason addx is here is to remind you that BGA P is currently overing the optionslist icons
+    end,	
+}
+
+local t = Def.ActorFrame {
+    OnCommand=function(self)
+        self:zoom(0.8)		
     end,
 
+	-- disabling this silver border
+	--[[
     Def.Sprite {
         Texture=((_G["Secret"] == true) and THEME:GetPathG("", "MusicWheel/SecretPreviewFrame") or THEME:GetPathG("", "MusicWheel/PreviewFrame"))
     },
+	]]--
 
+	-- noise fx when switching song
     Def.ActorFrame {
         Name="Noise",
 
         Def.Sprite {
             Texture=THEME:GetPathG("", "Noise"),
             InitCommand=function(self)
-                self:zoomto(FrameW, FrameH)
+                self:zoomto(FrameW2, FrameH2):y(125):x(60) -- reminder that its blocking the optionslist icons
                 :texcoordvelocity(24,16)
             end
         },
@@ -84,6 +96,7 @@ local t = Def.ActorFrame {
         }
     },
 
+	-- bga_P
     Def.Sprite {
         InitCommand=function(self) self:Load(nil):queuecommand("Refresh") end,
         CurrentSongChangedMessageCommand=function(self) self:Load(nil):queuecommand("Refresh") end,
@@ -103,10 +116,10 @@ local t = Def.ActorFrame {
         LoadBGCommand=function(self)
             local Path = Song:GetBackgroundPath()
             if Path and FILEMAN:DoesFileExist(Path) then
-                self:LoadFromCached("Background", Path):zoomto(FrameW, FrameH)
+                self:LoadFromCached("Background", Path):zoomto(FrameW2, FrameH2):y(125):x(60) -- reminder that its blocking the optionslist icons
                 :linear(PreviewDelay):diffusealpha(1)
             else
-                self:LoadFromCached("Banner", Song:GetBannerPath()):zoomto(FrameW, FrameH)
+                self:LoadFromCached("Banner", Song:GetBannerPath()):zoomto(FrameW2, FrameH2):y(125):x(60) -- reminder that its blocking the optionslist icons
                 :linear(PreviewDelay):diffusealpha(1)
             end
         end,
@@ -114,7 +127,7 @@ local t = Def.ActorFrame {
         LoadAnimatedCommand=function(self)
             local Path = Song:GetPreviewVidPath()
             if Path and FILEMAN:DoesFileExist(Path) then
-                self:Load(Path):zoomto(FrameW, FrameH)
+                self:Load(Path):zoomto(FrameW2, FrameH2):y(125):x(60) -- reminder that its blocking the optionslist icons
                 :linear(PreviewDelay):diffusealpha(1)
             else
                 self:queuecommand("LoadBG")

@@ -143,8 +143,8 @@ t[#t+1] = Def.ActorFrame {
 		-- bga_p background filter
 		Def.Quad {
 			InitCommand=function(self)
-				self:zoomto(1280, 720):addy(-0)
-				:diffuse(0,0,0,0.2)
+				self:zoomto(1280, 720)
+				:diffuse(0,0,0,0.0)
                 :fadeleft(0.0):faderight(0.0)
             end
         },
