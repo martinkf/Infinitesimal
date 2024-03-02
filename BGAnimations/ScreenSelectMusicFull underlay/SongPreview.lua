@@ -33,7 +33,7 @@ local t = Def.ActorFrame {
         Def.Sprite {
             Texture=THEME:GetPathG("", "Noise"),
             InitCommand=function(self)
-                self:zoomto(FrameW2, FrameH2):y(125):x(60) -- reminder that its blocking the optionslist icons
+                self:zoomto(FrameW2, FrameH2):y(125)
                 :texcoordvelocity(24,16)
             end
         },
@@ -116,10 +116,10 @@ local t = Def.ActorFrame {
         LoadBGCommand=function(self)
             local Path = Song:GetBackgroundPath()
             if Path and FILEMAN:DoesFileExist(Path) then
-                self:LoadFromCached("Background", Path):zoomto(FrameW2, FrameH2):y(125):x(60) -- reminder that its blocking the optionslist icons
+                self:LoadFromCached("Background", Path):zoomto(FrameW2, FrameH2):y(125)
                 :linear(PreviewDelay):diffusealpha(1)
             else
-                self:LoadFromCached("Banner", Song:GetBannerPath()):zoomto(FrameW2, FrameH2):y(125):x(60) -- reminder that its blocking the optionslist icons
+                self:LoadFromCached("Banner", Song:GetBannerPath()):zoomto(FrameW2, FrameH2):y(125)
                 :linear(PreviewDelay):diffusealpha(1)
             end
         end,
@@ -127,13 +127,13 @@ local t = Def.ActorFrame {
         LoadAnimatedCommand=function(self)
             local Path = Song:GetPreviewVidPath()
             if Path and FILEMAN:DoesFileExist(Path) then
-                self:Load(Path):zoomto(FrameW2, FrameH2):y(125):x(60) -- reminder that its blocking the optionslist icons
+                self:Load(Path):zoomto(FrameW2, FrameH2):y(125)
                 :linear(PreviewDelay):diffusealpha(1)
             else
                 self:queuecommand("LoadBG")
             end
         end
-    }
+    }	
 }
 
 -- Chart preview WIP, use at your own risk!
@@ -147,14 +147,14 @@ if LoadModule("Config.Load.lua")("ChartPreview", "Save/OutFoxPrefs.ini") then
                 self:AddChildFromPath(THEME:GetPathB("", "NotefieldPreview"))
             end
         end,
-        --[[
+        
         Def.Quad {
             InitCommand=function(self)
-                self:zoomto(854, 480):diffuse(Color.Black):diffusealpha(0.5):visible(false)
+                self:zoomto(520, 480):diffuse(Color.Black):diffusealpha(0.5):visible(false)
             end,
             SongChosenMessageCommand=function(self) self:visible(true) end,
             SongUnchosenMessageCommand=function(self) self:visible(false) end,
-        } ]]
+        }
     }
 end
 
@@ -204,6 +204,13 @@ t[#t+1] = Def.ActorFrame {
         end
     end,
 
+	-- adding a bga_p background filter to make it look just a itsy bitsy darker
+	Def.Quad {
+		InitCommand=function(self)
+			self:zoomto(FrameW2, FrameH2):diffuse(0,0,0,0.3):y(125)
+        end
+    },
+	
     Def.Quad {
         InitCommand=function(self)
             self:zoomto(FrameW, 32):y(-FrameH / 2):valign(0)

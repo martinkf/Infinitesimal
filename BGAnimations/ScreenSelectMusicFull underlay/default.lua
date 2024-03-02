@@ -18,6 +18,22 @@ t[#t+1] = Def.Quad {
 }
 ]]--
 
+t[#t+1] = Def.ActorFrame {
+    Def.ActorFrame {
+        InitCommand=function(self)
+            self:xy(SCREEN_CENTER_X, -SCREEN_CENTER_Y)
+            :easeoutexpo(1):y(SCREEN_CENTER_Y)
+        end,
+        OffCommand=function(self)
+            self:stoptweening():easeoutexpo(1):y(-SCREEN_CENTER_Y)
+        end,
+		
+        LoadActor("SongPreview") .. {
+            InitCommand=function(self) self:y(-100) end
+        }
+	}
+}
+		
 for pn in ivalues(GAMESTATE:GetHumanPlayers()) do
     t[#t+1] = Def.ActorFrame {
         Def.Actor {
@@ -128,26 +144,15 @@ t[#t+1] = Def.ActorFrame {
         OffCommand=function(self)
             self:stoptweening():easeoutexpo(1):y(-SCREEN_CENTER_Y)
         end,
-
+		-- stopping the BGA_P zooming shenanigans when a song is selected
+		--[[
         SongChosenMessageCommand=function(self)
             self:stoptweening():easeoutexpo(0.5):y(SCREEN_CENTER_Y-40):zoom(0.9)
         end,
         SongUnchosenMessageCommand=function(self)
             self:stoptweening():easeoutexpo(0.5):y(SCREEN_CENTER_Y):zoom(1)
         end,
-
-        LoadActor("SongPreview") .. {
-            InitCommand=function(self) self:y(-100) end
-        },
-		
-		-- bga_p background filter
-		Def.Quad {
-			InitCommand=function(self)
-				self:zoomto(1280, 720)
-				:diffuse(0,0,0,0.0)
-                :fadeleft(0.0):faderight(0.0)
-            end
-        },
+		]]--       
 		
 		LoadActor("ScoreDisplay") .. {
             InitCommand=function(self) self:y(-100) end
