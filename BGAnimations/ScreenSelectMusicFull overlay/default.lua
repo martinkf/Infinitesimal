@@ -13,28 +13,36 @@ local t = Def.ActorFrame {
     end,
 }
 
+t[#t+1] = Def.ActorFrame {
+    LoadActor("../HudPanels"),
+}
+
 if GAMESTATE:GetNumSidesJoined() < 2 then
-    local PosX = SCREEN_CENTER_X + SCREEN_WIDTH * (GAMESTATE:IsSideJoined(PLAYER_1) and 0.35 or -0.35)
-    local PosY = (IsUsingWideScreen() and (SCREEN_HEIGHT * 0.4) or SCREEN_HEIGHT * 0.35)
+    --local PosX = SCREEN_CENTER_X + SCREEN_WIDTH * (GAMESTATE:IsSideJoined(PLAYER_1) and 0.35 or -0.35)
+    --local PosY = (IsUsingWideScreen() and (SCREEN_HEIGHT * 0.4) or SCREEN_HEIGHT * 0.35)
+	local PosX = SCREEN_CENTER_X + SCREEN_WIDTH * (GAMESTATE:IsSideJoined(PLAYER_1) and 0.15 or -0.15)
+    local PosY = ((IsUsingWideScreen() and (SCREEN_HEIGHT * 0.4) or SCREEN_HEIGHT * 0.35))+388
 
     t[#t+1] = Def.ActorFrame {
         InitCommand=function(self)
-            self:xy((IsUsingWideScreen() and PosX or (PosX * 1.045)), PosY)
+            self:xy((IsUsingWideScreen() and PosX or (PosX * 1.045)), PosY):zoom(0.4)
             :playcommand('Refresh')
         end,
 
+		-- stops the moving shenanigans when a song is selected
+		--[[
         SongChosenMessageCommand=function(self)
             self:stoptweening():easeoutquad(0.25):y(PosY - 40)
         end,
         SongUnchosenMessageCommand=function(self)
             self:stoptweening():easeoutquad(0.25):y(PosY)
         end,
-
+		]]--
         CoinInsertedMessageCommand=function(self) self:playcommand('Refresh') end,
 
         RefreshCommand=function(self)
             self:GetChild("CenterStep"):visible(NoSongs or GAMESTATE:GetCoins() >= GAMESTATE:GetCoinsNeededToJoin())
-            self:GetChild("InsertCredit"):visible(NoSongs or GAMESTATE:GetCoinsNeededToJoin() > GAMESTATE:GetCoins())
+            self:GetChild("InsertCredit"):visible(NoSongs or GAMESTATE:GetCoinsNeededToJoin() > GAMESTATE:GetCoins()):y(18)
         end,
 
         OffCommand=function(self)
@@ -68,9 +76,7 @@ t[#t+1] = Def.ActorFrame {
         InitCommand=function(self)
             self:zoom(1.25):xy(-SCREEN_WIDTH / 8, -SCREEN_HEIGHT / 8)
         end
-    },
-    
-    LoadActor("../HudPanels"),
+    },    
 
     --LoadActor("../CornerArrows"),
     
