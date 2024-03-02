@@ -1,5 +1,5 @@
-local FrameW = 640
-local FrameH = 360
+local FrameW = 1280
+local FrameH = 720
 
 local PreviewDelay = THEME:GetMetric("ScreenSelectMusic", "SampleMusicDelay")
 local DisplayNotefield = false
@@ -7,7 +7,8 @@ local DisplayNotefield = false
 -- Video/background display
 local t = Def.ActorFrame {
     OnCommand=function(self)
-        self:zoom(0.8)
+        self:zoom(1.0):addy(100):addx(40)
+		-- only reason addx is here is to remind you that its covering the optionslist icons
     end,
 
     Def.Sprite {

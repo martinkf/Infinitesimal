@@ -18,8 +18,6 @@ t[#t+1] = Def.Quad {
 }
 ]]--
 
-t[#t+1] = LoadActor("MusicWheel-43") .. { Name="MusicWheel" }
-
 for pn in ivalues(GAMESTATE:GetHumanPlayers()) do
     t[#t+1] = Def.ActorFrame {
         Def.Actor {
@@ -138,17 +136,26 @@ t[#t+1] = Def.ActorFrame {
             self:stoptweening():easeoutexpo(0.5):y(SCREEN_CENTER_Y):zoom(1)
         end,
 
-        LoadActor("ScoreDisplay") .. {
+        LoadActor("SongPreview") .. {
+            InitCommand=function(self) self:y(-100) end
+        },
+		
+		-- bga_p background filter
+		Def.Quad {
+			InitCommand=function(self)
+				self:zoomto(1280, 720):addy(-0)
+				:diffuse(0,0,0,0.2)
+                :fadeleft(0.0):faderight(0.0)
+            end
+        },
+		
+		LoadActor("ScoreDisplay") .. {
             InitCommand=function(self) self:y(-100) end
         },
         
         LoadActor("PadIcons") .. {
             InitCommand=function(self) self:y(24) end
-        },
-
-        LoadActor("SongPreview") .. {
-            InitCommand=function(self) self:y(-100) end
-        },
+        },        
         
         Def.ActorFrame {
             InitCommand=function(self) self:y(85) end,
@@ -173,5 +180,7 @@ t[#t+1] = Def.ActorFrame {
         }
     }
 }
+
+t[#t+1] = LoadActor("MusicWheel-43") .. { Name="MusicWheel" }
 
 return t
