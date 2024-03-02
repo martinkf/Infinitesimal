@@ -1,3 +1,6 @@
+local yAdjustment = 28
+local yAdjOffset = 9
+
 local t = Def.ActorFrame {
     Def.ActorFrame {
         InitCommand=function(self)
@@ -14,7 +17,7 @@ local t = Def.ActorFrame {
         Def.Sprite {
             Texture=THEME:GetPathG("", "UI/PanelTop"),
             InitCommand=function(self)
-                self:scaletofit(0, 0, 1280, 128):xy(0, 0):valign(0)
+                self:scaletofit(0, 0, 1280, 128):xy(0, (0-yAdjustment-yAdjOffset)):valign(0)
             end,
         },
 
@@ -24,7 +27,7 @@ local t = Def.ActorFrame {
             Font="Montserrat normal 40px",
             Text=ToUpper(Screen.String("HeaderText")),
             InitCommand=function(self)
-                self:xy(-WideScale(200, 200), 40):halign(1):zoom(0.6)
+                self:xy(-WideScale(200, 200), (40-yAdjustment)):halign(1):zoom(0.6)
                 :diffuse(Color.Black):shadowlength(1)
 
                 if not IsUsingWideScreen() then
@@ -43,14 +46,14 @@ local t = Def.ActorFrame {
             InitCommand=function(self)
                 self:visible(Screen.String("HeaderText") == "Select Music" and true or false)
                 self:settext("STAGE "..string.format("%02d", GAMESTATE:GetCurrentStageIndex() + 1))
-                self:xy(-WideScale(200, 200), 60):halign(1):zoom(0.5):diffuse(Color.Black)
+                self:xy(-WideScale(200, 200), (60-yAdjustment)):halign(1):zoom(0.5):diffuse(Color.Black)
             end,
         },
 
         -- Amount of lives left
         Def.ActorFrame {
             InitCommand=function(self)
-                self:xy(WideScale(200, 225), 40)
+                self:xy(WideScale(200, 225)-36, (40-yAdjustment+9))
             end,
 
             Def.Sprite {
