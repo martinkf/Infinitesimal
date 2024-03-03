@@ -156,7 +156,7 @@ t[#t+1] = Def.ActorFrame {
 		]]--       
 		
 		LoadActor("ScoreDisplay") .. {
-            InitCommand=function(self) self:y(-100) end
+            InitCommand=function(self) self:x(475 * (pn == PLAYER_2 and 1 or -1)):y(500) end
         },
         
 		-- disabling padIcons
