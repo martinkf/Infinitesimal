@@ -65,32 +65,37 @@ for pn in ivalues(GAMESTATE:GetHumanPlayers()) do
 		-- READY graphic when step is selected and ready to play
         Def.ActorFrame {
             InitCommand=function(self)
-                self:xy(SCREEN_CENTER_X, -SCREEN_CENTER_Y)
-                :easeoutexpo(1):y(SCREEN_CENTER_Y - 11)
+                self:xy(SCREEN_CENTER_X + (pn == PLAYER_2 and 185 or -185), 881)
+                :easeoutexpo(1):y(881):zoom(2)
             end,
             OffCommand=function(self)
                 self:stoptweening():easeoutexpo(1)
-                :y(-SCREEN_CENTER_Y - 100)
+                :y(881)
             end,
 
             StepsChosenMessageCommand=function(self, params)
                 if params.Player == pn then
-                    self:stoptweening():easeoutexpo(0.5)
-                    :x(SCREEN_CENTER_X + (pn == PLAYER_2 and 380 or -380))
+                    self:stoptweening():easeoutexpo(0.25):y(565)
                 end
             end,
             CurrentChartChangedMessageCommand=function(self, params)
                 if params.Player == pn then
-                    self:stoptweening():easeoutexpo(0.5):x(SCREEN_CENTER_X)
+                    self:stoptweening():easeoutexpo(0.25):y(881)
                 end
             end,
             StepsUnchosenMessageCommand=function(self)
-                self:stoptweening():easeoutexpo(0.5):x(SCREEN_CENTER_X)
+                self:stoptweening():easeoutexpo(0.25):y(881)
             end,
             SongUnchosenMessageCommand=function(self)
-                self:stoptweening():easeoutexpo(0.5):x(SCREEN_CENTER_X)
+                self:stoptweening():easeoutexpo(0.25):y(881)
             end,
 
+			LoadActor(THEME:GetPathG("", "PressCenterStep")) .. {				
+				InitCommand=function(self)
+					self:zoom(0.35):y(-3)
+				end
+			},
+			
             Def.Quad {
                 InitCommand=function(self)
                     self:zoomto(128, 32):diffuse(Color.White)
@@ -101,9 +106,9 @@ for pn in ivalues(GAMESTATE:GetHumanPlayers()) do
                         self:diffuseleftedge(Color.Invisible)
                     end
                 end
-            },
-
-            Def.Sprite {
+            },            
+			
+			Def.Sprite {
                 Texture=THEME:GetPathG("", "UI/Ready" .. ToEnumShortString(pn)),
                 InitCommand=function(self) self:y(1) end
             }
