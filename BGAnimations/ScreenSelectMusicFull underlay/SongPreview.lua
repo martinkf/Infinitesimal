@@ -9,8 +9,7 @@ local DisplayNotefield = false
 -- Video/background display
 local t = Def.ActorFrame {
     OnCommand=function(self)
-        self:zoom(1.8):addy(100):addx(40)
-		-- only reason addx is here is to remind you that BGA P is currently overing the optionslist icons
+        self:zoom(1.8):addy(100)
     end,	
 }
 
@@ -196,105 +195,219 @@ t[#t+1] = Def.ActorFrame {
             if Song:IsDisplayBpmRandom() or BPMDisplay == 0 then BPMDisplay = "???" end
 
             self:GetChild("Title"):settext(TitleText)
+			self:GetChild("ShadowTitle"):settext(TitleText)
             self:GetChild("Artist"):settext(AuthorText)
+			self:GetChild("ShadowArtist"):settext(AuthorText)
             self:GetChild("BPM"):settext(BPMDisplay .. " BPM")
+			self:GetChild("ShadowBPM"):settext(BPMDisplay .. " BPM")
 
             if GAMESTATE:IsEventMode() then
                 self:GetChild("Length"):visible(true):settext(SecondsToMMSS(Duration))
                 self:GetChild("HeartsIcon"):visible(false)
                 self:GetChild("Hearts"):visible(false)
+				self:GetChild("ShadowHearts"):visible(false)
             else
                 self:GetChild("Length"):visible(false)
                 self:GetChild("HeartsIcon"):visible(true)
                 self:GetChild("Hearts"):visible(true):settext("x " .. Song:GetStageCost() * GAMESTATE:GetNumPlayersEnabled())
+				self:GetChild("ShadowHearts"):visible(true):settext("x " .. Song:GetStageCost() * GAMESTATE:GetNumPlayersEnabled())
             end
         else
             self:GetChild("Title"):settext("")
+			self:GetChild("ShadowTitle"):settext("")
             self:GetChild("Artist"):settext("")
+			self:GetChild("ShadowArtist"):settext("")
             self:GetChild("Length"):settext("")
             self:GetChild("BPM"):settext("")
+			self:GetChild("ShadowBPM"):settext("")
         end
     end,	
 	
+	--upper quad. disabling
+	--[[
     Def.Quad {
         InitCommand=function(self)
             self:zoomto(FrameW, 32):y(-FrameH / 2):valign(0)
             :diffuse(Color.Black):diffusealpha(0.5)
         end
     },
+	]]--
 
     Def.BitmapText {
-        Font="Montserrat semibold 40px",
-        Name="Title",
+        Font="Montserrat extrabold 40px",
+        Name="ShadowTitle",
         InitCommand=function(self)
-            self:zoom(0.7):halign(0):valign(0)
-            :maxwidth(FrameW * 0.8 / self:GetZoom())
-            :x(-FrameW / 2 + 6)
-            :y(-FrameH / 2 + 6)
-        end
-    },
-
-    Def.BitmapText {
-        Font="Montserrat semibold 40px",
-        Name="Length",
-        InitCommand=function(self)
-            self:zoom(0.7):halign(1):valign(0)
-            :maxwidth(FrameW * 0.2 / self:GetZoom())
-            :x(FrameW / 2 - 6)
-            :y(-FrameH / 2 + 6)
-        end
-    },
-
-    Def.Sprite {
-        Texture=THEME:GetPathG("", "UI/Heart"),
-        Name="HeartsIcon",
-        InitCommand=function(self)
-            self:zoom(0.35):halign(1):valign(0)
-            :x(FrameW / 2 - 54)
-            :y(-FrameH / 2 + 5)
+            self:zoom(1.7):halign(0.5):valign(0)
+			--:maxwidth(FrameW * 0.7 / self:GetZoom())
+            :x(0):y(-230)
+			:uppercase(true)
+			:diffuse(color("#000000"))			
         end,
-    },
+		
+		CurrentSongChangedMessageCommand=function(self)
+			self:diffusealpha(0):stoptweening():sleep(0.5):linear(0.5):diffusealpha(1)
 
-    Def.BitmapText {
-        Font="Montserrat semibold 40px",
-        Name="Hearts",
+		end
+    },	
+	Def.BitmapText {
+        Font="Montserrat extrabold 40px",
+		Name="Title",
         InitCommand=function(self)
-            self:zoom(0.7):halign(0):valign(0)
-            :x(FrameW / 2 - 48)
-            :y(-FrameH / 2 + 6)
+            self:zoom(1.7):halign(0.5):valign(0)
+			--:maxwidth(FrameW * 0.7 / self:GetZoom())
+            :x(-3):y(-233)
+			:uppercase(true)			
+        end,
+		
+		CurrentSongChangedMessageCommand=function(self)
+			self:diffusealpha(0):stoptweening():sleep(0.5):linear(0.5):diffusealpha(1)
 
-            local Hearts = GAMESTATE:GetNumStagesLeft(PLAYER_1) + GAMESTATE:GetNumStagesLeft(PLAYER_2)
-            self:settext("x " .. (GAMESTATE:IsEventMode() and "∞" or Hearts))
-        end
+		end
     },
+	
+	Def.BitmapText {
+        Font="Montserrat extrabold 40px",
+        Name="ShadowArtist",
+        InitCommand=function(self)
+            self:zoom(0.7):halign(0.5):valign(0)
+            --:maxwidth(FrameW * 0.7 / self:GetZoom())
+            :x(0):y(-150)
+			:uppercase(true)
+			:diffuse(color("#000000"))
+        end,
+		
+		CurrentSongChangedMessageCommand=function(self)
+			self:diffusealpha(0):stoptweening():sleep(0.6):linear(0.5):diffusealpha(1)
 
+		end
+    },
+	Def.BitmapText {
+        Font="Montserrat extrabold 40px",
+        Name="Artist",
+        InitCommand=function(self)
+            self:zoom(0.7):halign(0.5):valign(0)
+            --:maxwidth(FrameW * 0.7 / self:GetZoom())
+            :x(-3):y(-153)
+			:uppercase(true)
+        end,
+		
+		CurrentSongChangedMessageCommand=function(self)
+			self:diffusealpha(0):stoptweening():sleep(0.6):linear(0.5):diffusealpha(1)
+
+		end
+    },
+		
+	Def.BitmapText {
+		Font="Montserrat semibold 40px",
+		Name="Length",
+		InitCommand=function(self)
+			self:zoom(0.7):halign(1):valign(0)
+			:maxwidth(FrameW * 0.2 / self:GetZoom())
+			:x(FrameW / 2 - 6)
+			:y(-FrameH / 2 + 6)
+		end
+	},
+
+	Def.Sprite {
+		Texture=THEME:GetPathG("", "UI/Heart"),
+		Name="ShadowHeartsIcon",
+		InitCommand=function(self)
+			self:zoom(0.35):halign(0):valign(0)
+			:x(-35):y(170)
+			:diffuse(Color("Black"))
+		end,
+		
+		CurrentSongChangedMessageCommand=function(self)
+			self:diffusealpha(0):stoptweening():sleep(0.7):linear(0.5):diffusealpha(1)
+
+		end
+	},
+	Def.Sprite {
+		Texture=THEME:GetPathG("", "UI/Heart"),
+		Name="HeartsIcon",
+		InitCommand=function(self)
+			self:zoom(0.35):halign(0):valign(0)
+			:x(-38):y(167)			
+		end,
+		
+		CurrentSongChangedMessageCommand=function(self)
+			self:diffusealpha(0):stoptweening():sleep(0.7):linear(0.5):diffusealpha(1)
+
+		end
+	},
+	
+	Def.BitmapText {
+		Font="Montserrat semibold 40px",
+		Name="ShadowHearts",
+		InitCommand=function(self)
+			self:zoom(0.7):halign(0):valign(0)
+			:x(-6):y(170)
+			:diffuse(color("#000000"))
+
+			local ShadowHearts = GAMESTATE:GetNumStagesLeft(PLAYER_1) + GAMESTATE:GetNumStagesLeft(PLAYER_2)
+			self:settext("x " .. (GAMESTATE:IsEventMode() and "∞" or ShadowHearts))
+		end,
+		
+		CurrentSongChangedMessageCommand=function(self)
+			self:diffusealpha(0):stoptweening():sleep(0.7):linear(0.5):diffusealpha(1)
+
+		end
+	},	
+	Def.BitmapText {
+		Font="Montserrat semibold 40px",
+		Name="Hearts",
+		InitCommand=function(self)
+			self:zoom(0.7):halign(0):valign(0)
+			:x(-9):y(167)
+			
+			local Hearts = GAMESTATE:GetNumStagesLeft(PLAYER_1) + GAMESTATE:GetNumStagesLeft(PLAYER_2)
+			self:settext("x " .. (GAMESTATE:IsEventMode() and "∞" or Hearts))
+		end,
+		
+		CurrentSongChangedMessageCommand=function(self)
+			self:diffusealpha(0):stoptweening():sleep(0.7):linear(0.5):diffusealpha(1)
+
+		end
+	},
+
+	--lower quad. disabling
+	--[[
     Def.Quad {
         InitCommand=function(self)
             self:zoomto(FrameW, 32):y(FrameH / 2):valign(1)
             :diffuse(Color.Black):diffusealpha(0.5)
         end
     },
+	]]    
 
     Def.BitmapText {
         Font="Montserrat semibold 40px",
-        Name="Artist",
+        Name="ShadowBPM",
         InitCommand=function(self)
-            self:zoom(0.7):halign(0):valign(1)
-            :maxwidth(FrameW * 0.7 / self:GetZoom())
-            :x(-FrameW / 2 + 6)
-            :y(FrameH / 2 - 6)
-        end
-    },
+            self:zoom(0.7):halign(0.5):valign(0)
+            --:maxwidth(FrameW * 0.3 / self:GetZoom())
+            :x(0):y(200)
+			:diffuse(color("#000000"))
+        end,
+		
+		CurrentSongChangedMessageCommand=function(self)
+			self:diffusealpha(0):stoptweening():sleep(0.8):linear(0.5):diffusealpha(1)
 
-    Def.BitmapText {
+		end
+    },
+	Def.BitmapText {
         Font="Montserrat semibold 40px",
         Name="BPM",
         InitCommand=function(self)
-            self:zoom(0.7):halign(1):valign(1)
-            :maxwidth(FrameW * 0.3 / self:GetZoom())
-            :x(FrameW / 2 - 6)
-            :y(FrameH / 2 - 6)
-        end
+            self:zoom(0.7):halign(0.5):valign(0)
+            --:maxwidth(FrameW * 0.3 / self:GetZoom())
+            :x(-3):y(197)
+        end,
+		
+		CurrentSongChangedMessageCommand=function(self)
+			self:diffusealpha(0):stoptweening():sleep(0.8):linear(0.5):diffusealpha(1)
+
+		end
     }
 }
 
