@@ -111,7 +111,7 @@ end
 local t = Def.ActorFrame {
     OnCommand=function(self)
         SCREENMAN:GetTopScreen():AddInputCallback(InputHandler)
-        self:playcommand("Refresh")
+        self:playcommand("Refresh"):y(156)
     end,
 
     -- Prevent the chart list from moving when transitioning

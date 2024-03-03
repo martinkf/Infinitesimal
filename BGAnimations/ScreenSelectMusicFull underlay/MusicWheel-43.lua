@@ -1,8 +1,11 @@
-local WheelSize = 13
+local WheelSize = 26
 local WheelCenter = math.ceil( WheelSize * 0.5 )
 local WheelItem = { Width = 160, Height = 120 }
 local WheelSpacing = 180
-local WheelRotation = 0.025
+local WheelRotation = -0.025
+local curvature = -90
+local fieldOfView = 90
+local yValue = 196
 
 local Songs = {}
 local Targets = {}
@@ -120,17 +123,17 @@ local function UpdateBanner(self, Song)
 end
 
 local t = Def.ActorFrame {
-    InitCommand=function(self)
-        self:y(SCREEN_HEIGHT / 2 + 155):fov(90):SetDrawByZPosition(true)
-        :vanishpoint(SCREEN_CENTER_X, SCREEN_BOTTOM - 150)
+    InitCommand=function(self)        
+		self:y(SCREEN_HEIGHT / 2 + yValue):fov(fieldOfView):SetDrawByZPosition(true)
+	:vanishpoint(SCREEN_CENTER_X, SCREEN_BOTTOM - 150 + curvature)
         UpdateItemTargets(SongIndex)
     end,
 
     OnCommand=function(self)
         GAMESTATE:SetCurrentSong(Songs[SongIndex])
         SCREENMAN:GetTopScreen():AddInputCallback(InputHandler)
-
-        self:easeoutexpo(1):y(SCREEN_HEIGHT / 2 - 150)
+        
+		self:easeoutexpo(1):y(SCREEN_HEIGHT / 2 - yValue)
     end,
     
     -- Race condition workaround (yuck)
@@ -139,11 +142,13 @@ local t = Def.ActorFrame {
 
     -- These are to control the functionality of the music wheel
     SongChosenMessageCommand=function(self)
-        self:stoptweening():easeoutexpo(1):y(SCREEN_HEIGHT / 2 + 150)
+        --self:stoptweening():easeoutexpo(1):y(SCREEN_HEIGHT / 2 + yValue)
+		self:stoptweening():easeoutexpo(1):vanishpoint(SCREEN_CENTER_X, SCREEN_BOTTOM - 150 + 5000):y(-692):zoom(2.5):x(-960)
         :playcommand("Busy")
     end,
     SongUnchosenMessageCommand=function(self)
-        self:stoptweening():easeoutexpo(0.5):y(SCREEN_HEIGHT / 2 - 150)
+        --self:stoptweening():easeoutexpo(0.5):y(SCREEN_HEIGHT / 2 - yValue)
+		self:stoptweening():easeoutexpo(0.5):vanishpoint(SCREEN_CENTER_X, SCREEN_BOTTOM - 150 + curvature):y(SCREEN_HEIGHT / 2 - yValue):zoom(1):x(0)
         :playcommand("NotBusy")
     end,
     
@@ -264,6 +269,14 @@ for i = 1, WheelSize do
         },
 
         Def.ActorFrame {
+			SongChosenMessageCommand=function(self)
+				self:visible(false)
+			end,
+			SongUnchosenMessageCommand=function(self)
+				self:visible(true)
+			end,
+			
+			-- quad WheelSongNumber
             Def.Quad {
                 InitCommand=function(self)
                     self:zoomto(60, 18):addy(-72)
@@ -271,7 +284,7 @@ for i = 1, WheelSize do
                     :fadeleft(0.3):faderight(0.3)
                 end
             },
-
+			-- text WheelSongNumber
             Def.BitmapText {
                 Name="Index",
                 Font="Montserrat semibold 40px",

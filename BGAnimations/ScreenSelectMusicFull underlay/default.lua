@@ -62,6 +62,7 @@ for pn in ivalues(GAMESTATE:GetHumanPlayers()) do
             end
         },
 
+		-- READY graphic when step is selected and ready to play
         Def.ActorFrame {
             InitCommand=function(self)
                 self:xy(SCREEN_CENTER_X, -SCREEN_CENTER_Y)
@@ -163,25 +164,25 @@ t[#t+1] = Def.ActorFrame {
         },        
         
         Def.ActorFrame {
-            InitCommand=function(self) self:y(85) end,
+            InitCommand=function(self) self:y(144):zoom(0.7) end,
 
             SongChosenMessageCommand=function(self)
-                self:stoptweening():easeoutexpo(0.5):y(94):zoom(1.25)
+                self:stoptweening():easeoutexpo(1):y(-108):zoom(1)
             end,
             SongUnchosenMessageCommand=function(self)
-                self:stoptweening():easeoutexpo(0.5):y(85):zoom(1)
+                self:stoptweening():easeoutexpo(0.5):y(144):zoom(0.7)
             end,            
 
             Def.Sprite {
                 Texture=THEME:GetPathG("", "DifficultyDisplay/Bar"),
-                InitCommand=function(self) self:zoom(1.2) end
-            },
+                InitCommand=function(self) self:zoom(1.2):y(156) end
+            },            
 
-            LoadActor("BigPreviewBall")..{
+            LoadActor("ChartDisplay", 12),
+			
+			LoadActor("BigPreviewBall")..{
               Condition = (LoadModule("Config.Load.lua")("ShowBigBall", "Save/OutFoxPrefs.ini") and GetScreenAspectRatio() >= 1.5)
-            },
-
-            LoadActor("ChartDisplay", 12)
+            }
         }
     }
 }
