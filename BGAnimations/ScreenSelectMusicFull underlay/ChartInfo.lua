@@ -88,7 +88,8 @@ for pn in ivalues(GAMESTATE:GetHumanPlayers()) do
                 self:maxwidth(PanelW / self:GetZoom())
                 :vertspacing(-6):shadowlength(1)
                 :skewx(-0.2)
-                :x(-172 + (pn == PLAYER_2 and 345 or 0))
+                --:x(-172 + (pn == PLAYER_2 and 345 or 0))
+				:x(302 * (pn == PLAYER_2 and 1 or -1))
                 :y(13)
             end
         },
