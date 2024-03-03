@@ -129,10 +129,12 @@ t[#t+1] = Def.ActorFrame {
         end,
 
 		--bg graphics
+		--[[
         Def.Sprite {
             Texture=THEME:GetPathG("", "DifficultyDisplay/InfoPanel"),
             InitCommand=function(self) self:y(85):zoom(0.75) end
         },
+		]]--
 		
         LoadActor("ChartInfo")
     }

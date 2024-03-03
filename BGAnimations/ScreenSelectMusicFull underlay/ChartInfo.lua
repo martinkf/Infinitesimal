@@ -55,7 +55,9 @@ for pn in ivalues(GAMESTATE:GetHumanPlayers()) do
                 local ChartDescriptionText = Chart:GetChartName()
                 -- if ChartDescriptionText == "" then ChartDescriptionText = ToUpper(Chart:GetDescription()) end
 
-                local ChartInfoText = ChartTypeText .. " " .. THEME:GetString("ChartInfo", "By") .. " " .. ChartAuthorText
+                --local ChartInfoText = ChartTypeText .. " " .. THEME:GetString("ChartInfo", "By") .. " " .. ChartAuthorText
+				local ChartInfoText = ChartAuthorText
+				
                 if ChartDescriptionText ~= "" then
                     ChartInfoText = ChartInfoText .. "\n" .. ChartDescriptionText
                 end
@@ -78,7 +80,7 @@ for pn in ivalues(GAMESTATE:GetHumanPlayers()) do
                 self:GetChild("Rolls"):settext("")
             end
         end,
-
+		
         Def.BitmapText {
             Font="Montserrat extrabold 20px",
             Name="ChartInfo",
@@ -90,7 +92,7 @@ for pn in ivalues(GAMESTATE:GetHumanPlayers()) do
                 :y(13)
             end
         },
-
+		--[[
         Def.BitmapText {
             Font="Montserrat normal 20px",
             Name="Steps",
@@ -163,6 +165,7 @@ for pn in ivalues(GAMESTATE:GetHumanPlayers()) do
             end
         },
 
+		
         Def.ActorFrame {
             InitCommand=function(self) self:diffusealpha(1):queuecommand("ShowAMV") end,
             SongChosenMessageCommand=function(self) self:stoptweening():diffusealpha(1):queuecommand("ShowAMV") end,
@@ -180,6 +183,7 @@ for pn in ivalues(GAMESTATE:GetHumanPlayers()) do
             -- valign(1) doesn't work with ActorMultiVertex :(
             LoadActor("../NPSDiagram", (pn == PLAYER_2 and 128 or -128), 111, 250, 40, false, pn)
         }
+		]]
     }
 end
 
