@@ -159,9 +159,12 @@ t[#t+1] = Def.ActorFrame {
             InitCommand=function(self) self:y(-100) end
         },
         
+		-- disabling padIcons
+		--[[
         LoadActor("PadIcons") .. {
             InitCommand=function(self) self:y(24) end
-        },        
+        },
+		]]--		
         
         Def.ActorFrame {
             InitCommand=function(self) self:y(144):zoom(0.7) end,
