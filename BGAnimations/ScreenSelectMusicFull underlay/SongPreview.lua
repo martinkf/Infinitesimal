@@ -133,6 +133,13 @@ local t = Def.ActorFrame {
                 self:queuecommand("LoadBG")
             end
         end
+    },
+
+	-- adding a bga_p background filter to make it look just a itsy bitsy darker
+	Def.Quad {
+		InitCommand=function(self)
+			self:zoomto(FrameW2, FrameH2):diffuse(0,0,0,0.3):y(125)
+        end
     }	
 }
 
@@ -140,20 +147,25 @@ local t = Def.ActorFrame {
 if LoadModule("Config.Load.lua")("ChartPreview", "Save/OutFoxPrefs.ini") then
     t[#t+1] = Def.ActorFrame {
         InitCommand=function(self)
-            self:y(0):zoom(0.75)
+            self:y(702):zoom(0.75)
         end,
         OnCommand=function(self)
             if GAMESTATE:GetCurrentSong() then
                 self:AddChildFromPath(THEME:GetPathB("", "NotefieldPreview"))
             end
         end,
+		
+		SongChosenMessageCommand=function(self)
+			self:stoptweening():easeoutexpo(1):y(386)
+		end,
+        SongUnchosenMessageCommand=function(self)
+			self:stoptweening():easeoutexpo(0.5):y(702)
+		end,
         
         Def.Quad {
             InitCommand=function(self)
-                self:zoomto(520, 480):diffuse(Color.Black):diffusealpha(0.5):visible(false)
-            end,
-            SongChosenMessageCommand=function(self) self:visible(true) end,
-            SongUnchosenMessageCommand=function(self) self:visible(false) end,
+                self:zoomto(520, 448):diffuse(Color.Black):diffusealpha(0.5):y(16)
+            end,            
         }
     }
 end
@@ -202,14 +214,7 @@ t[#t+1] = Def.ActorFrame {
             self:GetChild("Length"):settext("")
             self:GetChild("BPM"):settext("")
         end
-    end,
-
-	-- adding a bga_p background filter to make it look just a itsy bitsy darker
-	Def.Quad {
-		InitCommand=function(self)
-			self:zoomto(FrameW2, FrameH2):diffuse(0,0,0,0.3):y(125)
-        end
-    },
+    end,	
 	
     Def.Quad {
         InitCommand=function(self)

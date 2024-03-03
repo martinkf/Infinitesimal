@@ -63,7 +63,7 @@ for i, pn in ipairs(GAMESTATE:GetEnabledPlayers()) do
                 Name = "NotefieldPreview",
                 Player = pnNoteField,
                 --hardcoding skin for now because player choice only updates on screen refresh and most other noteskins look glitchy on previews.
-                NoteSkin = 'delta',
+                NoteSkin = '02_extra',
                 DrawDistanceAfterTargetsPixels = NotefieldRenderAfter,
                 DrawDistanceBeforeTargetsPixels = NotefieldRenderBefore,
                 YReverseOffsetPixels = ReceptorOffset,
