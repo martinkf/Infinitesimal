@@ -112,26 +112,28 @@ for pn in ivalues(GAMESTATE:GetHumanPlayers()) do
 end
 
 t[#t+1] = Def.ActorFrame {
-    Def.ActorFrame {
+    --ChartInfo
+	Def.ActorFrame {
         InitCommand=function(self)
-            self:xy(SCREEN_CENTER_X, -SCREEN_CENTER_Y):zoom(0.5)
-            :easeoutexpo(1):y(SCREEN_CENTER_Y)
+            self:xy(SCREEN_CENTER_X, -SCREEN_CENTER_Y+419)
+            :easeoutexpo(1):y(SCREEN_CENTER_Y+419)
         end,
         OffCommand=function(self)
             self:stoptweening():easeoutexpo(1):y(-SCREEN_CENTER_Y)
         end,
         SongChosenMessageCommand=function(self)
-            self:stoptweening():easeoutexpo(0.5):y(SCREEN_CENTER_Y + 95):zoom(1)
+            self:stoptweening():easeoutexpo(1):y(SCREEN_CENTER_Y + 103)
         end,
         SongUnchosenMessageCommand=function(self)
-            self:stoptweening():easeoutexpo(0.25):y(SCREEN_CENTER_Y):zoom(0.5)
+            self:stoptweening():easeoutexpo(0.5):y(SCREEN_CENTER_Y+419)
         end,
 
+		--bg graphics
         Def.Sprite {
             Texture=THEME:GetPathG("", "DifficultyDisplay/InfoPanel"),
             InitCommand=function(self) self:y(85):zoom(0.75) end
         },
-
+		
         LoadActor("ChartInfo")
     }
 }
