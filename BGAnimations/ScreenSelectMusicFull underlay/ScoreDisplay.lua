@@ -1,7 +1,7 @@
 local Scoring = LoadModule("Config.Load.lua")("ScoringSystem", "Save/OutFoxPrefs.ini") or "Old"
 local ClassicGrades = LoadModule("Config.Load.lua")("ClassicGrades", "Save/OutFoxPrefs.ini") and Scoring == "Old"
 local SongIsChosen = false
-local xDisplacement = 475
+local xDisplacement = 540
 
 local t = Def.ActorFrame {}
 
