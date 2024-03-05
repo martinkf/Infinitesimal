@@ -179,7 +179,7 @@ t[#t+1] = Def.ActorFrame {
             InitCommand=function(self) self:y(144):zoom(0.7) end,
 
             SongChosenMessageCommand=function(self)
-                self:stoptweening():easeoutexpo(1):y(-108):zoom(1)
+                self:stoptweening():easeoutexpo(1):y(-102):zoom(1)
             end,
             SongUnchosenMessageCommand=function(self)
                 self:stoptweening():easeoutexpo(0.5):y(144):zoom(0.7)

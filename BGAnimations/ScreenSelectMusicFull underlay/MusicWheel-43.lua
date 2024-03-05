@@ -143,7 +143,7 @@ local t = Def.ActorFrame {
     -- These are to control the functionality of the music wheel
     SongChosenMessageCommand=function(self)
         --self:stoptweening():easeoutexpo(1):y(SCREEN_HEIGHT / 2 + yValue)
-		self:stoptweening():easeoutexpo(1):vanishpoint(SCREEN_CENTER_X, SCREEN_BOTTOM - 150 + 5000):y(-692):zoom(2.5):x(-960)
+		self:stoptweening():easeoutexpo(1):vanishpoint(SCREEN_CENTER_X, SCREEN_BOTTOM - 150 + 5000):y(-476):zoom(2):x(-640)
         :playcommand("Busy")
     end,
     SongUnchosenMessageCommand=function(self)

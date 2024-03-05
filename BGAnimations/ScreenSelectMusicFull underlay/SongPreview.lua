@@ -137,7 +137,7 @@ local t = Def.ActorFrame {
 	-- adding a bga_p background filter to make it look just a itsy bitsy darker
 	Def.Quad {
 		InitCommand=function(self)
-			self:zoomto(FrameW2, FrameH2):diffuse(0,0,0,0.3):y(125)
+			self:zoomto(FrameW2, FrameH2):diffuse(0,0,0,0.6):y(125)
         end
     }	
 }
@@ -242,12 +242,18 @@ t[#t+1] = Def.ActorFrame {
             :x(0):y(-230)
 			:uppercase(true)
 			:diffuse(color("#000000"))			
-        end,
-		
+        end,		
 		CurrentSongChangedMessageCommand=function(self)
 			self:diffusealpha(0):stoptweening():sleep(0.5):linear(0.5):diffusealpha(1)
-
-		end
+		end,
+		SongChosenMessageCommand=function(self)
+            --self:stoptweening():easeoutexpo(1):diffusealpha(0)
+			self:stoptweening():diffusealpha(1):easeoutexpo(1):y(-260)
+        end,
+		SongUnchosenMessageCommand=function(self)
+            --self:stoptweening():easeoutexpo(0.5):diffusealpha(1)
+			self:stoptweening():diffusealpha(1):easeoutexpo(0.5):y(-230)
+        end
     },	
 	Def.BitmapText {
         Font="Montserrat extrabold 40px",
@@ -257,12 +263,18 @@ t[#t+1] = Def.ActorFrame {
 			--:maxwidth(FrameW * 0.7 / self:GetZoom())
             :x(-3):y(-233)
 			:uppercase(true)			
-        end,
-		
+        end,		
 		CurrentSongChangedMessageCommand=function(self)
 			self:diffusealpha(0):stoptweening():sleep(0.5):linear(0.5):diffusealpha(1)
-
-		end
+		end,
+		SongChosenMessageCommand=function(self)
+            --self:stoptweening():easeoutexpo(1):diffusealpha(0)
+			self:stoptweening():diffusealpha(1):easeoutexpo(1):y(-263)
+        end,
+		SongUnchosenMessageCommand=function(self)
+            --self:stoptweening():easeoutexpo(0.5):diffusealpha(1)
+			self:stoptweening():diffusealpha(1):easeoutexpo(0.5):y(-233)
+        end
     },
 	
 	Def.BitmapText {
@@ -274,12 +286,16 @@ t[#t+1] = Def.ActorFrame {
             :x(0):y(-150)
 			:uppercase(true)
 			:diffuse(color("#000000"))
-        end,
-		
+        end,		
 		CurrentSongChangedMessageCommand=function(self)
 			self:diffusealpha(0):stoptweening():sleep(0.6):linear(0.5):diffusealpha(1)
-
-		end
+		end,
+		SongChosenMessageCommand=function(self)
+            self:stoptweening():easeoutexpo(1):diffusealpha(0)			
+        end,
+		SongUnchosenMessageCommand=function(self)
+            self:stoptweening():easeoutexpo(0.5):diffusealpha(1)			
+        end
     },
 	Def.BitmapText {
         Font="Montserrat extrabold 40px",
@@ -289,12 +305,16 @@ t[#t+1] = Def.ActorFrame {
             --:maxwidth(FrameW * 0.7 / self:GetZoom())
             :x(-3):y(-153)
 			:uppercase(true)
-        end,
-		
+        end,		
 		CurrentSongChangedMessageCommand=function(self)
 			self:diffusealpha(0):stoptweening():sleep(0.6):linear(0.5):diffusealpha(1)
-
-		end
+		end,
+		SongChosenMessageCommand=function(self)
+            self:stoptweening():easeoutexpo(1):diffusealpha(0)			
+        end,
+		SongUnchosenMessageCommand=function(self)
+            self:stoptweening():easeoutexpo(0.5):diffusealpha(1)			
+        end
     },
 		
 	Def.BitmapText {
@@ -315,12 +335,16 @@ t[#t+1] = Def.ActorFrame {
 			self:zoom(0.35):halign(0):valign(0)
 			:x(-35):y(170)
 			:diffuse(Color("Black"))
-		end,
-		
+		end,		
 		CurrentSongChangedMessageCommand=function(self)
 			self:diffusealpha(0):stoptweening():sleep(0.7):linear(0.5):diffusealpha(1)
-
-		end
+		end,
+		SongChosenMessageCommand=function(self)
+            self:stoptweening():easeoutexpo(1):diffusealpha(0)			
+        end,
+		SongUnchosenMessageCommand=function(self)
+            self:stoptweening():easeoutexpo(0.5):diffusealpha(1)			
+        end
 	},
 	Def.Sprite {
 		Texture=THEME:GetPathG("", "UI/Heart"),
@@ -328,12 +352,16 @@ t[#t+1] = Def.ActorFrame {
 		InitCommand=function(self)
 			self:zoom(0.35):halign(0):valign(0)
 			:x(-38):y(167)			
-		end,
-		
+		end,		
 		CurrentSongChangedMessageCommand=function(self)
 			self:diffusealpha(0):stoptweening():sleep(0.7):linear(0.5):diffusealpha(1)
-
-		end
+		end,
+		SongChosenMessageCommand=function(self)
+            self:stoptweening():easeoutexpo(1):diffusealpha(0)			
+        end,
+		SongUnchosenMessageCommand=function(self)
+            self:stoptweening():easeoutexpo(0.5):diffusealpha(1)			
+        end
 	},
 	
 	Def.BitmapText {
@@ -346,12 +374,16 @@ t[#t+1] = Def.ActorFrame {
 
 			local ShadowHearts = GAMESTATE:GetNumStagesLeft(PLAYER_1) + GAMESTATE:GetNumStagesLeft(PLAYER_2)
 			self:settext("x " .. (GAMESTATE:IsEventMode() and "∞" or ShadowHearts))
-		end,
-		
+		end,		
 		CurrentSongChangedMessageCommand=function(self)
 			self:diffusealpha(0):stoptweening():sleep(0.7):linear(0.5):diffusealpha(1)
-
-		end
+		end,
+		SongChosenMessageCommand=function(self)
+            self:stoptweening():easeoutexpo(1):diffusealpha(0)			
+        end,
+		SongUnchosenMessageCommand=function(self)
+            self:stoptweening():easeoutexpo(0.5):diffusealpha(1)			
+        end
 	},	
 	Def.BitmapText {
 		Font="Montserrat semibold 40px",
@@ -362,12 +394,16 @@ t[#t+1] = Def.ActorFrame {
 			
 			local Hearts = GAMESTATE:GetNumStagesLeft(PLAYER_1) + GAMESTATE:GetNumStagesLeft(PLAYER_2)
 			self:settext("x " .. (GAMESTATE:IsEventMode() and "∞" or Hearts))
-		end,
-		
+		end,		
 		CurrentSongChangedMessageCommand=function(self)
 			self:diffusealpha(0):stoptweening():sleep(0.7):linear(0.5):diffusealpha(1)
-
-		end
+		end,
+		SongChosenMessageCommand=function(self)
+            self:stoptweening():easeoutexpo(1):diffusealpha(0)			
+        end,
+		SongUnchosenMessageCommand=function(self)
+            self:stoptweening():easeoutexpo(0.5):diffusealpha(1)			
+        end
 	},
 
 	--lower quad. disabling
@@ -388,12 +424,16 @@ t[#t+1] = Def.ActorFrame {
             --:maxwidth(FrameW * 0.3 / self:GetZoom())
             :x(0):y(200)
 			:diffuse(color("#000000"))
-        end,
-		
+        end,		
 		CurrentSongChangedMessageCommand=function(self)
 			self:diffusealpha(0):stoptweening():sleep(0.8):linear(0.5):diffusealpha(1)
-
-		end
+		end,
+		SongChosenMessageCommand=function(self)
+            self:stoptweening():diffusealpha(1):easeoutexpo(1):y(-203)
+        end,
+		SongUnchosenMessageCommand=function(self)
+            self:stoptweening():diffusealpha(1):easeoutexpo(0.5):y(200)
+        end
     },
 	Def.BitmapText {
         Font="Montserrat semibold 40px",
@@ -402,12 +442,16 @@ t[#t+1] = Def.ActorFrame {
             self:zoom(0.7):halign(0.5):valign(0)
             --:maxwidth(FrameW * 0.3 / self:GetZoom())
             :x(-3):y(197)
-        end,
-		
+        end,		
 		CurrentSongChangedMessageCommand=function(self)
 			self:diffusealpha(0):stoptweening():sleep(0.8):linear(0.5):diffusealpha(1)
-
-		end
+		end,
+		SongChosenMessageCommand=function(self)
+            self:stoptweening():diffusealpha(1):easeoutexpo(1):y(-206)
+        end,
+		SongUnchosenMessageCommand=function(self)
+            self:stoptweening():diffusealpha(1):easeoutexpo(0.5):y(197)
+        end
     }
 }
 
