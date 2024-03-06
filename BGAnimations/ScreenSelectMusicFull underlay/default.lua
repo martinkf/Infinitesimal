@@ -54,7 +54,7 @@ for pn in ivalues(GAMESTATE:GetHumanPlayers()) do
 
         LoadActor("../ModIcons", pn) .. {
             InitCommand=function(self)
-                self:xy(pn == PLAYER_2 and SCREEN_RIGHT + 40 * 2 or -40 * 2, 160)
+                self:xy(pn == PLAYER_2 and SCREEN_RIGHT + 40 * 2 or -40 * 2, 138)
                 :easeoutexpo(1):x(pn == PLAYER_2 and SCREEN_RIGHT - 40 or 40)
             end,
             OffCommand=function(self)
