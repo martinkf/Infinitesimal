@@ -258,6 +258,7 @@ for i = 1, WheelSize do
             self:rotationy((SCREEN_CENTER_X - xpos - displace) * -WheelRotation)
             self:z(-math.abs(SCREEN_CENTER_X - xpos - displace) * 0.25)
             self:GetChild(""):GetChild("Index"):playcommand("Refresh")
+			self:GetChild(""):GetChild("TestLabel"):playcommand("Refresh")
         end,
 
         Def.Banner {
@@ -291,7 +292,7 @@ for i = 1, WheelSize do
 			-- quad WheelSongNumber
             Def.Quad {
                 InitCommand=function(self)
-                    self:zoomto(60, 18):addy(-72)
+                    self:zoomto(60, 18):addy(73)
                     :diffuse(0,0,0,0.6)
                     :fadeleft(0.3):faderight(0.3)
                 end
@@ -301,9 +302,52 @@ for i = 1, WheelSize do
                 Name="Index",
                 Font="Montserrat semibold 40px",
                 InitCommand=function(self)
-                    self:addy(-72):zoom(0.4):skewx(-0.1):diffusetopedge(0.95,0.95,0.95,0.8):shadowlength(1.5)
+                    self:addy(73):zoom(0.4):skewx(-0.1):diffusetopedge(0.95,0.95,0.95,0.8):shadowlength(1.5)
                 end,
                 RefreshCommand=function(self,param) self:settext(Targets[i]) end
+            },
+			
+			-- quad SongOrigin
+            Def.Quad {
+                InitCommand=function(self)
+                    self:zoomto(140, 18):addy(-73)
+                    :diffuse(0,0,0,0.6)
+                    :fadeleft(0.2):faderight(0.2)
+                end
+            },
+			-- text SongOrigin
+            Def.BitmapText {				
+                Name="TestLabel",
+                Font="Montserrat semibold 40px",				
+                InitCommand=function(self)
+                    self:addy(-73):zoom(0.4):skewx(-0.1):diffusetopedge(0.95,0.95,0.95,0.8):shadowlength(1.5)
+                end,
+                
+				RefreshCommand=function(self,param)
+					if Songs[Targets[i]]:GetOrigin() == "The 1st DF" then				
+						self:diffuse(color("#ff00ff")):settext(Songs[Targets[i]]:GetOrigin())
+					elseif Songs[Targets[i]]:GetOrigin() == "The 2nd DF" then
+						self:diffuse(color("#1348ff")):settext(Songs[Targets[i]]:GetOrigin())
+					elseif Songs[Targets[i]]:GetOrigin() == "O.B.G The 3rd" then
+						self:diffuse(color("#36b000")):settext(Songs[Targets[i]]:GetOrigin())
+					elseif Songs[Targets[i]]:GetOrigin() == "O.B.G Season Evo." then
+						self:diffuse(color("#ffff00")):settext(Songs[Targets[i]]:GetOrigin())
+					elseif Songs[Targets[i]]:GetOrigin() == "Perfect" then
+						self:diffuse(color("#ff9900")):settext(Songs[Targets[i]]:GetOrigin())
+					elseif Songs[Targets[i]]:GetOrigin() == "Extra" then
+						self:diffuse(color("#FFFFFF")):settext(Songs[Targets[i]]:GetOrigin())
+					elseif Songs[Targets[i]]:GetOrigin() == "Premiere" then
+						self:diffuse(color("#FFFFFF")):settext(Songs[Targets[i]]:GetOrigin())
+					elseif Songs[Targets[i]]:GetOrigin() == "Rebirth" then
+						self:diffuse(color("#FFFFFF")):settext(Songs[Targets[i]]:GetOrigin())
+					elseif Songs[Targets[i]]:GetOrigin() == "Premiere 3" then
+						self:diffuse(color("#FFFFFF")):settext(Songs[Targets[i]]:GetOrigin())
+					elseif Songs[Targets[i]]:GetOrigin() == "Prex 3" then
+						self:diffuse(color("#FFFFFF")):settext(Songs[Targets[i]]:GetOrigin())
+					else 
+						self:diffuse(color("#000000")):settext(Songs[Targets[i]]:GetOrigin())
+					end
+				end
             }
         }
     }

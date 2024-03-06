@@ -176,19 +176,19 @@ t[#t+1] = Def.ActorFrame {
 		]]--		
         
         Def.ActorFrame {
-            InitCommand=function(self) self:y(144):zoom(0.7) end,
+            InitCommand=function(self) self:y(128) end,
 
             SongChosenMessageCommand=function(self)
-                self:stoptweening():easeoutexpo(1):y(-102):zoom(1)
+                self:stoptweening():easeoutexpo(1):y(-102)
             end,
             SongUnchosenMessageCommand=function(self)
-                self:stoptweening():easeoutexpo(0.5):y(144):zoom(0.7)
+                self:stoptweening():easeoutexpo(0.5):y(128)
             end,            
 
             Def.Sprite {
                 Texture=THEME:GetPathG("", "DifficultyDisplay/Bar"),
                 InitCommand=function(self) self:zoom(1.2):y(156) end
-            },            
+            },
 
             LoadActor("ChartDisplay", 12),
 			
