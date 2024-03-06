@@ -116,10 +116,10 @@ local t = Def.ActorFrame {
             local Path = Song:GetBackgroundPath()
             if Path and FILEMAN:DoesFileExist(Path) then
                 self:LoadFromCached("Background", Path):zoomto(FrameW2, FrameH2):y(125)
-                :linear(PreviewDelay):diffusealpha(1)
+                :linear(PreviewDelay):diffusealpha(1):diffuse(color("#ffffff"))
             else
                 self:LoadFromCached("Banner", Song:GetBannerPath()):zoomto(FrameW2, FrameH2):y(125)
-                :linear(PreviewDelay):diffusealpha(1)
+                :linear(PreviewDelay):diffusealpha(1):diffuse(color("#ffffff"))
             end
         end,
 
@@ -127,19 +127,66 @@ local t = Def.ActorFrame {
             local Path = Song:GetPreviewVidPath()
             if Path and FILEMAN:DoesFileExist(Path) then
                 self:Load(Path):zoomto(FrameW2, FrameH2):y(125)
+                :linear(PreviewDelay):diffusealpha(1):diffuse(color("#ffffff"))
+            else
+                self:queuecommand("LoadBG")
+            end
+        end,
+		
+		SongChosenMessageCommand=function(self)				
+			self:stoptweening():easeoutexpo(1):diffuse(color("#333333"))
+		end,
+		
+		SongUnchosenMessageCommand=function(self)				
+			self:stoptweening():easeoutexpo(0.5):diffuse(color("#ffffff"))
+		end
+    },
+	
+	-- bga_P again
+	Def.Sprite {
+        InitCommand=function(self) self:Load(nil):queuecommand("Refresh") end,
+        CurrentSongChangedMessageCommand=function(self) self:Load(nil):queuecommand("Refresh") end,
+
+        RefreshCommand=function(self)
+            self:stoptweening():diffusealpha(0):sleep(PreviewDelay)
+            Song = GAMESTATE:GetCurrentSong()
+            if Song then
+                if GAMESTATE:GetCurrentSong():GetPreviewVidPath() == nil or LoadModule("Config.Load.lua")("ImagePreviewOnly", "Save/OutFoxPrefs.ini") then
+                    self:queuecommand("LoadBG")
+                else
+                    self:queuecommand("LoadAnimated")
+                end
+            end
+        end,
+
+        LoadBGCommand=function(self)
+            local Path = Song:GetBackgroundPath()
+            if Path and FILEMAN:DoesFileExist(Path) then
+                self:LoadFromCached("Background", Path):zoomto(FrameW2/8, FrameH2/6.1):y(332):diffusealpha(0)
+                :linear(PreviewDelay):diffusealpha(1)
+            else
+                self:LoadFromCached("Banner", Song:GetBannerPath()):zoomto(FrameW2/8, FrameH2/6.1):y(332):diffusealpha(0)
+                :linear(PreviewDelay):diffusealpha(1)
+            end
+        end,
+
+        LoadAnimatedCommand=function(self)
+            local Path = Song:GetPreviewVidPath()
+            if Path and FILEMAN:DoesFileExist(Path) then
+                self:Load(Path):zoomto(FrameW2/8, FrameH2/6.1):y(332):diffusealpha(0)
                 :linear(PreviewDelay):diffusealpha(1)
             else
                 self:queuecommand("LoadBG")
             end
-        end
-    },
-
-	-- adding a bga_p background filter to make it look just a itsy bitsy darker
-	Def.Quad {
-		InitCommand=function(self)
-			self:zoomto(FrameW2, FrameH2):diffuse(0,0,0,0.6):y(125)
-        end
-    }	
+        end,
+		
+		SongChosenMessageCommand=function(self)				
+			self:stoptweening():easeoutexpo(1):zoomto(FrameW2/3, FrameH2/3):y(-18):diffusealpha(1)
+		end,
+		SongUnchosenMessageCommand=function(self)				
+			self:stoptweening():easeoutexpo(0.5):zoomto(FrameW2/8, FrameH2/6.1):y(332):diffusealpha(0)
+		end
+    }
 }
 
 -- Chart preview WIP, use at your own risk!

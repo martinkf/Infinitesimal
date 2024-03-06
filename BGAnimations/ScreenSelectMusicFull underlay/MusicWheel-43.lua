@@ -262,10 +262,22 @@ for i = 1, WheelSize do
 
         Def.Banner {
             Name="Banner",
+			SongChosenMessageCommand=function(self)				
+				self:stoptweening():easeoutexpo(1):diffusealpha(0)
+			end,
+			SongUnchosenMessageCommand=function(self)				
+				self:stoptweening():easeoutexpo(0.5):diffusealpha(1)
+			end
         },
 
         Def.Sprite {
             Texture=THEME:GetPathG("", "MusicWheel/SongFrame43"),
+			SongChosenMessageCommand=function(self)				
+				self:stoptweening():easeoutexpo(1):zoomx(1.35)
+			end,
+			SongUnchosenMessageCommand=function(self)				
+				self:stoptweening():easeoutexpo(0.5):zoomx(1)
+			end
         },
 
         Def.ActorFrame {
