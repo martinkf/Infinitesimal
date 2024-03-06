@@ -17,15 +17,13 @@ t[#t+1] = Def.ActorFrame {
     LoadActor("../HudPanels"),
 }
 
-if GAMESTATE:GetNumSidesJoined() < 2 then
-    --local PosX = SCREEN_CENTER_X + SCREEN_WIDTH * (GAMESTATE:IsSideJoined(PLAYER_1) and 0.35 or -0.35)
-    --local PosY = (IsUsingWideScreen() and (SCREEN_HEIGHT * 0.4) or SCREEN_HEIGHT * 0.35)
-	local PosX = SCREEN_CENTER_X + SCREEN_WIDTH * (GAMESTATE:IsSideJoined(PLAYER_1) and 0.15 or -0.15)
-    local PosY = ((IsUsingWideScreen() and (SCREEN_HEIGHT * 0.4) or SCREEN_HEIGHT * 0.35))+388
+if GAMESTATE:GetNumSidesJoined() < 2 then    
+	local PosX = SCREEN_CENTER_X + SCREEN_WIDTH * (GAMESTATE:IsSideJoined(PLAYER_1) and 0.45 or -0.45)
+    local PosY = ((IsUsingWideScreen() and (SCREEN_HEIGHT * 0.4) or SCREEN_HEIGHT * 0.35))-180
 
     t[#t+1] = Def.ActorFrame {
         InitCommand=function(self)
-            self:xy((IsUsingWideScreen() and PosX or (PosX * 1.045)), PosY):zoom(0.4)
+            self:xy((IsUsingWideScreen() and PosX or (PosX * 1.045)), PosY):zoom(0.7)
             :playcommand('Refresh')
         end,
 

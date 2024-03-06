@@ -1,7 +1,7 @@
 local pn = ...
 local IconW = 64
 local IconH = 44
-local IconAmount = 8
+local IconAmount = 6
 
 local pnNum = (pn == PLAYER_1) and 0 or 1
 local PlayerMods = GAMESTATE:GetPlayerState(pn):GetPlayerOptions("ModsLevel_Preferred")

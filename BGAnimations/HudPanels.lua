@@ -89,7 +89,7 @@ local t = Def.ActorFrame {
         end,
         OnCommand=function(self)
             self:easeoutexpo(0.5)
-            :xy(SCREEN_CENTER_X, SCREEN_BOTTOM)
+            :xy(SCREEN_CENTER_X, SCREEN_BOTTOM + 42)
         end,
         OffCommand=function(self)
             self:easeoutexpo(0.5)
@@ -108,26 +108,17 @@ for pn in ivalues(GAMESTATE:GetHumanPlayers()) do
                 OffCommand=function(self) self:easeoutexpo(0.5):y(128) end,
 
                 Def.Sprite {
-                    Texture=THEME:GetPathG("", "UI/AvatarSlotMask"),
-                    InitCommand=function(self)
-                        self:xy(SCREEN_CENTER_X + (pn == PLAYER_2 and 172 or -172), SCREEN_BOTTOM - 39)
-                        :rotationy(pn == PLAYER_2 and 180 or 0):MaskSource()
-                    end
-                },
-
-                Def.Sprite {
                     Texture=THEME:GetPathG("", "UI/NameTag" .. ToEnumShortString(pn)),
                     InitCommand=function(self)
-                        self:xy(SCREEN_CENTER_X + (pn == PLAYER_2 and 232 or -232), SCREEN_BOTTOM - 32)
-                        :halign(pn == PLAYER_2 and 0 or 1):valign(1):MaskDest()
+                        self:xy(SCREEN_CENTER_X + (pn == PLAYER_2 and 570 or -570), SCREEN_BOTTOM - 668)
+                        :halign(pn == PLAYER_2 and 0 or 1):valign(1):rotationz(180)
                     end
                 },
-
                 Def.BitmapText {
                     Font="Montserrat semibold 20px",
                     Text=PROFILEMAN:GetProfile(pn):GetDisplayName(),
                     InitCommand=function(self)
-                        self:xy(SCREEN_CENTER_X + (pn == PLAYER_2 and 292 or -292), SCREEN_BOTTOM - 48):zoom(0.9)
+                        self:xy(SCREEN_CENTER_X + (pn == PLAYER_2 and 510 or -510), SCREEN_BOTTOM - 653):zoom(0.9)
                         :maxwidth(112 / self:GetZoom()):skewx(-0.2):shadowlength(1)
 
                         if PROFILEMAN:GetProfile(pn):GetDisplayName() == "" then
@@ -139,16 +130,15 @@ for pn in ivalues(GAMESTATE:GetHumanPlayers()) do
                 Def.Sprite {
                     Texture=THEME:GetPathG("", "UI/NameTag" .. ToEnumShortString(pn)),
                     InitCommand=function(self)
-                        self:xy(SCREEN_CENTER_X + (pn == PLAYER_2 and 212 or -212), SCREEN_BOTTOM - 10)
-                        :halign(pn == PLAYER_2 and 0 or 1):valign(1):MaskDest()
+                        self:xy(SCREEN_CENTER_X + (pn == PLAYER_2 and 570 or -570), SCREEN_BOTTOM - 640)
+                        :halign(pn == PLAYER_2 and 0 or 1):valign(1):rotationz(180)
                     end
                 },
-
                 Def.BitmapText {
                     Font="Montserrat semibold 20px",
                     -- This ingenious level system was made up at 4am
                     InitCommand=function(self)
-                        self:xy(SCREEN_CENTER_X + (pn == PLAYER_2 and 281 or -281), SCREEN_BOTTOM - 26):zoom(0.9)
+                        self:xy(SCREEN_CENTER_X + (pn == PLAYER_2 and 510 or -510), SCREEN_BOTTOM - 625):zoom(0.9)
                         :maxwidth(96 / self:GetZoom()):skewx(-0.2):shadowlength(1)
                         lvl = math.floor(math.sqrt(PROFILEMAN:GetProfile(pn):GetTotalDancePoints() / 500)) + 1
                         -- You can check if a number is "nan" by comparing it to itself
@@ -157,7 +147,7 @@ for pn in ivalues(GAMESTATE:GetHumanPlayers()) do
                         self:settext(THEME:GetString("ProfileStats", "Level") .. " " .. lvl)
                     end
                 },
-
+				--[[
                 Def.Sprite {
                     Texture=LoadModule("Options.GetProfileData.lua")(pn)["Image"],
                     InitCommand=function(self)
@@ -166,7 +156,7 @@ for pn in ivalues(GAMESTATE:GetHumanPlayers()) do
                         :MaskDest():ztestmode("ZTestMode_WriteOnFail"):diffusealpha(0.5)
                     end
                 },
-
+				
                 Def.Sprite {
                     Texture=THEME:GetPathG("", "UI/AvatarSlotOverlay"),
                     InitCommand=function(self)
@@ -174,13 +164,12 @@ for pn in ivalues(GAMESTATE:GetHumanPlayers()) do
                         :rotationy(pn == PLAYER_2 and 180 or 0)
                     end
                 },
-
+				]]--
                 Def.Sprite {
                     Texture=LoadModule("Options.GetProfileData.lua")(pn)["Image"],
                     InitCommand=function(self)
                         self:scaletocover(0, 0, 64, 64)
-                        :xy(SCREEN_CENTER_X + (pn == PLAYER_2 and 172 or -172), SCREEN_BOTTOM - 39)
-                        :MaskDest():ztestmode("ZTestMode_WriteOnFail")
+                        :xy(SCREEN_CENTER_X + (pn == PLAYER_2 and 600 or -600), SCREEN_BOTTOM - 637)
                     end
                 }
             }
