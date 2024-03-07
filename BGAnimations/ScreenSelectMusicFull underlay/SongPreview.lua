@@ -268,102 +268,21 @@ t[#t+1] = Def.ActorFrame {
             self:GetChild("BPM"):settext("")
 			self:GetChild("ShadowBPM"):settext("")
         end
-    end,	
-	
-	--upper quad. disabling
-	--[[
-    Def.Quad {
-        InitCommand=function(self)
-            self:zoomto(FrameW, 32):y(-FrameH / 2):valign(0)
-            :diffuse(Color.Black):diffusealpha(0.5)
-        end
-    },
-	]]--
+    end,
 
-    Def.BitmapText {
-        Font="Montserrat extrabold 40px",
-        Name="ShadowTitle",
+	LoadActor("../ScreenEvaluation underlay/EvalSongInfo") .. {
         InitCommand=function(self)
-            self:zoom(1.7):halign(0.5):valign(0)
-			--:maxwidth(FrameW * 0.7 / self:GetZoom())
-            :x(0):y(-230)
-			:uppercase(true)
-			:diffuse(color("#000000"))			
-        end,		
-		CurrentSongChangedMessageCommand=function(self)
-			self:diffusealpha(0):stoptweening():sleep(0.5):linear(0.5):diffusealpha(1)
+			self:xy(0, -160):zoom(1.5)
 		end,
-		SongChosenMessageCommand=function(self)
-            --self:stoptweening():easeoutexpo(1):diffusealpha(0)
-			self:stoptweening():diffusealpha(1):easeoutexpo(1):y(-260)
+		SongChosenMessageCommand=function(self)            
+			self:stoptweening():diffusealpha(1):easeoutexpo(1):y(-220):zoom(1.1)
         end,
-		SongUnchosenMessageCommand=function(self)
-            --self:stoptweening():easeoutexpo(0.5):diffusealpha(1)
-			self:stoptweening():diffusealpha(1):easeoutexpo(0.5):y(-230)
-        end
-    },	
-	Def.BitmapText {
-        Font="Montserrat extrabold 40px",
-		Name="Title",
-        InitCommand=function(self)
-            self:zoom(1.7):halign(0.5):valign(0)
-			--:maxwidth(FrameW * 0.7 / self:GetZoom())
-            :x(-3):y(-233)
-			:uppercase(true)			
-        end,		
-		CurrentSongChangedMessageCommand=function(self)
-			self:diffusealpha(0):stoptweening():sleep(0.5):linear(0.5):diffusealpha(1)
-		end,
-		SongChosenMessageCommand=function(self)
-            --self:stoptweening():easeoutexpo(1):diffusealpha(0)
-			self:stoptweening():diffusealpha(1):easeoutexpo(1):y(-263)
-        end,
-		SongUnchosenMessageCommand=function(self)
-            --self:stoptweening():easeoutexpo(0.5):diffusealpha(1)
-			self:stoptweening():diffusealpha(1):easeoutexpo(0.5):y(-233)
+		SongUnchosenMessageCommand=function(self)            
+			self:stoptweening():diffusealpha(1):easeoutexpo(0.5):y(-160):zoom(1.5)
         end
     },
 	
-	Def.BitmapText {
-        Font="Montserrat extrabold 40px",
-        Name="ShadowArtist",
-        InitCommand=function(self)
-            self:zoom(0.7):halign(0.5):valign(0)
-            --:maxwidth(FrameW * 0.7 / self:GetZoom())
-            :x(0):y(-150)
-			:uppercase(true)
-			:diffuse(color("#000000"))
-        end,		
-		CurrentSongChangedMessageCommand=function(self)
-			self:diffusealpha(0):stoptweening():sleep(0.6):linear(0.5):diffusealpha(1)
-		end,
-		SongChosenMessageCommand=function(self)
-            self:stoptweening():easeoutexpo(1):diffusealpha(0)			
-        end,
-		SongUnchosenMessageCommand=function(self)
-            self:stoptweening():easeoutexpo(0.5):diffusealpha(1)			
-        end
-    },
-	Def.BitmapText {
-        Font="Montserrat extrabold 40px",
-        Name="Artist",
-        InitCommand=function(self)
-            self:zoom(0.7):halign(0.5):valign(0)
-            --:maxwidth(FrameW * 0.7 / self:GetZoom())
-            :x(-3):y(-153)
-			:uppercase(true)
-        end,		
-		CurrentSongChangedMessageCommand=function(self)
-			self:diffusealpha(0):stoptweening():sleep(0.6):linear(0.5):diffusealpha(1)
-		end,
-		SongChosenMessageCommand=function(self)
-            self:stoptweening():easeoutexpo(1):diffusealpha(0)			
-        end,
-		SongUnchosenMessageCommand=function(self)
-            self:stoptweening():easeoutexpo(0.5):diffusealpha(1)			
-        end
-    },
-		
+    --[[		
 	Def.BitmapText {
 		Font="Montserrat semibold 40px",
 		Name="Length",
@@ -452,54 +371,7 @@ t[#t+1] = Def.ActorFrame {
             self:stoptweening():easeoutexpo(0.5):diffusealpha(1)			
         end
 	},
-
-	--lower quad. disabling
-	--[[
-    Def.Quad {
-        InitCommand=function(self)
-            self:zoomto(FrameW, 32):y(FrameH / 2):valign(1)
-            :diffuse(Color.Black):diffusealpha(0.5)
-        end
-    },
-	]]    
-
-    Def.BitmapText {
-        Font="Montserrat semibold 40px",
-        Name="ShadowBPM",
-        InitCommand=function(self)
-            self:zoom(0.7):halign(0.5):valign(0)
-            --:maxwidth(FrameW * 0.3 / self:GetZoom())
-            :x(0):y(200)
-			:diffuse(color("#000000"))
-        end,		
-		CurrentSongChangedMessageCommand=function(self)
-			self:diffusealpha(0):stoptweening():sleep(0.8):linear(0.5):diffusealpha(1)
-		end,
-		SongChosenMessageCommand=function(self)
-            self:stoptweening():diffusealpha(1):easeoutexpo(1):y(-203)
-        end,
-		SongUnchosenMessageCommand=function(self)
-            self:stoptweening():diffusealpha(1):easeoutexpo(0.5):y(200)
-        end
-    },
-	Def.BitmapText {
-        Font="Montserrat semibold 40px",
-        Name="BPM",
-        InitCommand=function(self)
-            self:zoom(0.7):halign(0.5):valign(0)
-            --:maxwidth(FrameW * 0.3 / self:GetZoom())
-            :x(-3):y(197)
-        end,		
-		CurrentSongChangedMessageCommand=function(self)
-			self:diffusealpha(0):stoptweening():sleep(0.8):linear(0.5):diffusealpha(1)
-		end,
-		SongChosenMessageCommand=function(self)
-            self:stoptweening():diffusealpha(1):easeoutexpo(1):y(-206)
-        end,
-		SongUnchosenMessageCommand=function(self)
-            self:stoptweening():diffusealpha(1):easeoutexpo(0.5):y(197)
-        end
-    }
+	]]--
 }
 
 return t
