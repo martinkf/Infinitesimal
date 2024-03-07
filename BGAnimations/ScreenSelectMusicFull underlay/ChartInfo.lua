@@ -21,17 +21,24 @@ for pn in ivalues(GAMESTATE:GetHumanPlayers()) do
                 local ChartAuthorText = Chart:GetAuthorCredit()
                 local ChartDescriptionText = Chart:GetChartName()
 				
-				self:GetChild("ChartOrigin-label"):settext("ORIGIN")
-				self:GetChild("ChartOrigin"):settext(ChartDescriptionText)
+				local ChartNameFromDesc = ""
+				local ChartOriginFromDesc = ""
+				local openParen = ChartDescriptionText:find("%(")
+				local closeParen = ChartDescriptionText:find("%)")
+				ChartNameFromDesc = ChartDescriptionText:sub(1, openParen - 2)
+				ChartOriginFromDesc = ChartDescriptionText:sub(openParen + 1, closeParen - 1)
+				
 				self:GetChild("ChartName-label"):settext("DESCRIPTION")
-				self:GetChild("ChartName"):settext(ChartDescriptionText)
+				self:GetChild("ChartName"):settext(ChartNameFromDesc)
+				self:GetChild("ChartOrigin-label"):settext("ORIGIN")				
+				self:GetChild("ChartOrigin"):settext(ChartOriginFromDesc)				
 				self:GetChild("ChartAuthor-label"):settext("STEP ARTIST")
 				self:GetChild("ChartAuthor"):settext(ChartAuthorText)
-            else                
-				self:GetChild("ChartOrigin-label"):settext("")
-				self:GetChild("ChartOrigin"):settext("")
+            else       
 				self:GetChild("ChartName-label"):settext("")
 				self:GetChild("ChartName"):settext("")
+				self:GetChild("ChartOrigin-label"):settext("")
+				self:GetChild("ChartOrigin"):settext("")				
 				self:GetChild("ChartAuthor-label"):settext("")
 				self:GetChild("ChartAuthor"):settext("")
             end
@@ -45,7 +52,7 @@ for pn in ivalues(GAMESTATE:GetHumanPlayers()) do
 		
 		Def.BitmapText {
             Font="Montserrat normal 20px",
-            Name="ChartOrigin-label",
+            Name="ChartName-label",
             InitCommand=function(self)
                 self:x(10 * (pn == PLAYER_2 and 1 or -1)):y(6):zoom(0.7)
 				:halign(pn == PLAYER_2 and 0 or 1):maxwidth(PanelW / self:GetZoom())
@@ -55,7 +62,7 @@ for pn in ivalues(GAMESTATE:GetHumanPlayers()) do
         },
 		Def.BitmapText {
             Font="Montserrat semibold 20px",
-            Name="ChartOrigin",
+            Name="ChartName",
             InitCommand=function(self)
                 self:x(30 * (pn == PLAYER_2 and 1 or -1)):y(6+22):zoom(1.4)
 				:halign(pn == PLAYER_2 and 0 or 1):maxwidth(PanelW / self:GetZoom())
@@ -65,7 +72,7 @@ for pn in ivalues(GAMESTATE:GetHumanPlayers()) do
 		
 		Def.BitmapText {
             Font="Montserrat normal 20px",
-            Name="ChartName-label",
+            Name="ChartOrigin-label",
             InitCommand=function(self)
                 self:x(10 * (pn == PLAYER_2 and 1 or -1)):y(88):zoom(0.7)
 				:halign(pn == PLAYER_2 and 0 or 1):maxwidth(PanelW / self:GetZoom())
@@ -75,13 +82,13 @@ for pn in ivalues(GAMESTATE:GetHumanPlayers()) do
         },
 		Def.BitmapText {
             Font="Montserrat semibold 20px",
-            Name="ChartName",
+            Name="ChartOrigin",
             InitCommand=function(self)
                 self:x(30 * (pn == PLAYER_2 and 1 or -1)):y(88+22):zoom(1.4)
 				:halign(pn == PLAYER_2 and 0 or 1):maxwidth(PanelW / self:GetZoom())
                 :shadowlength(2)
             end
-        },
+        },		
 		
 		Def.BitmapText {
             Font="Montserrat normal 20px",
