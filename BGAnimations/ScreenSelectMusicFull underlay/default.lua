@@ -33,77 +33,47 @@ t[#t+1] = Def.ActorFrame {
         }
 	}
 }
-		
 
-
-t[#t+1] = Def.ActorFrame {
-    --ChartInfo
+t[#t+1] = Def.ActorFrame {    
 	Def.ActorFrame {
         InitCommand=function(self)
-            self:xy(SCREEN_CENTER_X, -SCREEN_CENTER_Y+419)
-            :easeoutexpo(1):y(SCREEN_CENTER_Y+419)
+            self:xy(SCREEN_CENTER_X, SCREEN_CENTER_Y+419)
         end,
         OffCommand=function(self)
-            self:stoptweening():easeoutexpo(1):y(-SCREEN_CENTER_Y)
+            self:stoptweening():easeoutexpo(1):y(SCREEN_CENTER_Y+419)
         end,
         SongChosenMessageCommand=function(self)
             self:stoptweening():easeoutexpo(1):y(SCREEN_CENTER_Y + 103)
         end,
         SongUnchosenMessageCommand=function(self)
             self:stoptweening():easeoutexpo(0.5):y(SCREEN_CENTER_Y+419)
-        end,
-
-		--bg graphics
-		--[[
-        Def.Sprite {
-            Texture=THEME:GetPathG("", "DifficultyDisplay/InfoPanel"),
-            InitCommand=function(self) self:y(85):zoom(0.75) end
-        },
-		]]--
+        end,		
 		
-        LoadActor("ChartInfo")
+        LoadActor("ChartInfo"), --chartInfo (selected chart's details)
+		
+		LoadActor("ScoreDisplay") --ScoreDisplay (selected chart's records)
     }
 }
 
 t[#t+1] = Def.ActorFrame {
-    Def.ActorFrame {
+	--ChartDisplay (bar with possible charts)
+	Def.ActorFrame {
         InitCommand=function(self)
-            self:xy(SCREEN_CENTER_X, -SCREEN_CENTER_Y)
-            :easeoutexpo(1):y(SCREEN_CENTER_Y)
+            self:xy(SCREEN_CENTER_X, 860)
+			:easeoutexpo(1):y(360)
         end,
         OffCommand=function(self)
-            self:stoptweening():easeoutexpo(1):y(-SCREEN_CENTER_Y)
+            self:stoptweening():easeoutexpo(1):y(360)
         end,
-		-- stopping the BGA_P zooming shenanigans when a song is selected
-		--[[
         SongChosenMessageCommand=function(self)
-            self:stoptweening():easeoutexpo(0.5):y(SCREEN_CENTER_Y-40):zoom(0.9)
+            self:stoptweening():easeoutexpo(1):y(130)
         end,
         SongUnchosenMessageCommand=function(self)
-            self:stoptweening():easeoutexpo(0.5):y(SCREEN_CENTER_Y):zoom(1)
+            self:stoptweening():easeoutexpo(0.5):y(360)
         end,
-		]]--       
 		
-		LoadActor("ScoreDisplay") .. {
-            InitCommand=function(self) self:y(500) end
-        },
-        
-		-- disabling padIcons
-		--[[
-        LoadActor("PadIcons") .. {
-            InitCommand=function(self) self:y(24) end
-        },
-		]]--		
-        
         Def.ActorFrame {
-            InitCommand=function(self) self:y(128) end,
-
-            SongChosenMessageCommand=function(self)
-                self:stoptweening():easeoutexpo(1):y(-102)
-            end,
-            SongUnchosenMessageCommand=function(self)
-                self:stoptweening():easeoutexpo(0.5):y(128)
-            end,            
+            InitCommand=function(self) self:y(128) end,  
 
             Def.Sprite {
                 Texture=THEME:GetPathG("", "DifficultyDisplay/Bar"),
