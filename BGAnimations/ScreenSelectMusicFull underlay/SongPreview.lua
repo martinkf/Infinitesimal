@@ -218,160 +218,23 @@ end
 
 -- Portion dedicated to song stats
 t[#t+1] = Def.ActorFrame {
-    InitCommand=function(self) self:playcommand("Refresh") end,
+    InitCommand=function(self) end,
     CurrentSongChangedMessageCommand=function(self) self:playcommand("Refresh") end,
-
-    RefreshCommand=function(self)
-        if GAMESTATE:GetCurrentSong() then
-            local Song = GAMESTATE:GetCurrentSong()
-            local StepList = Song:GetAllSteps()
-            local FirstStep = StepList[1]
-            local Duration = FirstStep:GetChartLength()
-
-            local TitleText = Song:GetDisplayFullTitle()
-            if TitleText == "" then TitleText = "Unknown" end
-
-            local AuthorText = Song:GetDisplayArtist()
-            if AuthorText == "" then AuthorText = "Unknown" end
-
-            local BPMRaw = Song:GetDisplayBpms()
-            local BPMLow = math.ceil(BPMRaw[1])
-            local BPMHigh = math.ceil(BPMRaw[2])
-            local BPMDisplay = (BPMLow == BPMHigh and BPMHigh or BPMLow .. "-" .. BPMHigh)
-
-            if Song:IsDisplayBpmRandom() or BPMDisplay == 0 then BPMDisplay = "???" end
-
-            self:GetChild("Title"):settext(TitleText)
-			self:GetChild("ShadowTitle"):settext(TitleText)
-            self:GetChild("Artist"):settext(AuthorText)
-			self:GetChild("ShadowArtist"):settext(AuthorText)
-            self:GetChild("BPM"):settext(BPMDisplay .. " BPM")
-			self:GetChild("ShadowBPM"):settext(BPMDisplay .. " BPM")
-
-            if GAMESTATE:IsEventMode() then
-                self:GetChild("Length"):visible(true):settext(SecondsToMMSS(Duration))
-                self:GetChild("HeartsIcon"):visible(false)
-                self:GetChild("Hearts"):visible(false)
-				self:GetChild("ShadowHearts"):visible(false)
-            else
-                self:GetChild("Length"):visible(false)
-                self:GetChild("HeartsIcon"):visible(true)
-                self:GetChild("Hearts"):visible(true):settext("x " .. Song:GetStageCost() * GAMESTATE:GetNumPlayersEnabled())
-				self:GetChild("ShadowHearts"):visible(true):settext("x " .. Song:GetStageCost() * GAMESTATE:GetNumPlayersEnabled())
-            end
-        else
-            self:GetChild("Title"):settext("")
-			self:GetChild("ShadowTitle"):settext("")
-            self:GetChild("Artist"):settext("")
-			self:GetChild("ShadowArtist"):settext("")
-            self:GetChild("Length"):settext("")
-            self:GetChild("BPM"):settext("")
-			self:GetChild("ShadowBPM"):settext("")
-        end
-    end,
 
 	LoadActor("../ScreenEvaluation underlay/EvalSongInfo") .. {
         InitCommand=function(self)
-			self:xy(0, -160):zoom(1.5)
+			self:xy(0, -202+388)
+		end,
+		CurrentSongChangedMessageCommand=function(self)
+			self:stoptweening():diffusealpha(0):sleep(0.25):easeoutexpo(1):diffusealpha(1)
 		end,
 		SongChosenMessageCommand=function(self)            
-			self:stoptweening():diffusealpha(1):easeoutexpo(1):y(-220):zoom(1.1)
+			self:stoptweening():diffusealpha(1):easeoutexpo(1):y(-220)
         end,
 		SongUnchosenMessageCommand=function(self)            
-			self:stoptweening():diffusealpha(1):easeoutexpo(0.5):y(-160):zoom(1.5)
+			self:stoptweening():diffusealpha(1):easeoutexpo(0.5):y(-202+388)
         end
-    },
-	
-    --[[		
-	Def.BitmapText {
-		Font="Montserrat semibold 40px",
-		Name="Length",
-		InitCommand=function(self)
-			self:zoom(0.7):halign(1):valign(0)
-			:maxwidth(FrameW * 0.2 / self:GetZoom())
-			:x(FrameW / 2 - 6)
-			:y(-FrameH / 2 + 6)
-		end
-	},
-
-	Def.Sprite {
-		Texture=THEME:GetPathG("", "UI/Heart"),
-		Name="ShadowHeartsIcon",
-		InitCommand=function(self)
-			self:zoom(0.35):halign(0):valign(0)
-			:x(-35):y(170)
-			:diffuse(Color("Black"))
-		end,		
-		CurrentSongChangedMessageCommand=function(self)
-			self:diffusealpha(0):stoptweening():sleep(0.7):linear(0.5):diffusealpha(1)
-		end,
-		SongChosenMessageCommand=function(self)
-            self:stoptweening():easeoutexpo(1):diffusealpha(0)			
-        end,
-		SongUnchosenMessageCommand=function(self)
-            self:stoptweening():easeoutexpo(0.5):diffusealpha(1)			
-        end
-	},
-	Def.Sprite {
-		Texture=THEME:GetPathG("", "UI/Heart"),
-		Name="HeartsIcon",
-		InitCommand=function(self)
-			self:zoom(0.35):halign(0):valign(0)
-			:x(-38):y(167)			
-		end,		
-		CurrentSongChangedMessageCommand=function(self)
-			self:diffusealpha(0):stoptweening():sleep(0.7):linear(0.5):diffusealpha(1)
-		end,
-		SongChosenMessageCommand=function(self)
-            self:stoptweening():easeoutexpo(1):diffusealpha(0)			
-        end,
-		SongUnchosenMessageCommand=function(self)
-            self:stoptweening():easeoutexpo(0.5):diffusealpha(1)			
-        end
-	},
-	
-	Def.BitmapText {
-		Font="Montserrat semibold 40px",
-		Name="ShadowHearts",
-		InitCommand=function(self)
-			self:zoom(0.7):halign(0):valign(0)
-			:x(-6):y(170)
-			:diffuse(color("#000000"))
-
-			local ShadowHearts = GAMESTATE:GetNumStagesLeft(PLAYER_1) + GAMESTATE:GetNumStagesLeft(PLAYER_2)
-			self:settext("x " .. (GAMESTATE:IsEventMode() and "∞" or ShadowHearts))
-		end,		
-		CurrentSongChangedMessageCommand=function(self)
-			self:diffusealpha(0):stoptweening():sleep(0.7):linear(0.5):diffusealpha(1)
-		end,
-		SongChosenMessageCommand=function(self)
-            self:stoptweening():easeoutexpo(1):diffusealpha(0)			
-        end,
-		SongUnchosenMessageCommand=function(self)
-            self:stoptweening():easeoutexpo(0.5):diffusealpha(1)			
-        end
-	},	
-	Def.BitmapText {
-		Font="Montserrat semibold 40px",
-		Name="Hearts",
-		InitCommand=function(self)
-			self:zoom(0.7):halign(0):valign(0)
-			:x(-9):y(167)
-			
-			local Hearts = GAMESTATE:GetNumStagesLeft(PLAYER_1) + GAMESTATE:GetNumStagesLeft(PLAYER_2)
-			self:settext("x " .. (GAMESTATE:IsEventMode() and "∞" or Hearts))
-		end,		
-		CurrentSongChangedMessageCommand=function(self)
-			self:diffusealpha(0):stoptweening():sleep(0.7):linear(0.5):diffusealpha(1)
-		end,
-		SongChosenMessageCommand=function(self)
-            self:stoptweening():easeoutexpo(1):diffusealpha(0)			
-        end,
-		SongUnchosenMessageCommand=function(self)
-            self:stoptweening():easeoutexpo(0.5):diffusealpha(1)			
-        end
-	},
-	]]--
+    }
 }
 
 return t
