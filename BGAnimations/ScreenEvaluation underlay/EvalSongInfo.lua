@@ -32,6 +32,37 @@ return Def.ActorFrame {
             self:GetChild("BPM"):settext("")
         end
     end,
+	
+	RefreshCommand=function(self)
+        local Song = GAMESTATE:GetCurrentSong()
+        if Song then
+            local TitleText = Song:GetDisplayFullTitle()
+            if TitleText == "" then TitleText = "Unknown" end
+
+            local AuthorText = Song:GetDisplayArtist()
+            if AuthorText == "" then AuthorText = "Unknown" end
+
+            local BPMRaw = Song:GetDisplayBpms()
+            local BPMLow = math.ceil(BPMRaw[1])
+            local BPMHigh = math.ceil(BPMRaw[2])
+            local BPMDisplay = (BPMLow == BPMHigh and BPMHigh or BPMLow .. "-" .. BPMHigh)
+            local StepList = Song:GetAllSteps()
+            local FirstStep = StepList[1]
+            local Duration = FirstStep:GetChartLength()
+
+            if Song:IsDisplayBpmRandom() or BPMDisplay == 0 then BPMDisplay = "???" end
+
+            self:GetChild("Title"):settext(TitleText)
+            self:GetChild("Artist"):settext(AuthorText)
+            self:GetChild("Length"):settext(SecondsToMMSS(Duration))
+            self:GetChild("BPM"):settext(BPMDisplay .. " BPM")
+        else
+            self:GetChild("Title"):settext("")
+            self:GetChild("Artist"):settext("")
+            self:GetChild("Length"):settext("")
+            self:GetChild("BPM"):settext("")
+        end
+    end,
 
     Def.Sprite {
         Texture=THEME:GetPathG("", "Evaluation/EvalSongInfo"),    },
@@ -43,7 +74,7 @@ return Def.ActorFrame {
             self:zoom(0.8):valign(0)
             :maxwidth(FrameW * 0.89 / self:GetZoom())
             :diffuse(Color.Black)
-            :y(-30)
+            :y(-33)
         end
     },
 
