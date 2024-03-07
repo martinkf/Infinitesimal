@@ -1,7 +1,7 @@
 local Scoring = LoadModule("Config.Load.lua")("ScoringSystem", "Save/OutFoxPrefs.ini") or "Old"
 local ClassicGrades = LoadModule("Config.Load.lua")("ClassicGrades", "Save/OutFoxPrefs.ini") and Scoring == "Old"
 local SongIsChosen = false
-local xDisplacement = 540
+local xDisplacement = 314
 
 local t = Def.ActorFrame {}
 
@@ -20,7 +20,7 @@ for pn in ivalues(GAMESTATE:GetHumanPlayers()) do
             SongChosenMessageCommand=function(self)
                 SongIsChosen = true
                 self:stoptweening():easeoutexpo(1)
-				:y(-316)
+				:y(-216)
                 self:playcommand("Refresh")
             end,
             SongUnchosenMessageCommand=function(self)

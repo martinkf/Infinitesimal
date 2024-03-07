@@ -324,29 +324,28 @@ for i = 1, WheelSize do
                 end,
                 
 				RefreshCommand=function(self,param)
-					if Songs[Targets[i]]:GetOrigin() == "The 1st DF" then				
-						self:diffuse(color("#ff00ff")):settext(Songs[Targets[i]]:GetOrigin())
-					elseif Songs[Targets[i]]:GetOrigin() == "The 2nd DF" then
-						self:diffuse(color("#1348ff")):settext(Songs[Targets[i]]:GetOrigin())
-					elseif Songs[Targets[i]]:GetOrigin() == "O.B.G The 3rd" then
-						self:diffuse(color("#36b000")):settext(Songs[Targets[i]]:GetOrigin())
-					elseif Songs[Targets[i]]:GetOrigin() == "O.B.G Season Evo." then
-						self:diffuse(color("#ffff00")):settext(Songs[Targets[i]]:GetOrigin())
-					elseif Songs[Targets[i]]:GetOrigin() == "Perfect" then
-						self:diffuse(color("#ff9900")):settext(Songs[Targets[i]]:GetOrigin())
-					elseif Songs[Targets[i]]:GetOrigin() == "Extra" then
-						self:diffuse(color("#FFFFFF")):settext(Songs[Targets[i]]:GetOrigin())
-					elseif Songs[Targets[i]]:GetOrigin() == "Premiere" then
-						self:diffuse(color("#FFFFFF")):settext(Songs[Targets[i]]:GetOrigin())
-					elseif Songs[Targets[i]]:GetOrigin() == "Rebirth" then
-						self:diffuse(color("#FFFFFF")):settext(Songs[Targets[i]]:GetOrigin())
-					elseif Songs[Targets[i]]:GetOrigin() == "Premiere 3" then
-						self:diffuse(color("#FFFFFF")):settext(Songs[Targets[i]]:GetOrigin())
-					elseif Songs[Targets[i]]:GetOrigin() == "Prex 3" then
-						self:diffuse(color("#FFFFFF")):settext(Songs[Targets[i]]:GetOrigin())
-					else 
-						self:diffuse(color("#000000")):settext(Songs[Targets[i]]:GetOrigin())
+					local colour = "#000000"
+					local song_origin = Songs[Targets[i]]:GetOrigin()
+					
+					if (song_origin == "The 1st DF") or (song_origin == "Premiere") or (song_origin == "Zero") or (song_origin == "Fiesta 2") then 			
+						colour = "#ff00ff" --pink
+					elseif (song_origin == "The 2nd DF") or (song_origin == "Rebirth") or (song_origin == "NX") or (song_origin == "Prime") or (song_origin == "Prime JE") then 
+						colour = "#1348ff" --blue
+					elseif (song_origin == "O.B.G The 3rd") or (song_origin == "Premiere 3") or (song_origin == "NX 2") or (song_origin == "NX 2 China") or (song_origin == "Prime 2") then 
+						colour = "#36b000" --green
+					elseif (song_origin == "O.B.G Season Evo.") or (song_origin == "Prex 3") or (song_origin == "NX Absolute") or (song_origin == "XX") then 
+						colour = "#ffff00" --yellow
+					elseif (song_origin == "Perfect") or (song_origin == "Exceed") or (song_origin == "Exceed S.E.") or (song_origin == "Fiesta") or (song_origin == "M") then 
+						colour = "#ff9900" --orange
+					elseif (song_origin == "Extra") or (song_origin == "Exceed 2") or (song_origin == "Fiesta EX") or (song_origin == "Phoenix") then
+						colour = "#ff0000" --red
+					elseif (song_origin == "Pro") or (song_origin == "Pro Encore") or (song_origin == "Pro 2") or (song_origin == "Infinity") or (song_origin == "Pump Jump") then
+						colour = "#aaaaaa" --gray
+					else
+						colour = "#fffffff" --white
 					end
+					
+					self:diffuse(color(colour)):settext(song_origin)
 				end
             }
         }
