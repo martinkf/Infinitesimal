@@ -117,20 +117,44 @@ if usingPOIUX then
 	local wholeThing_X = 0
 	local wholeThing_Y = 104
 	
-	local correction_2P = pn == PLAYER_2 and 0 or 0 --offsetting for player 2
-	local machineRecordGrade_X = 160+314
-	local machineRecordText_X = 200+314
-	local machineRecordGrade_Y = -60
-	local machineRecordText_Y = -60
+	local gradesZoom = 0.15
 	
-	local personalGrade_X = 294
-	local personalText_X = 334
-	local personalGrade_Y = -60
-	local personalText_Y = -60
+	local correction_2P = pn == PLAYER_2 and 0 or 0 --offsetting for player 2
+	local machineRecordGrade1_X = 474
+	local machineRecordText1_X = 514
+	local machineRecordGrade1_Y = -60
+	local machineRecordText1_Y = -60
+	
+	local personalGrade1_X = 294
+	local personalText1_X = 334
+	local personalGrade1_Y = -60
+	local personalText1_Y = -60
+	
+	local records_Yspacing = 44
+	local machineRecordGrade2_X = 474
+	local machineRecordText2_X = 514
+	local machineRecordGrade2_Y = machineRecordGrade1_Y + records_Yspacing
+	local machineRecordText2_Y = machineRecordText1_Y + records_Yspacing
+	
+	local personalGrade2_X = 294
+	local personalText2_X = 334
+	local personalGrade2_Y = personalGrade1_Y + records_Yspacing
+	local personalText2_Y = personalText1_Y + records_Yspacing
+	
+	local machineRecordGrade3_X = 474
+	local machineRecordText3_X = 514
+	local machineRecordGrade3_Y = machineRecordGrade2_Y + records_Yspacing
+	local machineRecordText3_Y = machineRecordText2_Y + records_Yspacing
+	
+	local personalGrade3_X = 294
+	local personalText3_X = 334
+	local personalGrade3_Y = personalGrade2_Y + records_Yspacing
+	local personalText3_Y = personalText2_Y + records_Yspacing
+	
 	
 	--local recordStyle = "Points and Percent"
 	local recordStyle = "Percent Only"
-	
+		
 	
 	t = Def.ActorFrame {}
 	for pn in ivalues(GAMESTATE:GetHumanPlayers()) do
@@ -205,16 +229,44 @@ if usingPOIUX then
 								local ProfileScore = ProfileScores[1]:GetScore()
 								local ProfileDP = round(ProfileScores[1]:GetPercentDP() * 100, 2) .. "%"
 
-								self:GetChild("PersonalGrade"):Load(THEME:GetPathG("", "LetterGrades/" .. (ClassicGrades and "" or "New/") ..
+								self:GetChild("PersonalGrade1"):Load(THEME:GetPathG("", "LetterGrades/" .. (ClassicGrades and "" or "New/") ..
 									LoadModule("PIU/Score.Grading.lua")(ProfileScores[1]))):visible(true)
-								self:GetChild("PersonalScore"):settext(ProfileDP)
+								self:GetChild("PersonalScore1"):settext(ProfileDP)
 							else
-								self:GetChild("PersonalGrade"):visible(false)
-								self:GetChild("PersonalScore"):settext("")
+								self:GetChild("PersonalGrade1"):visible(false)
+								self:GetChild("PersonalScore1"):settext("")
+							end
+							
+							if ProfileScores[2] ~= nil then
+								local ProfileScore = ProfileScores[2]:GetScore()
+								local ProfileDP = round(ProfileScores[2]:GetPercentDP() * 100, 2) .. "%"
+
+								self:GetChild("PersonalGrade2"):Load(THEME:GetPathG("", "LetterGrades/" .. (ClassicGrades and "" or "New/") ..
+									LoadModule("PIU/Score.Grading.lua")(ProfileScores[2]))):visible(true)
+								self:GetChild("PersonalScore2"):settext(ProfileDP)
+							else
+								self:GetChild("PersonalGrade2"):visible(false)
+								self:GetChild("PersonalScore2"):settext("")
+							end
+							
+							if ProfileScores[3] ~= nil then
+								local ProfileScore = ProfileScores[3]:GetScore()
+								local ProfileDP = round(ProfileScores[3]:GetPercentDP() * 100, 2) .. "%"
+
+								self:GetChild("PersonalGrade3"):Load(THEME:GetPathG("", "LetterGrades/" .. (ClassicGrades and "" or "New/") ..
+									LoadModule("PIU/Score.Grading.lua")(ProfileScores[3]))):visible(true)
+								self:GetChild("PersonalScore3"):settext(ProfileDP)
+							else
+								self:GetChild("PersonalGrade3"):visible(false)
+								self:GetChild("PersonalScore3"):settext("")
 							end
 						else
-							self:GetChild("PersonalGrade"):visible(false)
-							self:GetChild("PersonalScore"):settext("")
+							self:GetChild("PersonalGrade1"):visible(false)
+							self:GetChild("PersonalScore1"):settext("")
+							self:GetChild("PersonalGrade2"):visible(false)
+							self:GetChild("PersonalScore2"):settext("")
+							self:GetChild("PersonalGrade3"):visible(false)
+							self:GetChild("PersonalScore3"):settext("")
 						end
 
 						-- CALCULATION AND LOGIC - Machine best score
@@ -224,12 +276,36 @@ if usingPOIUX then
 							local MachineDP = round(MachineHighScores[1]:GetPercentDP() * 100, 2) .. "%"
 							local MachineName = MachineHighScores[1]:GetName()
 
-							self:GetChild("MachineGrade"):Load(THEME:GetPathG("", "LetterGrades/" .. (ClassicGrades and "" or "New/") ..
+							self:GetChild("MachineGrade1"):Load(THEME:GetPathG("", "LetterGrades/" .. (ClassicGrades and "" or "New/") ..
 									LoadModule("PIU/Score.Grading.lua")(MachineHighScores[1]))):visible(true)
-							self:GetChild("MachineScore"):settext(MachineName .. "\n" .. MachineDP)
+							self:GetChild("MachineScore1"):settext(MachineName .. "\n" .. MachineDP)
 						else
-							self:GetChild("MachineGrade"):visible(false)
-							self:GetChild("MachineScore"):settext("")
+							self:GetChild("MachineGrade1"):visible(false)
+							self:GetChild("MachineScore1"):settext("")
+						end
+						if MachineHighScores[2] ~= nil then
+							local MachineScore = MachineHighScores[2]:GetScore()
+							local MachineDP = round(MachineHighScores[2]:GetPercentDP() * 100, 2) .. "%"
+							local MachineName = MachineHighScores[2]:GetName()
+
+							self:GetChild("MachineGrade2"):Load(THEME:GetPathG("", "LetterGrades/" .. (ClassicGrades and "" or "New/") ..
+									LoadModule("PIU/Score.Grading.lua")(MachineHighScores[2]))):visible(true)
+							self:GetChild("MachineScore2"):settext(MachineName .. "\n" .. MachineDP)
+						else
+							self:GetChild("MachineGrade2"):visible(false)
+							self:GetChild("MachineScore2"):settext("")
+						end
+						if MachineHighScores[3] ~= nil then
+							local MachineScore = MachineHighScores[3]:GetScore()
+							local MachineDP = round(MachineHighScores[3]:GetPercentDP() * 100, 2) .. "%"
+							local MachineName = MachineHighScores[3]:GetName()
+
+							self:GetChild("MachineGrade3"):Load(THEME:GetPathG("", "LetterGrades/" .. (ClassicGrades and "" or "New/") ..
+									LoadModule("PIU/Score.Grading.lua")(MachineHighScores[3]))):visible(true)
+							self:GetChild("MachineScore3"):settext(MachineName .. "\n" .. MachineDP)
+						else
+							self:GetChild("MachineGrade3"):visible(false)
+							self:GetChild("MachineScore3"):settext("")
 						end
 					else
 					end
@@ -246,38 +322,110 @@ if usingPOIUX then
 				},
 				]]--
 				
-				-- sprite for your personal record GRADE
+				-- sprite for your personal record GRADE -- top 1
 				Def.Sprite {
-					Name="PersonalGrade",
+					Name="PersonalGrade1",
 					InitCommand=function(self)
-						self:xy(personalGrade_X * (pn == PLAYER_2 and 1 or -1), personalGrade_Y):zoom(0.2)
+						self:xy(personalGrade1_X * (pn == PLAYER_2 and 1 or -1), personalGrade1_Y):zoom(gradesZoom)
 					end,
 				},
 
-				-- text for your personal record TEXT
+				-- text for your personal record TEXT -- top 1
 				Def.BitmapText {
-					Name="PersonalScore",
+					Name="PersonalScore1",
 					Font="Common normal",
 					InitCommand=function(self)
-						self:xy((personalText_X * (pn == PLAYER_2 and 1 or -1)) + correction_2P, personalText_Y):zoom(1):halign((pn == PLAYER_2 and 0 or 1))
+						self:xy((personalText1_X * (pn == PLAYER_2 and 1 or -1)) + correction_2P, personalText1_Y):zoom(1):halign((pn == PLAYER_2 and 0 or 1))
 						:diffuse(Color.White):vertspacing(-6):shadowlength(1)
 					end,
 				},
 				
-				-- sprite for the machine record GRADE
+				-- sprite for your personal record GRADE -- top 2
 				Def.Sprite {
-					Name="MachineGrade",
+					Name="PersonalGrade2",
 					InitCommand=function(self)
-						self:xy(machineRecordGrade_X * (pn == PLAYER_2 and 1 or -1), machineRecordGrade_Y):zoom(0.2)
+						self:xy(personalGrade2_X * (pn == PLAYER_2 and 1 or -1), personalGrade2_Y):zoom(gradesZoom)
 					end,
 				},
 
-				-- text for the machine record TEXT
+				-- text for your personal record TEXT -- top 2
 				Def.BitmapText {
-					Name="MachineScore",
+					Name="PersonalScore2",
 					Font="Common normal",
 					InitCommand=function(self)
-						self:xy((machineRecordText_X * (pn == PLAYER_2 and 1 or -1)) + correction_2P, machineRecordText_Y):zoom(1):halign((pn == PLAYER_2 and 0 or 1))
+						self:xy((personalText2_X * (pn == PLAYER_2 and 1 or -1)) + correction_2P, personalText2_Y):zoom(1):halign((pn == PLAYER_2 and 0 or 1))
+						:diffuse(Color.White):vertspacing(-6):shadowlength(1)
+					end,
+				},
+				
+				-- sprite for your personal record GRADE -- top 3
+				Def.Sprite {
+					Name="PersonalGrade3",
+					InitCommand=function(self)
+						self:xy(personalGrade3_X * (pn == PLAYER_2 and 1 or -1), personalGrade3_Y):zoom(gradesZoom)
+					end,
+				},
+
+				-- text for your personal record TEXT -- top 3
+				Def.BitmapText {
+					Name="PersonalScore3",
+					Font="Common normal",
+					InitCommand=function(self)
+						self:xy((personalText3_X * (pn == PLAYER_2 and 1 or -1)) + correction_2P, personalText3_Y):zoom(1):halign((pn == PLAYER_2 and 0 or 1))
+						:diffuse(Color.White):vertspacing(-6):shadowlength(1)
+					end,
+				},
+				
+				-- sprite for the machine record GRADE -- top 1
+				Def.Sprite {
+					Name="MachineGrade1",
+					InitCommand=function(self)
+						self:xy(machineRecordGrade1_X * (pn == PLAYER_2 and 1 or -1), machineRecordGrade1_Y):zoom(gradesZoom)
+					end,
+				},
+
+				-- text for the machine record TEXT -- top 1
+				Def.BitmapText {
+					Name="MachineScore1",
+					Font="Common normal",
+					InitCommand=function(self)
+						self:xy((machineRecordText1_X * (pn == PLAYER_2 and 1 or -1)) + correction_2P, machineRecordText1_Y):zoom(1):halign((pn == PLAYER_2 and 0 or 1))
+						:diffuse(Color.White):vertspacing(-6):shadowlength(1)
+					end,
+				},
+				
+				-- sprite for the machine record GRADE -- top 2
+				Def.Sprite {
+					Name="MachineGrade2",
+					InitCommand=function(self)
+						self:xy(machineRecordGrade2_X * (pn == PLAYER_2 and 1 or -1), machineRecordGrade2_Y):zoom(gradesZoom)
+					end,
+				},
+
+				-- text for the machine record TEXT -- top 2
+				Def.BitmapText {
+					Name="MachineScore2",
+					Font="Common normal",
+					InitCommand=function(self)
+						self:xy((machineRecordText2_X * (pn == PLAYER_2 and 1 or -1)) + correction_2P, machineRecordText2_Y):zoom(1):halign((pn == PLAYER_2 and 0 or 1))
+						:diffuse(Color.White):vertspacing(-6):shadowlength(1)
+					end,
+				},
+				
+				-- sprite for the machine record GRADE -- top 3
+				Def.Sprite {
+					Name="MachineGrade3",
+					InitCommand=function(self)
+						self:xy(machineRecordGrade3_X * (pn == PLAYER_2 and 1 or -1), machineRecordGrade3_Y):zoom(gradesZoom)
+					end,
+				},
+
+				-- text for the machine record TEXT -- top 3
+				Def.BitmapText {
+					Name="MachineScore3",
+					Font="Common normal",
+					InitCommand=function(self)
+						self:xy((machineRecordText3_X * (pn == PLAYER_2 and 1 or -1)) + correction_2P, machineRecordText3_Y):zoom(1):halign((pn == PLAYER_2 and 0 or 1))
 						:diffuse(Color.White):vertspacing(-6):shadowlength(1)
 					end,
 				}
