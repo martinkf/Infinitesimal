@@ -190,6 +190,10 @@ end
 local usingPOIUX = LoadModule("Config.Load.lua")("ActivatePOIProjectUX", "Save/OutFoxPrefs.ini") or false
 if usingPOIUX then
 	-- levers
+	displacement_X = 240
+	chartDesc_Y = -120
+	chartOrigin_Y = -220
+	chartArtist_Y = -320
 
 	t = Def.ActorFrame {}
 
@@ -223,8 +227,6 @@ if usingPOIUX then
 					self:GetChild("ChartOrigin"):settext(ChartOriginFromDesc)				
 					self:GetChild("ChartAuthor-label"):settext("STEP ARTIST")
 					self:GetChild("ChartAuthor"):settext(ChartAuthorText)
-					self:GetChild("PersonalRec-label"):settext("PERSONAL RECORDS")
-					self:GetChild("MachineRec-label"):settext("MACHINE RECORDS")
 				else       
 					self:GetChild("ChartName-label"):settext("")
 					self:GetChild("ChartName"):settext("")
@@ -232,37 +234,17 @@ if usingPOIUX then
 					self:GetChild("ChartOrigin"):settext("")				
 					self:GetChild("ChartAuthor-label"):settext("")
 					self:GetChild("ChartAuthor"):settext("")
-					self:GetChild("PersonalRec-label"):settext("")
-					self:GetChild("MachineRec-label"):settext("")
 				end
 			end,
 			
-			-- central quad
-			Def.Quad {
-				InitCommand=function(self)
-					self:zoomto(3, 258):diffuse(Color.Black):diffusealpha(0.7):y(120):x(0)
-				end
-			},
 			
-			-- quad that divides song info from personal record
-			Def.Quad {
-				InitCommand=function(self)
-					self:zoomto(3, 258):diffuse(Color.Black):diffusealpha(0.7):y(120):x(260 * (pn == PLAYER_2 and 1 or -1))
-				end
-			},
-			
-			-- quad that divides personal record from machine record
-			Def.Quad {
-				InitCommand=function(self)
-					self:zoomto(3, 258):diffuse(Color.Black):diffusealpha(0.7):y(120):x(440 * (pn == PLAYER_2 and 1 or -1))
-				end
-			},
+			-- DRAWING
 			
 			Def.BitmapText {
 				Font="Montserrat normal 20px",
 				Name="ChartName-label",
 				InitCommand=function(self)
-					self:x(10 * (pn == PLAYER_2 and 1 or -1)):y(6):zoom(0.7)
+					self:x(displacement_X * (pn == PLAYER_2 and 1 or -1)):y(chartDesc_Y):zoom(0.7)
 					:halign(pn == PLAYER_2 and 0 or 1):maxwidth(172)
 					:shadowlength(2)
 					:skewx(-0.2)
@@ -272,7 +254,7 @@ if usingPOIUX then
 				Font="Montserrat semibold 20px",
 				Name="ChartName",
 				InitCommand=function(self)
-					self:x(10 * (pn == PLAYER_2 and 1 or -1)):y(6+22):zoom(1.4)
+					self:x((displacement_X+14) * (pn == PLAYER_2 and 1 or -1)):y(chartDesc_Y+22):zoom(1.4)
 					:halign(pn == PLAYER_2 and 0 or 1):maxwidth(172)
 					:shadowlength(2)
 				end
@@ -282,7 +264,7 @@ if usingPOIUX then
 				Font="Montserrat normal 20px",
 				Name="ChartOrigin-label",
 				InitCommand=function(self)
-					self:x(10 * (pn == PLAYER_2 and 1 or -1)):y(88):zoom(0.7)
+					self:x(displacement_X * (pn == PLAYER_2 and 1 or -1)):y(chartOrigin_Y):zoom(0.7)
 					:halign(pn == PLAYER_2 and 0 or 1):maxwidth(172)
 					:shadowlength(2)
 					:skewx(-0.2)
@@ -292,7 +274,7 @@ if usingPOIUX then
 				Font="Montserrat semibold 20px",
 				Name="ChartOrigin",
 				InitCommand=function(self)
-					self:x(10 * (pn == PLAYER_2 and 1 or -1)):y(88+22):zoom(1.4)
+					self:x((displacement_X+14) * (pn == PLAYER_2 and 1 or -1)):y(chartOrigin_Y+22):zoom(1.4)
 					:halign(pn == PLAYER_2 and 0 or 1):maxwidth(172)
 					:shadowlength(2)
 				end
@@ -302,7 +284,7 @@ if usingPOIUX then
 				Font="Montserrat normal 20px",
 				Name="ChartAuthor-label",
 				InitCommand=function(self)
-					self:x(10 * (pn == PLAYER_2 and 1 or -1)):y(170):zoom(0.7)
+					self:x(displacement_X * (pn == PLAYER_2 and 1 or -1)):y(chartArtist_Y):zoom(0.7)
 					:halign(pn == PLAYER_2 and 0 or 1):maxwidth(172)
 					:shadowlength(2)
 					:skewx(-0.2)
@@ -312,32 +294,11 @@ if usingPOIUX then
 				Font="Montserrat semibold 20px",
 				Name="ChartAuthor",
 				InitCommand=function(self)
-					self:x(10 * (pn == PLAYER_2 and 1 or -1)):y(170+22):zoom(1.4)
+					self:x((displacement_X+14) * (pn == PLAYER_2 and 1 or -1)):y(chartArtist_Y+22):zoom(1.4)
 					:halign(pn == PLAYER_2 and 0 or 1):maxwidth(172)
 					:shadowlength(2)
 				end
-			},
-			
-			Def.BitmapText {
-				Font="Montserrat normal 20px",
-				Name="PersonalRec-label",
-				InitCommand=function(self)
-					self:x(274 * (pn == PLAYER_2 and 1 or -1)):y(6):zoom(0.7)
-					:halign(pn == PLAYER_2 and 0 or 1):maxwidth(300)
-					:shadowlength(2)
-					:skewx(-0.2)
-				end
-			},
-			Def.BitmapText {
-				Font="Montserrat normal 20px",
-				Name="MachineRec-label",
-				InitCommand=function(self)
-					self:x(470 * (pn == PLAYER_2 and 1 or -1)):y(6):zoom(0.7)
-					:halign(pn == PLAYER_2 and 0 or 1):maxwidth(300)
-					:shadowlength(2)
-					:skewx(-0.2)
-				end
-			},
+			}			
 		}
 	end
 end

@@ -180,6 +180,7 @@ local usingPOIUX = LoadModule("Config.Load.lua")("ActivatePOIProjectUX", "Save/O
 if usingPOIUX then
 	-- levers
 	local modIconsYvalue = 144
+	local chartInfoScoreDisplay_Y = 463
 	
 	t = Def.ActorFrame {}
 	
@@ -203,16 +204,16 @@ if usingPOIUX then
 	t[#t+1] = Def.ActorFrame {    
 		Def.ActorFrame {
 			InitCommand=function(self)
-				self:xy(SCREEN_CENTER_X, SCREEN_CENTER_Y+419)
+				self:xy(SCREEN_CENTER_X, chartInfoScoreDisplay_Y+chartInfoScoreDisplay_Y)
 			end,
 			OffCommand=function(self)
-				self:stoptweening():easeoutexpo(1):y(SCREEN_CENTER_Y+419)
+				self:stoptweening():easeoutexpo(1):y(chartInfoScoreDisplay_Y+chartInfoScoreDisplay_Y)
 			end,
 			SongChosenMessageCommand=function(self)
-				self:stoptweening():easeoutexpo(1):y(SCREEN_CENTER_Y + 103)
+				self:stoptweening():easeoutexpo(1):y(chartInfoScoreDisplay_Y)
 			end,
 			SongUnchosenMessageCommand=function(self)
-				self:stoptweening():easeoutexpo(0.5):y(SCREEN_CENTER_Y+419)
+				self:stoptweening():easeoutexpo(0.5):y(chartInfoScoreDisplay_Y+chartInfoScoreDisplay_Y)
 			end,		
 			
 			-- chartInfo (selected chart's details)
