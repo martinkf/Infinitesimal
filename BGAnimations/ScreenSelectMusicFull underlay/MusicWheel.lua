@@ -512,7 +512,7 @@ if usingPOIUX then
 							colour = "#36b000" --green
 						elseif (song_origin == "O.B.G Season Evo.") or (song_origin == "Prex 3") or (song_origin == "NX Absolute") or (song_origin == "XX") then 
 							colour = "#ffff00" --yellow
-						elseif (song_origin == "Perfect") or (song_origin == "Exceed") or (song_origin == "Exceed S.E.") or (song_origin == "Fiesta") or (song_origin == "M") then 
+						elseif (song_origin == "Perfect") or (song_origin == "Exceed") or (song_origin == "Exceed S.E") or (song_origin == "Fiesta") or (song_origin == "M") then 
 							colour = "#ff9900" --orange
 						elseif (song_origin == "Extra") or (song_origin == "Exceed 2") or (song_origin == "Fiesta EX") or (song_origin == "Phoenix") then
 							colour = "#ff0000" --red

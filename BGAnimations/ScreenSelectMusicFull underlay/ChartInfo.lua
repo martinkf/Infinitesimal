@@ -191,9 +191,9 @@ local usingPOIUX = LoadModule("Config.Load.lua")("ActivatePOIProjectUX", "Save/O
 if usingPOIUX then
 	-- levers
 	displacement_X = 240
-	chartDesc_Y = -120
-	chartOrigin_Y = -220
-	chartArtist_Y = -320
+	chartDesc_Y = -134
+	chartOrigin_Y = chartDesc_Y + 24
+	chartArtist_Y = chartDesc_Y - 24
 
 	t = Def.ActorFrame {}
 
@@ -221,25 +221,34 @@ if usingPOIUX then
 					ChartNameFromDesc = ChartDescriptionText:sub(1, openParen - 2)
 					ChartOriginFromDesc = ChartDescriptionText:sub(openParen + 1, closeParen - 1)
 					
-					self:GetChild("ChartName-label"):settext("DESCRIPTION")
+					local displayedArtist = ""
+					if (ChartAuthorText == "Andamiro") then
+						displayedArtist = ""
+					elseif (ChartAuthorText == "") then
+						displayedArtist = "Blank"
+					else
+						displayedArtist = ChartAuthorText
+					end
+					
+					--self:GetChild("ChartName-label"):settext("DESCRIPTION")
 					self:GetChild("ChartName"):settext(ChartNameFromDesc)
-					self:GetChild("ChartOrigin-label"):settext("ORIGIN")				
+					--self:GetChild("ChartOrigin-label"):settext("ORIGIN")				
 					self:GetChild("ChartOrigin"):settext(ChartOriginFromDesc)				
-					self:GetChild("ChartAuthor-label"):settext("STEP ARTIST")
-					self:GetChild("ChartAuthor"):settext(ChartAuthorText)
+					--self:GetChild("ChartAuthor-label"):settext("STEP ARTIST")
+					self:GetChild("ChartAuthor"):settext(displayedArtist)
 				else       
-					self:GetChild("ChartName-label"):settext("")
+					--self:GetChild("ChartName-label"):settext("")
 					self:GetChild("ChartName"):settext("")
-					self:GetChild("ChartOrigin-label"):settext("")
+					--self:GetChild("ChartOrigin-label"):settext("")
 					self:GetChild("ChartOrigin"):settext("")				
-					self:GetChild("ChartAuthor-label"):settext("")
+					--self:GetChild("ChartAuthor-label"):settext("")
 					self:GetChild("ChartAuthor"):settext("")
 				end
 			end,
 			
 			
 			-- DRAWING
-			
+			--[[
 			Def.BitmapText {
 				Font="Montserrat normal 20px",
 				Name="ChartName-label",
@@ -250,19 +259,19 @@ if usingPOIUX then
 					:skewx(-0.2)
 				end
 			},
+			]]--
 			Def.BitmapText {
 				Font="Montserrat semibold 20px",
 				Name="ChartName",
 				InitCommand=function(self)
-					self:x((displacement_X+14) * (pn == PLAYER_2 and 1 or -1)):y(chartDesc_Y+22):zoom(1.4)
-					:halign(pn == PLAYER_2 and 0 or 1):maxwidth(172)
-					:shadowlength(2)
+					self:x((displacement_X+14) * (pn == PLAYER_2 and 1 or -1)):y(chartDesc_Y):zoom(1.5)
+					:halign(pn == PLAYER_2 and 0 or 1):maxwidth(234):shadowlength(3)
 				end
 			},
 			
 			Def.BitmapText {
 				Font="Montserrat normal 20px",
-				Name="ChartOrigin-label",
+				Name="ChartOrigin",
 				InitCommand=function(self)
 					self:x(displacement_X * (pn == PLAYER_2 and 1 or -1)):y(chartOrigin_Y):zoom(0.7)
 					:halign(pn == PLAYER_2 and 0 or 1):maxwidth(172)
@@ -270,7 +279,7 @@ if usingPOIUX then
 					:skewx(-0.2)
 				end
 			},
-			Def.BitmapText {
+			--[[Def.BitmapText {
 				Font="Montserrat semibold 20px",
 				Name="ChartOrigin",
 				InitCommand=function(self)
@@ -278,18 +287,18 @@ if usingPOIUX then
 					:halign(pn == PLAYER_2 and 0 or 1):maxwidth(172)
 					:shadowlength(2)
 				end
-			},		
+			},	]]--	
 			
 			Def.BitmapText {
 				Font="Montserrat normal 20px",
-				Name="ChartAuthor-label",
+				Name="ChartAuthor",
 				InitCommand=function(self)
 					self:x(displacement_X * (pn == PLAYER_2 and 1 or -1)):y(chartArtist_Y):zoom(0.7)
 					:halign(pn == PLAYER_2 and 0 or 1):maxwidth(172)
 					:shadowlength(2)
 					:skewx(-0.2)
 				end
-			},
+			},--[[
 			Def.BitmapText {
 				Font="Montserrat semibold 20px",
 				Name="ChartAuthor",
@@ -298,7 +307,7 @@ if usingPOIUX then
 					:halign(pn == PLAYER_2 and 0 or 1):maxwidth(172)
 					:shadowlength(2)
 				end
-			}			
+			}		]]--	
 		}
 	end
 end
