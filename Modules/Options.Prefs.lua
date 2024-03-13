@@ -225,6 +225,12 @@ return {
         Choices = { OptionNameString('Off'), OptionNameString('On') },
         Values = {false, true}
     },
+	ActivatePOIProjectUX =
+    {
+        Default = false,
+        Choices = { OptionNameString('Off'), OptionNameString('On') },
+        Values = {false, true}
+    },
     -- System Related Options
 	VideoRenderer =
 	{
