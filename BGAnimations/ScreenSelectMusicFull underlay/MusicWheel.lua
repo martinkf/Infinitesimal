@@ -291,11 +291,12 @@ end
 local usingPOIUX = LoadModule("Config.Load.lua")("ActivatePOIProjectUX", "Save/OutFoxPrefs.ini") or false
 if usingPOIUX then
 	-- levers
-	WheelSize = 26
+	WheelSize = 16
+	WheelCenter = math.ceil( WheelSize * 0.5 )
 	WheelItem = { Width = 160, Height = 120 }
-	WheelSpacing = 180
+	WheelSpacing = 190
 	WheelRotation = -0.025
-	local curvature = -90
+	local curvature = 65
 	local fieldOfView = 90
 	local yValue = 196
 	
@@ -318,13 +319,11 @@ if usingPOIUX then
 		ConfirmCommand=function(self) MESSAGEMAN:Broadcast("SongChosen") end,
 
 		-- These are to control the functionality of the music wheel
-		SongChosenMessageCommand=function(self)
-			--self:stoptweening():easeoutexpo(1):y(SCREEN_HEIGHT / 2 + yValue)
+		SongChosenMessageCommand=function(self)			
 			self:stoptweening():easeoutexpo(1):vanishpoint(SCREEN_CENTER_X, SCREEN_BOTTOM - 150 + 7000):y(-476):zoom(2):x(-640)
 			:playcommand("Busy")
 		end,
-		SongUnchosenMessageCommand=function(self)
-			--self:stoptweening():easeoutexpo(0.5):y(SCREEN_HEIGHT / 2 - yValue)
+		SongUnchosenMessageCommand=function(self)			
 			self:stoptweening():easeoutexpo(0.5):vanishpoint(SCREEN_CENTER_X, SCREEN_BOTTOM - 150 + curvature):y(SCREEN_HEIGHT / 2 - yValue):zoom(1):x(0)
 			:playcommand("NotBusy")
 		end,
@@ -435,9 +434,12 @@ if usingPOIUX then
 				self:rotationy((SCREEN_CENTER_X - xpos - displace) * -WheelRotation)
 				self:z(-math.abs(SCREEN_CENTER_X - xpos - displace) * 0.25)
 				self:GetChild(""):GetChild("Index"):playcommand("Refresh")
-				self:GetChild(""):GetChild("TestLabel"):playcommand("Refresh")
+				self:GetChild(""):GetChild("OriginLabel"):playcommand("Refresh")
 			end,
 
+
+			-- drawing!
+			
 			Def.Banner {
 				Name="Banner",
 				SongChosenMessageCommand=function(self)				
@@ -494,7 +496,7 @@ if usingPOIUX then
 				},
 				-- text SongOrigin
 				Def.BitmapText {				
-					Name="TestLabel",
+					Name="OriginLabel",
 					Font="Montserrat semibold 40px",				
 					InitCommand=function(self)
 						self:addy(-73):zoom(0.4):skewx(-0.1):diffusetopedge(0.95,0.95,0.95,0.8):shadowlength(1.5)
