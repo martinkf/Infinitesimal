@@ -502,10 +502,15 @@ end
 -- vvvv POI PROJECT vvvv
 ----
 
-function CustomFolderOrder_POI(inputArrayOfSongs)
+-- takes: (1) an array of Songs, usually coming from SONGMAN:GetAllSongs()
+-- takes: (2) a string related to what kind of song array you want returned, from the list of the following:
+-- "AllSongs" "Arcades" "Remixes "Fullsongs" "Shortcuts"
+-- returns: an array of Songs
+-- based on: the original array of Songs used for input, but filtered and ordered by the string list provided
+function FilterAndOrderSongs_POI(inputArrayOfSongs, inputListType)
 	-- returns AN ARRAY OF SONGS (ORDERED BY THE DEFAULT POI ORDER)
 	local output = inputArrayOfSongs
-	local customOrder = ReturnStringFolderList_POI("AllSongs")
+	local customOrder = ReturnStringFolderList_POI(inputListType)
 	local reorderedSongs = {}	
 	-- Iterate through each ordered element
 	for _, folderNameToMatch in ipairs(customOrder) do
@@ -524,94 +529,7 @@ function CustomFolderOrder_POI(inputArrayOfSongs)
 	return output
 end
 
-function ReturnOnlyArcades_POI(inputArrayOfSongs)
-	-- returns AN ARRAY OF SONGS (ORDERED BY THE DEFAULT POI ORDER, FILTERED TO THE ARCADE SONGS ONLY (2 HEARTS))
-	local output = inputArrayOfSongs
-	local customOrder = ReturnStringFolderList_POI("Arcades")
-	local reorderedSongs = {}	
-	-- Iterate through each ordered element
-	for _, folderNameToMatch in ipairs(customOrder) do
-		-- Iterate through the songs provided by input
-		for _, song in ipairs(inputArrayOfSongs) do
-			-- Extract the folder name from the song's directory
-			local folderName = song:GetSongDir()
-			-- Check if the folder name matches the current folder name to match
-			if string.find(folderName, folderNameToMatch, 1, true) then
-				-- Add the song to the filtered array
-				table.insert(reorderedSongs, song)
-			end
-		end
-	end	
-	output = reorderedSongs
-	return output
-end
-
-function ReturnOnlyRemixes_POI(inputArrayOfSongs)
-	-- returns AN ARRAY OF SONGS (ORDERED BY THE DEFAULT POI ORDER, FILTERED TO THE REMIX SONGS ONLY (3 HEARTS))
-	local output = inputArrayOfSongs
-	local customOrder = ReturnStringFolderList_POI("Remixes")
-	local reorderedSongs = {}	
-	-- Iterate through each ordered element
-	for _, folderNameToMatch in ipairs(customOrder) do
-		-- Iterate through the songs provided by input
-		for _, song in ipairs(inputArrayOfSongs) do
-			-- Extract the folder name from the song's directory
-			local folderName = song:GetSongDir()
-			-- Check if the folder name matches the current folder name to match
-			if string.find(folderName, folderNameToMatch, 1, true) then
-				-- Add the song to the filtered array
-				table.insert(reorderedSongs, song)
-			end
-		end
-	end	
-	output = reorderedSongs
-	return output
-end
-
-function ReturnOnlyFullsongs_POI(inputArrayOfSongs)
-	-- returns AN ARRAY OF SONGS (ORDERED BY THE DEFAULT POI ORDER, FILTERED TO THE FULL SONGS ONLY (4 HEARTS))
-	local output = inputArrayOfSongs
-	local customOrder = ReturnStringFolderList_POI("Fullsongs")
-	local reorderedSongs = {}	
-	-- Iterate through each ordered element
-	for _, folderNameToMatch in ipairs(customOrder) do
-		-- Iterate through the songs provided by input
-		for _, song in ipairs(inputArrayOfSongs) do
-			-- Extract the folder name from the song's directory
-			local folderName = song:GetSongDir()
-			-- Check if the folder name matches the current folder name to match
-			if string.find(folderName, folderNameToMatch, 1, true) then
-				-- Add the song to the filtered array
-				table.insert(reorderedSongs, song)
-			end
-		end
-	end	
-	output = reorderedSongs
-	return output
-end
-
-function ReturnOnlyShortcuts_POI(inputArrayOfSongs)
-	-- returns AN ARRAY OF SONGS (ORDERED BY THE DEFAULT POI ORDER, FILTERED TO THE SHORT CUT SONGS ONLY (1 HEARTS))
-	local output = inputArrayOfSongs
-	local customOrder = ReturnStringFolderList_POI("Shortcuts")
-	local reorderedSongs = {}	
-	-- Iterate through each ordered element
-	for _, folderNameToMatch in ipairs(customOrder) do
-		-- Iterate through the songs provided by input
-		for _, song in ipairs(inputArrayOfSongs) do
-			-- Extract the folder name from the song's directory
-			local folderName = song:GetSongDir()
-			-- Check if the folder name matches the current folder name to match
-			if string.find(folderName, folderNameToMatch, 1, true) then
-				-- Add the song to the filtered array
-				table.insert(reorderedSongs, song)
-			end
-		end
-	end	
-	output = reorderedSongs
-	return output
-end
-
+-- replacement for the standard AssembleGroupSorting function
 function AssembleGroupSorting_POI()
     Trace("Creating group sorts...")
     
@@ -628,7 +546,7 @@ function AssembleGroupSorting_POI()
     -- ======================================== MAIN / All songs ========================================
     local AllSongs = SONGMAN:GetAllSongs()
     
-	local orderedSongs = CustomFolderOrder_POI(AllSongs)
+	local orderedSongs = FilterAndOrderSongs_POI(AllSongs,"AllSongs")
 	
     MasterGroupsList[#MasterGroupsList + 1] = {
         Name = "Main",
@@ -648,7 +566,7 @@ function AssembleGroupSorting_POI()
     
 	-- ======================================== MAIN / Only "Short Cut" songs (1 Hearts) ========================================
 	local AllSongs = SONGMAN:GetAllSongs()
-	local filteredSongs = ReturnOnlyShortcuts_POI(AllSongs)
+	local filteredSongs = FilterAndOrderSongs_POI(AllSongs, "Shortcuts")
 	
 	-- Create the new subgroup if there are matching songs
 	if #filteredSongs > 0 then
@@ -665,8 +583,8 @@ function AssembleGroupSorting_POI()
 	end
 	
 	-- ======================================== MAIN / Only "Arcade" songs (2 Hearts) ========================================
-	local AllSongs = SONGMAN:GetAllSongs()
-	local filteredSongs = ReturnOnlyArcades_POI(AllSongs)
+	local AllSongs = SONGMAN:GetAllSongs()	
+	local filteredSongs = FilterAndOrderSongs_POI(AllSongs, "Arcades")
 	
 	-- Create the new subgroup if there are matching songs
 	if #filteredSongs > 0 then
@@ -684,7 +602,7 @@ function AssembleGroupSorting_POI()
 	
 	-- ======================================== MAIN / Only "Remix" songs (3 Hearts) ========================================
 	local AllSongs = SONGMAN:GetAllSongs()
-	local filteredSongs = ReturnOnlyRemixes_POI(AllSongs)
+	local filteredSongs = FilterAndOrderSongs_POI(AllSongs, "Remixes")
 	
 	-- Create the new subgroup if there are matching songs
 	if #filteredSongs > 0 then
@@ -702,7 +620,7 @@ function AssembleGroupSorting_POI()
 	
 	-- ======================================== MAIN / Only "Full Songs" songs (4 Hearts) ========================================
 	local AllSongs = SONGMAN:GetAllSongs()
-	local filteredSongs = ReturnOnlyFullsongs_POI(AllSongs)
+	local filteredSongs = FilterAndOrderSongs_POI(AllSongs, "Fullsongs")
 	
 	-- Create the new subgroup if there are matching songs
 	if #filteredSongs > 0 then
@@ -787,7 +705,7 @@ function AssembleGroupSorting_POI()
     
 	for i, v in ipairs(SongGroups) do
 	
-		local sortedSongs = CustomFolderOrder_POI(SONGMAN:GetSongsInGroup(SongGroups[i]))
+		local sortedSongs = FilterAndOrderSongs_POI(SONGMAN:GetSongsInGroup(SongGroups[i]),"AllSongs")
 		MasterGroupsList[#MasterGroupsList].SubGroups[#MasterGroupsList[#MasterGroupsList].SubGroups + 1] = {
 			Name = SongGroups[i],
 			Banner = SONGMAN:GetSongGroupBannerPath(SongGroups[i]),
