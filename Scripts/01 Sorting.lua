@@ -507,8 +507,7 @@ end
 -- "AllSongs" "Arcades" "Remixes "Fullsongs" "Shortcuts"
 -- returns: an array of Songs
 -- based on: the original array of Songs used for input, but filtered and ordered by the string list provided
-function FilterAndOrderSongs_POI(inputArrayOfSongs, inputListType)
-	-- returns AN ARRAY OF SONGS (ORDERED BY THE DEFAULT POI ORDER)
+function FilterAndOrderSongs_POI(inputArrayOfSongs, inputListType)	
 	local output = inputArrayOfSongs
 	local customOrder = ReturnStringFolderList_POI(inputListType)
 	local reorderedSongs = {}	
