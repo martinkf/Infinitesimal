@@ -302,7 +302,7 @@ if usingPOIUX then
 			Def.BitmapText {
 				Name="NextPrevText",
 				Font="VCR OSD Mono 40px",
-				Text="AAAAAAAAAAAAA",
+				Text="",
 				InitCommand=function(self)
 					self:zoom(2):xy(0,-200)
 					:shadowlength(4)					
