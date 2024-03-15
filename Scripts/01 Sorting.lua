@@ -502,7 +502,7 @@ end
 -- vvvv POI PROJECT vvvv
 ----
 
-function CustomFolderOrderPOI(inputArrayOfSongs)
+function CustomFolderOrder_POI(inputArrayOfSongs)
 	-- returns AN ARRAY OF SONGS (ORDERED BY THE DEFAULT POI ORDER)
 	local output = inputArrayOfSongs
 	local customOrder = {
@@ -554,7 +554,7 @@ function CustomFolderOrderPOI(inputArrayOfSongs)
 	return output
 end
 
-function ReturnOnly_ArcadePOI(inputArrayOfSongs)
+function ReturnOnlyArcades_POI(inputArrayOfSongs)
 	-- returns AN ARRAY OF SONGS (ORDERED BY THE DEFAULT POI ORDER, FILTERED TO THE ARCADE SONGS ONLY (2 HEARTS))
 	local output = inputArrayOfSongs
 	local customOrder = {
@@ -600,7 +600,7 @@ function ReturnOnly_ArcadePOI(inputArrayOfSongs)
 	return output
 end
 
-function ReturnOnly_RemixPOI(inputArrayOfSongs)
+function ReturnOnlyRemixes_POI(inputArrayOfSongs)
 	-- returns AN ARRAY OF SONGS (ORDERED BY THE DEFAULT POI ORDER, FILTERED TO THE REMIX SONGS ONLY (3 HEARTS))
 	local output = inputArrayOfSongs
 	local customOrder = {
@@ -628,7 +628,7 @@ function ReturnOnly_RemixPOI(inputArrayOfSongs)
 	return output
 end
 
-function ReturnOnly_FullsongPOI(inputArrayOfSongs)
+function ReturnOnlyFullsongs_POI(inputArrayOfSongs)
 	-- returns AN ARRAY OF SONGS (ORDERED BY THE DEFAULT POI ORDER, FILTERED TO THE FULL SONGS ONLY (4 HEARTS))
 	local output = inputArrayOfSongs
 	local customOrder = {
@@ -652,7 +652,7 @@ function ReturnOnly_FullsongPOI(inputArrayOfSongs)
 	return output
 end
 
-function ReturnOnly_ShortcutPOI(inputArrayOfSongs)
+function ReturnOnlyShortcuts_POI(inputArrayOfSongs)
 	-- returns AN ARRAY OF SONGS (ORDERED BY THE DEFAULT POI ORDER, FILTERED TO THE SHORT CUT SONGS ONLY (1 HEARTS))
 	local output = inputArrayOfSongs
 	local customOrder = {
@@ -692,7 +692,7 @@ function AssembleGroupSorting_POI()
     -- ======================================== MAIN / All songs ========================================
     local AllSongs = SONGMAN:GetAllSongs()
     
-	local orderedSongs = CustomFolderOrderPOI(AllSongs)
+	local orderedSongs = CustomFolderOrder_POI(AllSongs)
 	
     MasterGroupsList[#MasterGroupsList + 1] = {
         Name = "Main",
@@ -712,7 +712,7 @@ function AssembleGroupSorting_POI()
     
 	-- ======================================== MAIN / Only "Short Cut" songs (1 Hearts) ========================================
 	local AllSongs = SONGMAN:GetAllSongs()
-	local filteredSongs = ReturnOnly_ShortcutPOI(AllSongs)
+	local filteredSongs = ReturnOnlyShortcuts_POI(AllSongs)
 	
 	-- Create the new subgroup if there are matching songs
 	if #filteredSongs > 0 then
@@ -730,7 +730,7 @@ function AssembleGroupSorting_POI()
 	
 	-- ======================================== MAIN / Only "Arcade" songs (2 Hearts) ========================================
 	local AllSongs = SONGMAN:GetAllSongs()
-	local filteredSongs = ReturnOnly_ArcadePOI(AllSongs)
+	local filteredSongs = ReturnOnlyArcades_POI(AllSongs)
 	
 	-- Create the new subgroup if there are matching songs
 	if #filteredSongs > 0 then
@@ -748,7 +748,7 @@ function AssembleGroupSorting_POI()
 	
 	-- ======================================== MAIN / Only "Remix" songs (3 Hearts) ========================================
 	local AllSongs = SONGMAN:GetAllSongs()
-	local filteredSongs = ReturnOnly_RemixPOI(AllSongs)
+	local filteredSongs = ReturnOnlyRemixes_POI(AllSongs)
 	
 	-- Create the new subgroup if there are matching songs
 	if #filteredSongs > 0 then
@@ -766,7 +766,7 @@ function AssembleGroupSorting_POI()
 	
 	-- ======================================== MAIN / Only "Full Songs" songs (4 Hearts) ========================================
 	local AllSongs = SONGMAN:GetAllSongs()
-	local filteredSongs = ReturnOnly_FullsongPOI(AllSongs)
+	local filteredSongs = ReturnOnlyFullsongs_POI(AllSongs)
 	
 	-- Create the new subgroup if there are matching songs
 	if #filteredSongs > 0 then
@@ -851,7 +851,7 @@ function AssembleGroupSorting_POI()
     
 	for i, v in ipairs(SongGroups) do
 	
-		local sortedSongs = CustomFolderOrderPOI(SONGMAN:GetSongsInGroup(SongGroups[i]))
+		local sortedSongs = CustomFolderOrder_POI(SONGMAN:GetSongsInGroup(SongGroups[i]))
 		MasterGroupsList[#MasterGroupsList].SubGroups[#MasterGroupsList[#MasterGroupsList].SubGroups + 1] = {
 			Name = SongGroups[i],
 			Banner = SONGMAN:GetSongGroupBannerPath(SongGroups[i]),
