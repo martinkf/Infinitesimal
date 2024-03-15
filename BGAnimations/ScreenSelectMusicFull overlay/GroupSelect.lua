@@ -13,7 +13,7 @@ local MenuButtonsOnly = PREFSMAN:GetPreference("OnlyDedicatedMenuButtons")
 
 -- Not load anything if no group sorts are available (catastrophic event or no songs)
 if next(GroupsList) == nil then
-    AssembleGroupSorting()
+    AssembleGroupSortingPOI()
     UpdateGroupSorting()
     
     if next(GroupsList) == nil then
