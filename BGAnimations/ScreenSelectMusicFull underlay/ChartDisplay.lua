@@ -543,7 +543,32 @@ if usingPOIUX then
 				end
 
 				for i=1,ItemAmount do
+					local CurrentSong = GAMESTATE:GetCurrentSong()
 					local Chart = ChartArray[ i + ListOffset ]
+										
+					for j, chart in ipairs(ChartArray) do
+						local scoreIndex = nil
+						-- Fetch profile scores only if a valid chart is available
+						if chart then
+							local profile = PROFILEMAN:GetProfile(GAMESTATE:GetEnabledPlayers()[1])
+							if profile then
+								local scoreList = profile:GetHighScoreList(CurrentSong, chart)
+								if scoreList then
+									local scores = scoreList:GetHighScores()
+									if scores and #scores > 0 then
+										scoreIndex = LoadModule("PIU/Score.Grading.lua")(scores[1])
+									end
+								end
+							end
+						end
+
+						-- Update the PersonalRecord sprite visibility and texture accordingly						
+						if scoreIndex then
+							self:GetChild("")[j]:GetChild("PersonalRecord"):visible(true):Load(THEME:GetPathG("", "LetterGrades/" .. (ClassicGrades and "" or "New/") .. scoreIndex))
+						else
+							self:GetChild("")[j]:GetChild("PersonalRecord"):visible(false)
+						end
+					end
 
 					if Chart then
 						local ChartMeter = Chart:GetMeter()
@@ -573,6 +598,7 @@ if usingPOIUX then
 						else
 							self:GetChild("")[i]:GetChild("Label"):visible(false)
 						end
+						
 					else
 						if not CenterList then
 							self:GetChild("")[i]:GetChild("Icon"):visible(true):diffuse(Color.White):diffusealpha(0.25)
@@ -583,6 +609,7 @@ if usingPOIUX then
 						end
 						self:GetChild("")[i]:GetChild("Level"):visible(false)
 						self:GetChild("")[i]:GetChild("Label"):visible(false)
+						self:GetChild("")[i]:GetChild("PersonalRecord"):visible(false)
 						self:GetChild("")[i]:GetChild("HighlightP1"):visible(false)
 						self:GetChild("")[i]:GetChild("HighlightP2"):visible(false)
 					end
@@ -593,6 +620,7 @@ if usingPOIUX then
 					self:GetChild("")[i]:GetChild("IconTrim"):visible(false)
 					self:GetChild("")[i]:GetChild("Level"):visible(false)
 					self:GetChild("")[i]:GetChild("Label"):visible(false)
+					self:GetChild("")[i]:GetChild("PersonalRecord"):visible(false)
 					self:GetChild("")[i]:GetChild("HighlightP1"):visible(false)
 					self:GetChild("")[i]:GetChild("HighlightP2"):visible(false)
 				end
@@ -631,6 +659,13 @@ if usingPOIUX then
 				Texture=THEME:GetPathG("", "DifficultyDisplay/Labels"),
 				InitCommand=function(self)
 					self:xy(FrameX + ItemW * (i - 1), 16):animate(false)
+				end
+			},
+			
+			Def.Sprite {
+				Name="PersonalRecord",				
+				InitCommand=function(self)
+					self:xy(FrameX + ItemW * (i - 1), (GAMESTATE:IsPlayerEnabled(PLAYER_2) and -22 or 22)):animate(false):zoom(0.09)
 				end
 			},
 
