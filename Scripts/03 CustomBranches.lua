@@ -78,3 +78,16 @@ CustomBranch = {
     end,
 
 }
+
+----
+-- vvvv POI PROJECT vvvv
+----
+
+function POIBranch_AssembleGroupSorting()
+	local usingPOIUX = LoadModule("Config.Load.lua")("ActivatePOIProjectUX", "Save/OutFoxPrefs.ini") or false
+	if usingPOIUX then
+		AssembleGroupSorting_POI()
+	else
+		AssembleGroupSorting()
+	end
+end

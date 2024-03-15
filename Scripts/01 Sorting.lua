@@ -676,7 +676,7 @@ function ReturnOnly_ShortcutPOI(inputArrayOfSongs)
 	return output
 end
 
-function AssembleGroupSortingPOI()
+function AssembleGroupSorting_POI()
     Trace("Creating group sorts...")
     
 	if not (SONGMAN and GAMESTATE) then

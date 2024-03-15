@@ -11,7 +11,7 @@ local ChartPreview = LoadModule("Config.Load.lua")("ChartPreview","Save/OutFoxPr
 
 -- Not load anything if no group sorts are available (catastrophic event or no songs)
 if next(GroupsList) == nil then
-    AssembleGroupSortingPOI()
+	POIBranch_AssembleGroupSorting()
     UpdateGroupSorting()
     
     if next(GroupsList) == nil then
