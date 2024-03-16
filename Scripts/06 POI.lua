@@ -179,6 +179,76 @@ function ReturnStringFolderList_POI(inputOption)
 	return output_list
 end
 
+-- takes: a Song
+-- returns: a string, from the list of the following:
+-- ARCADE, REMIX, FULLSONG, SHORTCUT
+-- based on: the first keyword present in the TAGS attribute in the SSC
+function FetchFirstTag_POI(inputSong)
+	local output = ""
+	
+	local fullTagAttribute = inputSong:GetTags()
+	
+	if fullTagAttribute ~= "" then
+		local words = {} -- array of strings, one for each separate word
+		for thisWord in fullTagAttribute:gmatch("%S+") do
+			table.insert(words, thisWord)
+		end		
+		output = words[1] -- gets the first word in that array
+	end
+	
+	return output
+end
+
+-- takes: a Song
+-- returns: a string, from the list of the following:
+-- ANOTHER
+-- based on: the second keyword present in the TAGS attribute in the SSC
+function FetchSecondTag_POI(inputSong)
+	local output = ""
+	
+	local fullTagAttribute = inputSong:GetTags()
+	
+	if fullTagAttribute ~= "" then
+		local words = {} -- array of strings, one for each separate word
+		for thisWord in fullTagAttribute:gmatch("%S+") do
+			table.insert(words, thisWord)
+		end	
+		
+		-- Check if the words table has more than one element
+		if #words >= 2 then
+			output = words[2] -- gets the second word in that array		
+		end
+	end
+	
+	return output
+end
+
+-- takes: (1) a Chart
+-- takes: (2) an int, as follows:
+-- 1 if you want the Chart POI Name returned, 2 if you want the Chart Origin returned
+-- returns: a string, for example: ["EXTRA EXPERT"] for a Chart POI Name, or ["Extra"] for a Chart Origin
+-- based on: the CHARTNAME in the SSC of that chart - it either returns the first or the second part, which are separated by parenthesis
+function FetchChartNameOrOriginFromChart(inputChart, inputInt)
+	local output = ""
+    
+    local ChartFullChartnameFromSSC = inputChart:GetChartName()
+    local ChartPOIName = ""
+    local ChartOrigin = ""
+    local openParen = ChartFullChartnameFromSSC:find("%(")
+    local closeParen = ChartFullChartnameFromSSC:find("%)")
+    ChartPOIName = ChartFullChartnameFromSSC:sub(1, openParen - 2)
+    ChartOrigin = ChartFullChartnameFromSSC:sub(openParen + 1, closeParen - 1)
+    
+    if inputInt == 1 then
+        output = ChartPOIName
+    elseif inputInt == 2 then
+        output = ChartOrigin
+    end
+    
+    return output
+end
+
+
 
 
 

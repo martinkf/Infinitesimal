@@ -210,17 +210,12 @@ if usingPOIUX then
 
 			RefreshCommand=function(self, params)
 				if GAMESTATE:GetCurrentSong() and GAMESTATE:GetCurrentSteps(pn) then                
-					local Chart = GAMESTATE:GetCurrentSteps(pn)
+					local Chart = GAMESTATE:GetCurrentSteps(pn)					
+					
+					local ChartPOIName = FetchChartNameOrOriginFromChart(Chart, 1)
+					local ChartOrigin = FetchChartNameOrOriginFromChart(Chart, 2)
+					
 					local ChartAuthorText = Chart:GetAuthorCredit()
-					local ChartDescriptionText = Chart:GetChartName()
-					
-					local ChartNameFromDesc = ""
-					local ChartOriginFromDesc = ""
-					local openParen = ChartDescriptionText:find("%(")
-					local closeParen = ChartDescriptionText:find("%)")
-					ChartNameFromDesc = ChartDescriptionText:sub(1, openParen - 2)
-					ChartOriginFromDesc = ChartDescriptionText:sub(openParen + 1, closeParen - 1)
-					
 					local displayedArtist = ""
 					if (ChartAuthorText == "Andamiro") then
 						displayedArtist = ""
@@ -229,37 +224,19 @@ if usingPOIUX then
 					else
 						displayedArtist = ChartAuthorText
 					end
-					
-					--self:GetChild("ChartName-label"):settext("DESCRIPTION")
-					self:GetChild("ChartName"):settext(ChartNameFromDesc)
-					--self:GetChild("ChartOrigin-label"):settext("ORIGIN")				
-					self:GetChild("ChartOrigin"):settext(ChartOriginFromDesc)				
-					--self:GetChild("ChartAuthor-label"):settext("STEP ARTIST")
+										
+					self:GetChild("ChartName"):settext(ChartPOIName)
+					self:GetChild("ChartOrigin"):settext(ChartOrigin)
 					self:GetChild("ChartAuthor"):settext(displayedArtist)
 				else       
-					--self:GetChild("ChartName-label"):settext("")
 					self:GetChild("ChartName"):settext("")
-					--self:GetChild("ChartOrigin-label"):settext("")
-					self:GetChild("ChartOrigin"):settext("")				
-					--self:GetChild("ChartAuthor-label"):settext("")
+					self:GetChild("ChartOrigin"):settext("")
 					self:GetChild("ChartAuthor"):settext("")
 				end
 			end,
 			
 			
-			-- DRAWING
-			--[[
-			Def.BitmapText {
-				Font="Montserrat normal 20px",
-				Name="ChartName-label",
-				InitCommand=function(self)
-					self:x(displacement_X * (pn == PLAYER_2 and 1 or -1)):y(chartDesc_Y):zoom(0.7)
-					:halign(pn == PLAYER_2 and 0 or 1):maxwidth(172)
-					:shadowlength(2)
-					:skewx(-0.2)
-				end
-			},
-			]]--
+			-- DRAWING			
 			Def.BitmapText {
 				Font="Montserrat semibold 20px",
 				Name="ChartName",
@@ -279,15 +256,6 @@ if usingPOIUX then
 					:skewx(-0.2)
 				end
 			},
-			--[[Def.BitmapText {
-				Font="Montserrat semibold 20px",
-				Name="ChartOrigin",
-				InitCommand=function(self)
-					self:x((displacement_X+14) * (pn == PLAYER_2 and 1 or -1)):y(chartOrigin_Y+22):zoom(1.4)
-					:halign(pn == PLAYER_2 and 0 or 1):maxwidth(172)
-					:shadowlength(2)
-				end
-			},	]]--	
 			
 			Def.BitmapText {
 				Font="Montserrat normal 20px",
@@ -298,16 +266,7 @@ if usingPOIUX then
 					:shadowlength(2)
 					:skewx(-0.2)
 				end
-			},--[[
-			Def.BitmapText {
-				Font="Montserrat semibold 20px",
-				Name="ChartAuthor",
-				InitCommand=function(self)
-					self:x((displacement_X+14) * (pn == PLAYER_2 and 1 or -1)):y(chartArtist_Y+22):zoom(1.4)
-					:halign(pn == PLAYER_2 and 0 or 1):maxwidth(172)
-					:shadowlength(2)
-				end
-			}		]]--	
+			}
 		}
 	end
 end
