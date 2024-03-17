@@ -491,6 +491,9 @@ if usingPOIUX then
 					end
 				end
 
+				-- uses external FilterChartFromGroup POI function to filter out any unwanted chart, based on CurGroupName				
+				ChartArray = FilterChartFromGroup_POI(CurGroupName,CurrentSong,ChartArray)
+				
 				-- If no charts are left, load all of them again in an attempt to avoid other crashes
 				if #ChartArray == 0 then ChartArray = SongUtil.GetPlayableSteps(CurrentSong) end
 				table.sort(ChartArray, SortCharts)

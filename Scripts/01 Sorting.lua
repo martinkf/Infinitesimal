@@ -541,28 +541,24 @@ function AssembleGroupSorting_POI()
 	MasterGroupsList = {}
     GroupsList = {}
     
-	-- ======================================== MAIN ========================================
-    -- ======================================== MAIN / All songs ========================================
-    local AllSongs = SONGMAN:GetAllSongs()
-    
+	-- == MAIN ==
+	MasterGroupsList[1] = {
+		Name = "Main",
+		Banner = THEME:GetPathG("", "Common fallback banner"),
+		SubGroups = {}
+    }
+	
+    -- == MAIN > All Tunes ==
+	local AllSongs = SONGMAN:GetAllSongs()
 	local orderedSongs = FilterAndOrderSongs_POI(AllSongs,"AllSongs")
 	
-    MasterGroupsList[#MasterGroupsList + 1] = {
-        Name = "Main",
-        Banner = THEME:GetPathG("", "Common fallback banner"),
-        SubGroups = {
-            {   
-                Name = "All Tunes",
-                Banner = THEME:GetPathG("", "Common fallback banner"),
-                Songs = orderedSongs
-            }
-        }
-    }
-    
-    Trace("Group added: " .. MasterGroupsList[#MasterGroupsList].Name .. "/" .. 
-    MasterGroupsList[#MasterGroupsList].SubGroups[#MasterGroupsList[#MasterGroupsList].SubGroups].Name  .. " - " .. 
-    #MasterGroupsList[#MasterGroupsList].SubGroups[#MasterGroupsList[#MasterGroupsList].SubGroups].Songs .. " songs")
-    
+	local subgroup_AllTunes = {
+		Name = "All Tunes",
+		Banner = THEME:GetPathG("", "Common fallback banner"),
+		Songs = orderedSongs
+	}
+	table.insert(MasterGroupsList[1].SubGroups, 1, subgroup_AllTunes)
+	
 	-- ======================================== MAIN / Only "Short Cut" songs (1 Hearts) ========================================
 	local AllSongs = SONGMAN:GetAllSongs()
 	local filteredSongs = FilterAndOrderSongs_POI(AllSongs, "Shortcuts")
@@ -635,18 +631,16 @@ function AssembleGroupSorting_POI()
 		Warn("No songs found in 'Full Songs (4 Hearts)' subgroup. Not adding it to the Main group.")
 	end
 	
-	-- ======================================== CUSTOM GROUPS ========================================    
-    -- ======================================== CUSTOM GROUPS / Custom Group 01 ========================================
+	-- ======================================== CUSTOM GROUPS ========================================        
 	MasterGroupsList[#MasterGroupsList + 1] = {
         Name = "Custom Groups",
         Banner = THEME:GetPathG("", "Common fallback banner"),
         SubGroups = {}
     }
 	
+	-- ======================================== CUSTOM GROUPS / Custom Group 01 ========================================
 	-- Define the folder names to match
-	local folderNamesToMatch = {
-		"101 - IGNITION STARTS","102 - HYPNOSIS","104 - PASSION","103 - FOREVER LOVE","802 - BEE"
-	}
+	local folderNamesToMatch = GetArrayOfSongsFromPOINestedList_POI(GetPOINestedList_POI("01_The1stDF"))
 
 	-- Initialize an empty array to store songs matching the folder names
 	local filteredSongs = {}
@@ -669,7 +663,7 @@ function AssembleGroupSorting_POI()
 	-- Create the new subgroup if there are matching songs
 	if #filteredSongs > 0 then
 		local customGroup01 = {
-			Name = "Custom Group 01", -- Change "Your New Subgroup" to the desired name
+			Name = "Custom Group 01",
 			Banner = THEME:GetPathG("", "Common fallback banner"),
 			Songs = filteredSongs
 		}
@@ -680,6 +674,42 @@ function AssembleGroupSorting_POI()
 		Warn("No songs found in Custom Group 01 subgroup. Not adding it to the Main group.")
 	end
 
+    -- ======================================== CUSTOM GROUPS / Custom Group 02 ========================================
+	-- Define the folder names to match
+	local folderNamesToMatch = GetArrayOfSongsFromPOINestedList_POI(GetPOINestedList_POI("02_The2ndDF"))
+
+	-- Initialize an empty array to store songs matching the folder names
+	local filteredSongs = {}
+
+	-- Iterate through each folder name to match
+	for _, folderNameToMatch in ipairs(folderNamesToMatch) do
+		-- Iterate through all songs
+		for _, song in ipairs(SONGMAN:GetAllSongs()) do
+			-- Extract the folder name from the song's directory
+			local folderName = song:GetSongDir()
+
+			-- Check if the folder name matches the current folder name to match
+			if string.find(folderName, folderNameToMatch, 1, true) then
+				-- Add the song to the filtered array
+				table.insert(filteredSongs, song)
+			end
+		end
+	end
+
+	-- Create the new subgroup if there are matching songs
+	if #filteredSongs > 0 then
+		local customGroup02 = {
+			Name = "Custom Group 02",
+			Banner = THEME:GetPathG("", "Common fallback banner"),
+			Songs = filteredSongs
+		}
+
+		-- Insert the new subgroup into the "Main" group
+		table.insert(MasterGroupsList[#MasterGroupsList].SubGroups, 2, customGroup02)
+	else
+		Warn("No songs found in Custom Group 02 subgroup. Not adding it to the Main group.")
+	end	
+	
 	-- ======================================== FOLDERS ========================================    
 	-- ======================================== FOLDERS / Each one ========================================
 	local SongGroups = {}
@@ -718,7 +748,14 @@ function AssembleGroupSorting_POI()
     
     -- If nothing is available, remove the main entry completely
     if #MasterGroupsList[#MasterGroupsList].SubGroups == 0 then table.remove(MasterGroupsList) end
-    
+
+	-- ======================================== POI EXPERIENCES ========================================    
+	
+	
+	
+	
+	
+	
 	-- ======================================== SINGLE LEVELS (TIERS) ========================================    
     -- ======================================== SINGLE LEVELS (TIERS) / Each one ========================================
     -- Initialization

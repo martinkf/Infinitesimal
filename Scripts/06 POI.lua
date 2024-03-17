@@ -249,7 +249,128 @@ function FetchChartNameOrOriginFromChart(inputChart, inputInt)
 end
 
 
+-- takes: a string, from the list of the following:
+-- "01_The1stDF" "02_The2ndDF"
+-- returns: a "POI Nested List" - list of lists containing songs and charts inside songs
+-- based on: hard-coded list of POI Experiences
+function GetPOINestedList_POI(inputExperienceAsString)
+	local outputNestedList = {{},{}}
+    
+	if inputExperienceAsString == "01_The1stDF" then
+        outputNestedList = {
+            {
+				"/Songs/A.1ST~PERFECT/101 - IGNITION STARTS/",
+				"1ST-HARD",
+				"1ST-FREESTYLE",
+				--"PREX3-CRAZY",
+			},
+            {
+				"/Songs/A.1ST~PERFECT/102 - HYPNOSIS/",
+				"1ST-HARD",
+				"1ST-FREESTYLE",
+				--"PREX3-CRAZY",
+				--"PREX3-NIGHTMARE",
+			},
+			{
+				"/Songs/A.1ST~PERFECT/103 - FOREVER LOVE/",
+				"1ST-NORMAL",
+			},
+			{
+				"/Songs/A.1ST~PERFECT/104 - PASSION/",
+				"1ST-NORMAL",
+				"1ST-HARD",
+				"1ST-FREESTYLE",
+			},
+        }
+    elseif inputExperienceAsString == "02_The2ndDF" then
+        outputNestedList = {
+            {
+				"/Songs/A.1ST~PERFECT/201 - CREAMY SKINNY/",
+				"2ND-NORMAL",
+				"2ND-FREESTYLE",
+			},
+            {
+				"/Songs/A.1ST~PERFECT/202 - HATE/",
+				"2ND-NORMAL",
+				"2ND-HARD",
+				"2ND-FREESTYLE",
+			},
+			{
+				"/Songs/A.1ST~PERFECT/203 - KOUL/",
+				"2ND-HARD",
+				"2ND-FREESTYLE",
+				--"PREX3-CRAZY",
+			},
+			{
+				"/Songs/A.1ST~PERFECT/204 - FINAL AUDITION/",
+				"2ND-HARD",
+				"2ND-FREESTYLE",
+				--"PERF-NORMAL",
+				--"PREX3-CRAZY",
+				--"PREX3-FREESTYLE",
+				--"PREX3-NIGHTMARE",
+			},
+        }
+    else        
+        return {{}}
+    end
+	
+	return outputNestedList
+end
 
+-- takes: a "POI Nested List"
+-- returns: a single list of just the song titles
+-- based on: iterating through the list and obtaining all titles from each song inside it
+function GetArrayOfSongsFromPOINestedList_POI(inputPOINestedList)
+	local outputList = {}
+	for _, innerList in ipairs(inputPOINestedList) do
+        table.insert(outputList, innerList[1])
+    end
+	return outputList
+end
+
+-- takes: (1) the string related to the current group name
+-- takes: (2) the song that's currently being selected by the music wheel
+-- takes: (3) the array of Charts of the currently selected song
+-- returns: an array of Charts
+-- based on: takes into consideration the CurGroupName + which Song we're talking about to look up the POI Experience and filter out charts	
+function FilterChartFromGroup_POI(input_CurGroupName,input_CurrentSong,input_ChartArray)
+	local outputChartArray = {}		
+	outputChartArray = input_ChartArray
+	
+	local groupToExperienceMap = {
+	["Custom Group 01"] = "01_The1stDF",
+	["Custom Group 02"] = "02_The2ndDF",
+	["Custom Group 03"] = "03_OBG3rd",
+	["Custom Group 04"] = "04_OBGSE",
+	}
+	local poiExperienceString = groupToExperienceMap[input_CurGroupName]
+	if not poiExperienceString then -- handle the case where the input group name doesn't have a corresponding POI Experience string
+		return input_ChartArray -- in other words, skip this entire thing altogether
+	end
+	local poiExperienceNestedList = GetPOINestedList_POI(poiExperienceString)
+
+	local currentSongDir = input_CurrentSong:GetSongDir()		
+	-- Find the sublist corresponding to the current song
+	local allowedDescriptions = {}
+	for _, sublist in ipairs(poiExperienceNestedList) do
+		if sublist[1] == currentSongDir then
+			-- Collect allowed descriptions
+			allowedDescriptions = {unpack(sublist, 2)}
+			break
+		end
+	end		
+	
+	-- Remove charts whose descriptions are not in the allowed list
+	for i = #outputChartArray, 1, -1 do
+		local description = outputChartArray[i]:GetDescription()
+		if not table.find(allowedDescriptions, description) then
+			table.remove(outputChartArray, i)
+		end
+	end
+	
+	return outputChartArray
+end
 
 
 
