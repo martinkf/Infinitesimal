@@ -502,42 +502,11 @@ end
 -- vvvv POI PROJECT vvvv
 ----
 
--- takes: (1) an array of Songs, usually coming from SONGMAN:GetAllSongs()
--- takes: (2) a string related to what kind of song array you want returned, from the list of the following:
--- "AllSongs" "Arcades" "Remixes "Fullsongs" "Shortcuts"
--- returns: an array of Songs
--- based on: the original array of Songs used for input, but filtered and ordered by the string list provided
-function FilterAndOrderSongs_POI(inputArrayOfSongs, inputListType)	
-	local output = inputArrayOfSongs
-	local customOrder = ReturnStringFolderList_POI(inputListType)
-	local reorderedSongs = {}	
-	-- Iterate through each ordered element
-	for _, folderNameToMatch in ipairs(customOrder) do
-		-- Iterate through the songs provided by input
-		for _, song in ipairs(inputArrayOfSongs) do
-			-- Extract the folder name from the song's directory
-			local folderName = song:GetSongDir()
-			-- Check if the folder name matches the current folder name to match
-			if string.find(folderName, folderNameToMatch, 1, true) then
-				-- Add the song to the filtered array
-				table.insert(reorderedSongs, song)
-			end
-		end
-	end	
-	output = reorderedSongs
-	return output
-end
-
--- replacement for the standard AssembleGroupSorting function
 function AssembleGroupSorting_POI()
-    Trace("Creating group sorts...")
-    
 	if not (SONGMAN and GAMESTATE) then
         Warn("SONGMAN or GAMESTATE were not ready! Aborting!")
         return
     end
-	
-	-- Empty current table
 	MasterGroupsList = {}
     GroupsList = {}
     
@@ -560,31 +529,11 @@ function AssembleGroupSorting_POI()
 	)
 	
 	-- ============================================================== PLAYLISTS > PIU "The 1st DF" Experience ==============================================================
-	-- Define the folder names to match
-	local folderNamesToMatch = GetArrayOfSongsFromPOINestedList_POI(GetPOINestedList_POI("01_The1stDF"))
-
-	-- Initialize an empty array to store songs matching the folder names
-	local filteredSongs = {}
-
-	-- Iterate through each folder name to match
-	for _, folderNameToMatch in ipairs(folderNamesToMatch) do
-		-- Iterate through all songs
-		for _, song in ipairs(AllSongs) do
-			-- Extract the folder name from the song's directory
-			local folderName = song:GetSongDir()
-
-			-- Check if the folder name matches the current folder name to match
-			if string.find(folderName, folderNameToMatch, 1, true) then
-				-- Add the song to the filtered array
-				table.insert(filteredSongs, song)
-			end
-		end
-	end
-
-	-- Create the new subgroup if there are matching songs
+	local whichExperienceIsIt = "PIU 'The 1st DF'\nExperience"
+	local filteredSongs = GetArrayOfSongsBasedOnExperience(whichExperienceIsIt)
 	if #filteredSongs > 0 then
 		table.insert(MasterGroupsList[#MasterGroupsList].SubGroups, #(MasterGroupsList[#MasterGroupsList].SubGroups) + 1, {
-			Name = "PIU 'The 1st DF'\nExperience",
+			Name = whichExperienceIsIt,
 			Banner = THEME:GetPathG("", "Common fallback banner"),
 			Songs = filteredSongs
 			}
@@ -592,31 +541,11 @@ function AssembleGroupSorting_POI()
 	else end
 	
 	-- ============================================================== PLAYLISTS > PIU "The 2nd DF" Experience ==============================================================
-	-- Define the folder names to match
-	local folderNamesToMatch = GetArrayOfSongsFromPOINestedList_POI(GetPOINestedList_POI("02_The2ndDF"))
-
-	-- Initialize an empty array to store songs matching the folder names
-	local filteredSongs = {}
-
-	-- Iterate through each folder name to match
-	for _, folderNameToMatch in ipairs(folderNamesToMatch) do
-		-- Iterate through all songs
-		for _, song in ipairs(AllSongs) do
-			-- Extract the folder name from the song's directory
-			local folderName = song:GetSongDir()
-
-			-- Check if the folder name matches the current folder name to match
-			if string.find(folderName, folderNameToMatch, 1, true) then
-				-- Add the song to the filtered array
-				table.insert(filteredSongs, song)
-			end
-		end
-	end
-	
-	-- Create the new subgroup if there are matching songs
+	whichExperienceIsIt = "PIU 'The 2nd DF'\nExperience"
+	filteredSongs = GetArrayOfSongsBasedOnExperience(whichExperienceIsIt)
 	if #filteredSongs > 0 then
 		table.insert(MasterGroupsList[#MasterGroupsList].SubGroups, #(MasterGroupsList[#MasterGroupsList].SubGroups) + 1, {
-			Name = "PIU 'The 2nd DF'\nExperience",
+			Name = whichExperienceIsIt,
 			Banner = THEME:GetPathG("", "Common fallback banner"),
 			Songs = filteredSongs
 			}
@@ -624,31 +553,11 @@ function AssembleGroupSorting_POI()
 	else end
 	
 	-- ============================================================== PLAYLISTS > PIU "O.B.G The 3rd" Experience ==============================================================
-	-- Define the folder names to match
-	local folderNamesToMatch = GetArrayOfSongsFromPOINestedList_POI(GetPOINestedList_POI("03_OBG3rd"))
-
-	-- Initialize an empty array to store songs matching the folder names
-	local filteredSongs = {}
-
-	-- Iterate through each folder name to match
-	for _, folderNameToMatch in ipairs(folderNamesToMatch) do
-		-- Iterate through all songs
-		for _, song in ipairs(AllSongs) do
-			-- Extract the folder name from the song's directory
-			local folderName = song:GetSongDir()
-
-			-- Check if the folder name matches the current folder name to match
-			if string.find(folderName, folderNameToMatch, 1, true) then
-				-- Add the song to the filtered array
-				table.insert(filteredSongs, song)
-			end
-		end
-	end
-
-	-- Create the new subgroup if there are matching songs
+	whichExperienceIsIt = "PIU 'O.B.G The 3rd'\nExperience"
+	filteredSongs = GetArrayOfSongsBasedOnExperience(whichExperienceIsIt)
 	if #filteredSongs > 0 then
 		table.insert(MasterGroupsList[#MasterGroupsList].SubGroups, #(MasterGroupsList[#MasterGroupsList].SubGroups) + 1, {
-			Name = "PIU 'O.B.G The 3rd'\nExperience",
+			Name = whichExperienceIsIt,
 			Banner = THEME:GetPathG("", "Common fallback banner"),
 			Songs = filteredSongs
 			}

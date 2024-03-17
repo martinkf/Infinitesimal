@@ -1,6 +1,8 @@
+-- ================================================================================================================= RETURNS A STRING (RELATED TO COLOR) 
 -- takes: a Chart
 -- returns: a string related to color, for example: ["#FF00FF"]
 -- based on: the Chart style (single, half-double, double)
+-- HAS HARD-CODED CONTENT -- HAS HARD-CODED CONTENT -- HAS HARD-CODED CONTENT -- HAS HARD-CODED CONTENT -- HAS HARD-CODED CONTENT -- HAS HARD-CODED CONTENT -- HAS HARD-CODED CONTENT -- HAS HARD-CODED CONTENT -- HAS HARD-CODED CONTENT
 function ChartTypeToColor_POI(Chart)	
     local ChartMeter = Chart:GetMeter()
     local ChartDescription = Chart:GetDescription()
@@ -87,10 +89,89 @@ function ChartTypeToColor_POI(Chart)
 	return color("#9199D4") -- greyed-out lilac
 end
 
+
+
+-- ================================================================================================================= RETURNS A STRING (RELATED TO SONG) 
+-- takes: a Song
+-- returns: a string, from the list of the following:
+-- ARCADE, REMIX, FULLSONG, SHORTCUT
+-- based on: the first keyword present in the TAGS attribute in the SSC
+function FetchFirstTag_POI(inputSong)
+	local output = ""
+	
+	local fullTagAttribute = inputSong:GetTags()
+	
+	if fullTagAttribute ~= "" then
+		local words = {} -- array of strings, one for each separate word
+		for thisWord in fullTagAttribute:gmatch("%S+") do
+			table.insert(words, thisWord)
+		end		
+		output = words[1] -- gets the first word in that array
+	end
+	
+	return output
+end
+
+-- takes: a Song
+-- returns: a string, from the list of the following:
+-- ANOTHER
+-- based on: the second keyword present in the TAGS attribute in the SSC
+function FetchSecondTag_POI(inputSong)
+	local output = ""
+	
+	local fullTagAttribute = inputSong:GetTags()
+	
+	if fullTagAttribute ~= "" then
+		local words = {} -- array of strings, one for each separate word
+		for thisWord in fullTagAttribute:gmatch("%S+") do
+			table.insert(words, thisWord)
+		end	
+		
+		-- Check if the words table has more than one element
+		if #words >= 2 then
+			output = words[2] -- gets the second word in that array		
+		end
+	end
+	
+	return output
+end
+
+
+
+-- ================================================================================================================= RETURNS A STRING (RELATED TO CHART) 
+-- takes: (1) a Chart
+-- takes: (2) an int, as follows:
+-- 1 if you want the Chart POI Name returned, 2 if you want the Chart Origin returned
+-- returns: a string, for example: ["EXTRA EXPERT"] for a Chart POI Name, or ["Extra"] for a Chart Origin
+-- based on: the CHARTNAME in the SSC of that chart - it either returns the first or the second part, which are separated by parenthesis
+function FetchChartNameOrOriginFromChart(inputChart, inputInt)
+	local output = ""
+    
+    local ChartFullChartnameFromSSC = inputChart:GetChartName()
+    local ChartPOIName = ""
+    local ChartOrigin = ""
+    local openParen = ChartFullChartnameFromSSC:find("%(")
+    local closeParen = ChartFullChartnameFromSSC:find("%)")
+    ChartPOIName = ChartFullChartnameFromSSC:sub(1, openParen - 2)
+    ChartOrigin = ChartFullChartnameFromSSC:sub(openParen + 1, closeParen - 1)
+    
+    if inputInt == 1 then
+        output = ChartPOIName
+    elseif inputInt == 2 then
+        output = ChartOrigin
+    end
+    
+    return output
+end
+
+
+
+-- ================================================================================================================= RETURNS AN ARRAY OF STRINGS (RELATED TO SONG) 
 -- takes: a string related to what kind of list you want returned, from the list of the following:
 -- AllSongs, Arcades, Remixes, Fullsongs, Shortcuts, Anothers
 -- returns: an array of strings listing SongFolder names, for example: ["101 - IGNITION STARTS","102 - HYPNOSIS"]
 -- based on: hard-coded lists
+-- HAS HARD-CODED CONTENT -- HAS HARD-CODED CONTENT -- HAS HARD-CODED CONTENT -- HAS HARD-CODED CONTENT -- HAS HARD-CODED CONTENT -- HAS HARD-CODED CONTENT -- HAS HARD-CODED CONTENT -- HAS HARD-CODED CONTENT -- HAS HARD-CODED CONTENT
 function ReturnStringFolderList_POI(inputOption)
 	local output_list = nil
 	
@@ -179,84 +260,141 @@ function ReturnStringFolderList_POI(inputOption)
 	return output_list
 end
 
--- takes: a Song
--- returns: a string, from the list of the following:
--- ARCADE, REMIX, FULLSONG, SHORTCUT
--- based on: the first keyword present in the TAGS attribute in the SSC
-function FetchFirstTag_POI(inputSong)
-	local output = ""
-	
-	local fullTagAttribute = inputSong:GetTags()
-	
-	if fullTagAttribute ~= "" then
-		local words = {} -- array of strings, one for each separate word
-		for thisWord in fullTagAttribute:gmatch("%S+") do
-			table.insert(words, thisWord)
-		end		
-		output = words[1] -- gets the first word in that array
-	end
-	
+-- takes: a "POI Nested List"
+-- returns: an array of strings listing SongFolder names, for example: ["/Songs/A.1ST~PERFECT/101 - IGNITION STARTS/","/Songs/A.1ST~PERFECT/102 - HYPNOSIS/"]
+-- based on: iterating through the input list and obtaining all song dir paths from each song inside it
+function GetArrayOfStringsongdirFromPOINestedList_POI(inputPOINestedList)
+	local outputList = {}
+	for _, innerList in ipairs(inputPOINestedList) do
+        table.insert(outputList, innerList[1])
+    end
+	return outputList
+end
+
+
+
+-- ================================================================================================================= RETURNS AN ARRAY OF SONG OBJECTS 
+-- takes: (1) an array of Songs, usually coming from SONGMAN:GetAllSongs()
+-- takes: (2) a string related to what kind of song array you want returned, from the list of the following:
+-- "AllSongs" "Arcades" "Remixes "Fullsongs" "Shortcuts"
+-- returns: an array of Songs
+-- based on: the original array of Songs used for input, but filtered and ordered by the string list provided
+function FilterAndOrderSongs_POI(inputArrayOfSongs, inputListType)	
+	local output = inputArrayOfSongs
+	local customOrder = ReturnStringFolderList_POI(inputListType)
+	local reorderedSongs = {}	
+	-- Iterate through each ordered element
+	for _, folderNameToMatch in ipairs(customOrder) do
+		-- Iterate through the songs provided by input
+		for _, song in ipairs(inputArrayOfSongs) do
+			-- Extract the folder name from the song's directory
+			local folderName = song:GetSongDir()
+			-- Check if the folder name matches the current folder name to match
+			if string.find(folderName, folderNameToMatch, 1, true) then
+				-- Add the song to the filtered array
+				table.insert(reorderedSongs, song)
+			end
+		end
+	end	
+	output = reorderedSongs
 	return output
 end
 
--- takes: a Song
--- returns: a string, from the list of the following:
--- ANOTHER
--- based on: the second keyword present in the TAGS attribute in the SSC
-function FetchSecondTag_POI(inputSong)
-	local output = ""
+-- takes: a string, related to POI Experience versions, from the list of the following:
+-- "PIU 'The 1st DF'\nExperience" / "PIU 'The 2nd DF'\nExperience" / etc
+-- returns: an array of Songs
+-- based on: takes all the songs, filters them according to the input POI Experience version which is hard-coded elsewhere
+function GetArrayOfSongsBasedOnExperience(inputExperienceAsString)
+	local outputSongArray = {}
 	
-	local fullTagAttribute = inputSong:GetTags()
-	
-	if fullTagAttribute ~= "" then
-		local words = {} -- array of strings, one for each separate word
-		for thisWord in fullTagAttribute:gmatch("%S+") do
-			table.insert(words, thisWord)
-		end	
-		
-		-- Check if the words table has more than one element
-		if #words >= 2 then
-			output = words[2] -- gets the second word in that array		
+	local stringArrayOfFolderNamesToMatch = GetArrayOfStringsongdirFromPOINestedList_POI(GetPOINestedList_POI(inputExperienceAsString))		
+
+	-- Iterate through each folder name to match
+	for _, folderNameToMatch in ipairs(stringArrayOfFolderNamesToMatch) do
+		-- Iterate through all songs
+		for _, song in ipairs(SONGMAN:GetAllSongs()) do
+			-- Extract the folder name from the song's directory
+			local folderName = song:GetSongDir()
+
+			-- Check if the folder name matches the current folder name to match
+			if string.find(folderName, folderNameToMatch, 1, true) then
+				-- Add the song to the filtered array
+				table.insert(outputSongArray, song)
+			end
 		end
 	end
 	
-	return output
-end
-
--- takes: (1) a Chart
--- takes: (2) an int, as follows:
--- 1 if you want the Chart POI Name returned, 2 if you want the Chart Origin returned
--- returns: a string, for example: ["EXTRA EXPERT"] for a Chart POI Name, or ["Extra"] for a Chart Origin
--- based on: the CHARTNAME in the SSC of that chart - it either returns the first or the second part, which are separated by parenthesis
-function FetchChartNameOrOriginFromChart(inputChart, inputInt)
-	local output = ""
-    
-    local ChartFullChartnameFromSSC = inputChart:GetChartName()
-    local ChartPOIName = ""
-    local ChartOrigin = ""
-    local openParen = ChartFullChartnameFromSSC:find("%(")
-    local closeParen = ChartFullChartnameFromSSC:find("%)")
-    ChartPOIName = ChartFullChartnameFromSSC:sub(1, openParen - 2)
-    ChartOrigin = ChartFullChartnameFromSSC:sub(openParen + 1, closeParen - 1)
-    
-    if inputInt == 1 then
-        output = ChartPOIName
-    elseif inputInt == 2 then
-        output = ChartOrigin
-    end
-    
-    return output
+	return outputSongArray
 end
 
 
--- takes: a string, from the list of the following:
--- "01_The1stDF" "02_The2ndDF"
+
+-- ================================================================================================================= RETURNS AN ARRAY OF CHART OBJECTS 
+-- takes: (1) the string related to the current group name
+-- takes: (2) the song that's currently being selected by the music wheel
+-- takes: (3) the array of Charts of the currently selected song
+-- returns: an array of Charts
+-- based on: takes into consideration the CurGroupName + which Song we're talking about to look up the POI Experience and filter out charts
+-- HAS HARD-CODED CONTENT -- HAS HARD-CODED CONTENT -- HAS HARD-CODED CONTENT -- HAS HARD-CODED CONTENT -- HAS HARD-CODED CONTENT -- HAS HARD-CODED CONTENT -- HAS HARD-CODED CONTENT -- HAS HARD-CODED CONTENT -- HAS HARD-CODED CONTENT
+function FilterChartFromGroup_POI(input_CurGroupName,input_CurrentSong,input_ChartArray)
+	local outputChartArray = {}		
+	outputChartArray = input_ChartArray
+	
+	local POIExperiencesList = {
+		"PIU 'The 1st DF'\nExperience",
+		"PIU 'The 2nd DF'\nExperience",
+		"PIU 'O.B.G The 3rd'\nExperience",
+	}
+	
+	local found = false
+	for _, experience in ipairs(POIExperiencesList) do
+		if experience:find(input_CurGroupName) then
+			found = true
+			break
+		end
+	end
+	
+	local poiExperienceNestedList = {{}}
+	if found then
+		poiExperienceNestedList = GetPOINestedList_POI(input_CurGroupName)
+	else -- handle the case where the input group name doesn't have a corresponding POI Experience string
+		return input_ChartArray -- in other words, skip this entire thing altogether
+	end	
+
+	local currentSongDir = input_CurrentSong:GetSongDir()		
+	-- Find the sublist corresponding to the current song
+	local allowedDescriptions = {}
+	for _, sublist in ipairs(poiExperienceNestedList) do
+		if sublist[1] == currentSongDir then
+			-- Collect allowed descriptions
+			allowedDescriptions = {unpack(sublist, 2)}
+			break
+		end
+	end		
+	
+	-- Remove charts whose descriptions are not in the allowed list
+	for i = #outputChartArray, 1, -1 do
+		local description = outputChartArray[i]:GetDescription()
+		if not table.find(allowedDescriptions, description) then
+			table.remove(outputChartArray, i)
+		end
+	end
+	
+	return outputChartArray
+end
+
+
+
+-- ================================================================================================================= RETURNS A POI NESTED LIST 
+-- takes: a string, related to POI Experience versions, from the list of the following:
+-- "PIU 'The 1st DF'\nExperience" / "PIU 'The 2nd DF'\nExperience" / etc
 -- returns: a "POI Nested List" - list of lists containing songs and charts inside songs
 -- based on: hard-coded list of POI Experiences
+-- HAS HARD-CODED CONTENT -- HAS HARD-CODED CONTENT -- HAS HARD-CODED CONTENT -- HAS HARD-CODED CONTENT -- HAS HARD-CODED CONTENT -- HAS HARD-CODED CONTENT -- HAS HARD-CODED CONTENT -- HAS HARD-CODED CONTENT -- HAS HARD-CODED CONTENT
 function GetPOINestedList_POI(inputExperienceAsString)
 	local outputNestedList = {{},{}}
     
-	if inputExperienceAsString == "01_The1stDF" then
+	if inputExperienceAsString == "PIU 'The 1st DF'\nExperience" then
         outputNestedList = {
             {
 				"/Songs/A.1ST~PERFECT/101 - IGNITION STARTS/",
@@ -282,7 +420,7 @@ function GetPOINestedList_POI(inputExperienceAsString)
 				"1ST-FREESTYLE",
 			},
         }
-    elseif inputExperienceAsString == "02_The2ndDF" then
+    elseif inputExperienceAsString == "PIU 'The 2nd DF'\nExperience" then
         outputNestedList = {
             {
 				"/Songs/A.1ST~PERFECT/201 - CREAMY SKINNY/",
@@ -311,7 +449,7 @@ function GetPOINestedList_POI(inputExperienceAsString)
 				--"PREX3-NIGHTMARE",
 			},
         }
-    elseif inputExperienceAsString == "03_OBG3rd" then
+    elseif inputExperienceAsString == "PIU 'O.B.G The 3rd'\nExperience" then
         outputNestedList = {
             {
 				"/Songs/A.1ST~PERFECT/301 - FINAL AUDITION 2/",
@@ -333,59 +471,12 @@ function GetPOINestedList_POI(inputExperienceAsString)
 	return outputNestedList
 end
 
--- takes: a "POI Nested List"
--- returns: a single list of just the song titles
--- based on: iterating through the list and obtaining all titles from each song inside it
-function GetArrayOfSongsFromPOINestedList_POI(inputPOINestedList)
-	local outputList = {}
-	for _, innerList in ipairs(inputPOINestedList) do
-        table.insert(outputList, innerList[1])
-    end
-	return outputList
-end
 
--- takes: (1) the string related to the current group name
--- takes: (2) the song that's currently being selected by the music wheel
--- takes: (3) the array of Charts of the currently selected song
--- returns: an array of Charts
--- based on: takes into consideration the CurGroupName + which Song we're talking about to look up the POI Experience and filter out charts	
-function FilterChartFromGroup_POI(input_CurGroupName,input_CurrentSong,input_ChartArray)
-	local outputChartArray = {}		
-	outputChartArray = input_ChartArray
-	
-	local groupToExperienceMap = {
-	["PIU 'The 1st DF'\nExperience"] = "01_The1stDF",
-	["PIU 'The 2nd DF'\nExperience"] = "02_The2ndDF",
-	["PIU 'O.B.G The 3rd'\nExperience"] = "03_OBG3rd",
-	["Custom Group 04"] = "04_OBGSE",
-	}
-	local poiExperienceString = groupToExperienceMap[input_CurGroupName]
-	if not poiExperienceString then -- handle the case where the input group name doesn't have a corresponding POI Experience string
-		return input_ChartArray -- in other words, skip this entire thing altogether
-	end
-	local poiExperienceNestedList = GetPOINestedList_POI(poiExperienceString)
 
-	local currentSongDir = input_CurrentSong:GetSongDir()		
-	-- Find the sublist corresponding to the current song
-	local allowedDescriptions = {}
-	for _, sublist in ipairs(poiExperienceNestedList) do
-		if sublist[1] == currentSongDir then
-			-- Collect allowed descriptions
-			allowedDescriptions = {unpack(sublist, 2)}
-			break
-		end
-	end		
-	
-	-- Remove charts whose descriptions are not in the allowed list
-	for i = #outputChartArray, 1, -1 do
-		local description = outputChartArray[i]:GetDescription()
-		if not table.find(allowedDescriptions, description) then
-			table.remove(outputChartArray, i)
-		end
-	end
-	
-	return outputChartArray
-end
+
+
+
+
 
 
 
