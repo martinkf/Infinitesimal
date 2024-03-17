@@ -261,7 +261,7 @@ function ReturnStringFolderList_POI(inputOption)
 end
 
 -- takes: a "POI Nested List"
--- returns: an array of strings listing SongFolder names, for example: ["/Songs/A.1ST~PERFECT/101 - IGNITION STARTS/","/Songs/A.1ST~PERFECT/102 - HYPNOSIS/"]
+-- returns: an array of strings listing SongFolder names, for example: ["/Songs/POI-database/101 - IGNITION STARTS/","/Songs/POI-database/102 - HYPNOSIS/"]
 -- based on: iterating through the input list and obtaining all song dir paths from each song inside it
 function GetArrayOfStringsongdirFromPOINestedList_POI(inputPOINestedList)
 	local outputList = {}
@@ -397,23 +397,23 @@ function GetPOINestedList_POI(inputExperienceAsString)
 	if inputExperienceAsString == "PIU 'The 1st DF'\nExperience" then
         outputNestedList = {
             {
-				"/Songs/A.1ST~PERFECT/101 - IGNITION STARTS/",
+				"/Songs/POI-database/101 - IGNITION STARTS/",
 				"1ST-HARD",
 				"1ST-FREESTYLE",
 				"1ST-2PHARD",
 			},
             {
-				"/Songs/A.1ST~PERFECT/102 - HYPNOSIS/",
+				"/Songs/POI-database/102 - HYPNOSIS/",
 				"1ST-HARD",
 				"1ST-FREESTYLE",
 				"1ST-2PHARD",
 			},
 			{
-				"/Songs/A.1ST~PERFECT/103 - FOREVER LOVE/",
+				"/Songs/POI-database/103 - FOREVER LOVE/",
 				"1ST-NORMAL",
 			},
 			{
-				"/Songs/A.1ST~PERFECT/104 - PASSION/",
+				"/Songs/POI-database/104 - PASSION/",
 				"1ST-NORMAL",
 				"1ST-HARD",
 				"1ST-FREESTYLE",
@@ -421,7 +421,7 @@ function GetPOINestedList_POI(inputExperienceAsString)
 				"1ST-2PHARD",
 			},
 			{
-				"/Songs/A.1ST~PERFECT/105 - BLACK CAT/",				
+				"/Songs/POI-database/105 - BLACK CAT/",				
 				"1ST-HARD",
 				"1ST-FREESTYLE",				
 				"1ST-2PHARD",
@@ -430,24 +430,24 @@ function GetPOINestedList_POI(inputExperienceAsString)
     elseif inputExperienceAsString == "PIU 'The 2nd DF'\nExperience" then
         outputNestedList = {
             {
-				"/Songs/A.1ST~PERFECT/201 - CREAMY SKINNY/",
+				"/Songs/POI-database/201 - CREAMY SKINNY/",
 				"2ND-NORMAL",
 				"2ND-FREESTYLE",
 			},
             {
-				"/Songs/A.1ST~PERFECT/202 - HATE/",
+				"/Songs/POI-database/202 - HATE/",
 				"2ND-NORMAL",
 				"2ND-HARD",
 				"2ND-FREESTYLE",
 			},
 			{
-				"/Songs/A.1ST~PERFECT/203 - KOUL/",
+				"/Songs/POI-database/203 - KOUL/",
 				"2ND-HARD",
 				"2ND-FREESTYLE",
 				--"PREX3-CRAZY",
 			},
 			{
-				"/Songs/A.1ST~PERFECT/204 - FINAL AUDITION/",
+				"/Songs/POI-database/204 - FINAL AUDITION/",
 				"2ND-HARD",
 				"2ND-FREESTYLE",
 				--"PERF-NORMAL",
@@ -459,13 +459,13 @@ function GetPOINestedList_POI(inputExperienceAsString)
     elseif inputExperienceAsString == "PIU 'O.B.G The 3rd'\nExperience" then
         outputNestedList = {
             {
-				"/Songs/A.1ST~PERFECT/301 - FINAL AUDITION 2/",
+				"/Songs/POI-database/301 - FINAL AUDITION 2/",
 				"3RD-HARD",
 				"3RD-CRAZY",
 				"3RD-FREESTYLE",
 			},
             {
-				"/Songs/A.1ST~PERFECT/302 - NAISSANCE/",
+				"/Songs/POI-database/302 - NAISSANCE/",
 				"3RD-HARD",
 				"3RD-CRAZY",
 				"3RD-FREESTYLE",

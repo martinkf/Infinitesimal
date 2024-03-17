@@ -630,7 +630,7 @@ function AssembleGroupSorting_POI()
     -- ============================================================== CUSTOM GROUPS > Custom Group 01 ==============================================================
 	-- Define the folder names to match
 	local folderNamesToMatch = {
-		"/Songs/A.1ST~PERFECT/104 - PASSION/","/Songs/A.1ST~PERFECT/204 - FINAL AUDITION/",
+		"/Songs/POI-database/104 - PASSION/","/Songs/POI-database/204 - FINAL AUDITION/",
 	}
 
 	-- Initialize an empty array to store songs matching the folder names
