@@ -274,12 +274,42 @@ end
 
 
 -- ================================================================================================================= RETURNS AN ARRAY OF SONG OBJECTS 
--- takes: (1) an array of Songs, usually coming from SONGMAN:GetAllSongs()
+-- takes: an array of Songs
+-- returns: an array of Songs
+-- based on: the original array of Songs used for input, but ordered by the POI standard
+function ReorderSongs_POI(inputArrayOfSongs)
+	local output = inputArrayOfSongs
+	
+	if inputArrayOfSongs == {} then else
+		local customOrder = ReturnStringFolderList_POI("AllSongs")
+		local reorderedSongs = {}
+		
+		-- Iterate through each ordered element
+		for _, folderNameToMatch in ipairs(customOrder) do
+			-- Iterate through the songs provided by input
+			for _, song in ipairs(inputArrayOfSongs) do
+				-- Extract the folder name from the song's directory
+				local folderName = song:GetSongDir()
+				-- Check if the folder name matches the current folder name to match
+				if string.find(folderName, folderNameToMatch, 1, true) then
+					-- Add the song to the filtered array
+					table.insert(reorderedSongs, song)
+				end
+			end
+		end	
+		
+		if #reorderedSongs > 0 then output = reorderedSongs end
+	end
+	
+	return output
+end
+
+-- takes: (1) an array of Songs
 -- takes: (2) a string related to what kind of song array you want returned, from the list of the following:
--- "AllSongs" "Arcades" "Remixes "Fullsongs" "Shortcuts"
+-- "Arcades" "Remixes "Fullsongs" "Shortcuts"
 -- returns: an array of Songs
 -- based on: the original array of Songs used for input, but filtered and ordered by the string list provided
-function FilterAndOrderSongs_POI(inputArrayOfSongs, inputListType)	
+function FilterSongs_POI(inputArrayOfSongs, inputListType)	
 	local output = inputArrayOfSongs
 	local customOrder = ReturnStringFolderList_POI(inputListType)
 	local reorderedSongs = {}	
@@ -296,7 +326,7 @@ function FilterAndOrderSongs_POI(inputArrayOfSongs, inputListType)
 			end
 		end
 	end	
-	output = reorderedSongs
+	output = reorderedSongs -- keep in mind that this could be still {}
 	return output
 end
 

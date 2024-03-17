@@ -797,12 +797,12 @@ if usingPOIUX then
 				Name="GroupInfo",
 				Font="Montserrat semibold 40px",
 				InitCommand=function(self)
-					self:y(CurMainIndex == OrigGroupIndex and 64 or -8):zoom(0.5):skewx(-0.1):diffusetopedge(0.95,0.95,0.95,0.8):shadowlength(1.5)
+					self:y(CurMainIndex == OrigGroupIndex and 64 or -54):zoom(0.5):skewx(-0.1):diffusetopedge(0.95,0.95,0.95,0.8):shadowlength(1.5)
 					:maxwidth(420):vertalign(0):wrapwidthpixels(420):vertspacing(-16)
 				end,
 				RefreshCommand=function(self, params) 
 					self:settext(GroupsList[CurMainIndex].SubGroups[SubTargets[i]].Name) 
-					:y(CurMainIndex == OrigGroupIndex and 64 or -8)
+					:y(CurMainIndex == OrigGroupIndex and 64 or -54)
 				end
 			}
 		}

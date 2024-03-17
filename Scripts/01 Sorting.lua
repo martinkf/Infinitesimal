@@ -510,23 +510,49 @@ function AssembleGroupSorting_POI()
 	MasterGroupsList = {}
     GroupsList = {}
     
-	-- ================================================================================================== PLAYLISTS ==================================================================================================
+	-- ================================================================================================== ALL SONGS ==================================================================================================
 	MasterGroupsList[#MasterGroupsList + 1] = {
-		Name = "Playlists",
+		Name = "All Songs",
 		Banner = THEME:GetPathG("", "Common fallback banner"),
 		SubGroups = {}
     }
 	
-    -- ============================================================== PLAYLISTS > All Tunes ==============================================================
-	local AllSongs = SONGMAN:GetAllSongs()
-	local orderedSongs = FilterAndOrderSongs_POI(AllSongs,"AllSongs")
+    -- ============================================================== ALL SONGS > All Tunes ==============================================================
+	-- Step 1/2 - grabs all the available Songs
+	local orderedSongs = SONGMAN:GetAllSongs()
+	-- Step 2/2 - orders the songs following POI standard	
+	orderedSongs = ReorderSongs_POI(orderedSongs)
 	
 	table.insert(MasterGroupsList[#MasterGroupsList].SubGroups, #(MasterGroupsList[#MasterGroupsList].SubGroups) + 1, {
-		Name = "All Tunes",
+		Name = "All Songs\n\n\nAll Tunes",
 		Banner = THEME:GetPathG("", "Common fallback banner"),
 		Songs = orderedSongs
 		}
 	)
+	
+    -- ============================================================== ALL SONGS > Hearts (1 Heart) ==============================================================
+	-- Step 1/2 - grabs all the available Songs
+	local orderedSongs = SONGMAN:GetAllSongs()
+	-- Step 2/3 - filters the playlist allowing only Short Cuts
+	orderedSongs = FilterSongs_POI(orderedSongs, "Shortcuts")
+	-- Step 3/3 - orders the songs following POI standard	
+	orderedSongs = ReorderSongs_POI(orderedSongs)
+	
+	if #orderedSongs > 0 then
+		table.insert(MasterGroupsList[#MasterGroupsList].SubGroups, #(MasterGroupsList[#MasterGroupsList].SubGroups) + 1, {
+			Name = "All Songs\n\n\nShort Cut Only\n(1 Heart)",
+			Banner = THEME:GetPathG("", "Common fallback banner"),
+			Songs = orderedSongs
+			}
+		)
+	else end
+	
+	
+	
+	--[[
+	
+	
+	
 	
 	-- ============================================================== PLAYLISTS > PIU "The 1st DF" Experience ==============================================================
 	local whichExperienceIsIt = "PIU 'The 1st DF'\nExperience"
@@ -564,7 +590,7 @@ function AssembleGroupSorting_POI()
 		)
 	else end
 	
-	--[[
+
 	
 	-- ================================================================================================== HEARTS ==================================================================================================
 	MasterGroupsList[#MasterGroupsList + 1] = {
@@ -573,7 +599,7 @@ function AssembleGroupSorting_POI()
 		SubGroups = {}
     }
 	-- ============================================================== HEARTS > Short Cut Songs (1 Hearts) ==============================================================	
-	local filteredSongs = FilterAndOrderSongs_POI(AllSongs, "Shortcuts")
+	local filteredSongs = FilterSongs_POI(AllSongs, "Shortcuts")
 		
 	if #filteredSongs > 0 then
 		table.insert(MasterGroupsList[#MasterGroupsList].SubGroups, #(MasterGroupsList[#MasterGroupsList].SubGroups) + 1, {
@@ -585,7 +611,7 @@ function AssembleGroupSorting_POI()
 	else end
 	
 	-- ============================================================== HEARTS > Arcade Songs (2 Hearts) ==============================================================	
-	local filteredSongs = FilterAndOrderSongs_POI(AllSongs, "Arcades")
+	local filteredSongs = FilterSongs_POI(AllSongs, "Arcades")
 	
 	if #filteredSongs > 0 then
 		table.insert(MasterGroupsList[#MasterGroupsList].SubGroups, #(MasterGroupsList[#MasterGroupsList].SubGroups) + 1, {
@@ -597,7 +623,7 @@ function AssembleGroupSorting_POI()
 	else end
 	
 	-- ============================================================== HEARTS > Remix Songs (3 Hearts) ==============================================================
-	local filteredSongs = FilterAndOrderSongs_POI(AllSongs, "Remixes")
+	local filteredSongs = FilterSongs_POI(AllSongs, "Remixes")
 	
 	if #filteredSongs > 0 then
 		table.insert(MasterGroupsList[#MasterGroupsList].SubGroups, #(MasterGroupsList[#MasterGroupsList].SubGroups) + 1, {
@@ -609,7 +635,7 @@ function AssembleGroupSorting_POI()
 	else end
 
 	-- ============================================================== HEARTS > Full Songs (4 Hearts) ==============================================================
-	local filteredSongs = FilterAndOrderSongs_POI(AllSongs, "Fullsongs")
+	local filteredSongs = FilterSongs_POI(AllSongs, "Fullsongs")
 
 	if #filteredSongs > 0 then
 		table.insert(MasterGroupsList[#MasterGroupsList].SubGroups, #(MasterGroupsList[#MasterGroupsList].SubGroups) + 1, {
@@ -685,7 +711,7 @@ function AssembleGroupSorting_POI()
     
 	for i, v in ipairs(SongGroups) do
 	
-		local sortedSongs = FilterAndOrderSongs_POI(SONGMAN:GetSongsInGroup(SongGroups[i]),"AllSongs")
+		local sortedSongs = ReorderSongs_POI(SONGMAN:GetSongsInGroup(SongGroups[i]))
 		MasterGroupsList[#MasterGroupsList].SubGroups[#MasterGroupsList[#MasterGroupsList].SubGroups + 1] = {
 			Name = SongGroups[i],
 			Banner = SONGMAN:GetSongGroupBannerPath(SongGroups[i]),
