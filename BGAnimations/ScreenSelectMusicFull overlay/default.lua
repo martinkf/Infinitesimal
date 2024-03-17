@@ -176,7 +176,7 @@ if usingPOIUX then
 				self:FullScreen():diffuse(Color.Black):diffusebottomedge(color("#001122")):diffusealpha(0)
 			end,
 			CloseGroupWheelMessageCommand=function(self) self:stoptweening():easeoutexpo(0.25):diffusealpha(0) end,
-			OpenGroupWheelMessageCommand=function(self) self:stoptweening():easeoutexpo(1):diffusealpha(0.8) end,
+			OpenGroupWheelMessageCommand=function(self) self:stoptweening():easeoutexpo(1):diffusealpha(0.95) end,
 		},
 
 		LoadActor("GroupSelect") .. {
