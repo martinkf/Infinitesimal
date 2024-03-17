@@ -400,14 +400,13 @@ function GetPOINestedList_POI(inputExperienceAsString)
 				"/Songs/A.1ST~PERFECT/101 - IGNITION STARTS/",
 				"1ST-HARD",
 				"1ST-FREESTYLE",
-				--"PREX3-CRAZY",
+				"1ST-2PHARD",
 			},
             {
 				"/Songs/A.1ST~PERFECT/102 - HYPNOSIS/",
 				"1ST-HARD",
 				"1ST-FREESTYLE",
-				--"PREX3-CRAZY",
-				--"PREX3-NIGHTMARE",
+				"1ST-2PHARD",
 			},
 			{
 				"/Songs/A.1ST~PERFECT/103 - FOREVER LOVE/",
@@ -418,6 +417,14 @@ function GetPOINestedList_POI(inputExperienceAsString)
 				"1ST-NORMAL",
 				"1ST-HARD",
 				"1ST-FREESTYLE",
+				"1ST-2PNORMAL",
+				"1ST-2PHARD",
+			},
+			{
+				"/Songs/A.1ST~PERFECT/105 - BLACK CAT/",				
+				"1ST-HARD",
+				"1ST-FREESTYLE",				
+				"1ST-2PHARD",
 			},
         }
     elseif inputExperienceAsString == "PIU 'The 2nd DF'\nExperience" then
