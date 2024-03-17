@@ -311,6 +311,21 @@ function GetPOINestedList_POI(inputExperienceAsString)
 				--"PREX3-NIGHTMARE",
 			},
         }
+    elseif inputExperienceAsString == "03_OBG3rd" then
+        outputNestedList = {
+            {
+				"/Songs/A.1ST~PERFECT/301 - FINAL AUDITION 2/",
+				"3RD-HARD",
+				"3RD-CRAZY",
+				"3RD-FREESTYLE",
+			},
+            {
+				"/Songs/A.1ST~PERFECT/302 - NAISSANCE/",
+				"3RD-HARD",
+				"3RD-CRAZY",
+				"3RD-FREESTYLE",
+			},
+        }
     else        
         return {{}}
     end
@@ -339,9 +354,9 @@ function FilterChartFromGroup_POI(input_CurGroupName,input_CurrentSong,input_Cha
 	outputChartArray = input_ChartArray
 	
 	local groupToExperienceMap = {
-	["Custom Group 01"] = "01_The1stDF",
-	["Custom Group 02"] = "02_The2ndDF",
-	["Custom Group 03"] = "03_OBG3rd",
+	["PIU 'The 1st DF'\nExperience"] = "01_The1stDF",
+	["PIU 'The 2nd DF'\nExperience"] = "02_The2ndDF",
+	["PIU 'O.B.G The 3rd'\nExperience"] = "03_OBG3rd",
 	["Custom Group 04"] = "04_OBGSE",
 	}
 	local poiExperienceString = groupToExperienceMap[input_CurGroupName]
