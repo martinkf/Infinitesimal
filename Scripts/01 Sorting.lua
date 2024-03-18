@@ -512,7 +512,7 @@ function AssembleGroupSorting_POI()
     
 	--
 	local playlists = {}
-	local playlistNames = ListOfPlaylists()
+	local playlistNames = ListOfPlaylists_POI()
 	
 	-- populates MasterGroupLists with all Playlists
 	for i, thisPlaylistName in ipairs(playlistNames) do		
@@ -521,7 +521,7 @@ function AssembleGroupSorting_POI()
 			Banner = THEME:GetPathG("", "Common fallback banner"),
 			SubGroups = {}
 		}
-		playlists[i] = GetArrayOfSongsBasedOnPlaylist(thisPlaylistName)
+		playlists[i] = GetArrayOfSongsBasedOnPlaylist_POI(thisPlaylistName)
 	end
 	
 	-- creates MasterGroupsList.SubGroups for each playlist

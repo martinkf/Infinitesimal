@@ -212,8 +212,8 @@ if usingPOIUX then
 				if GAMESTATE:GetCurrentSong() and GAMESTATE:GetCurrentSteps(pn) then                
 					local Chart = GAMESTATE:GetCurrentSteps(pn)					
 					
-					local ChartPOIName = FetchChartNameOrOriginFromChart(Chart, 1)
-					local ChartOrigin = FetchChartNameOrOriginFromChart(Chart, 2)
+					local ChartPOIName = FetchChartNameOrOriginFromChart_POI(Chart, 1)
+					local ChartOrigin = FetchChartNameOrOriginFromChart_POI(Chart, 2)
 					
 					local ChartAuthorText = Chart:GetAuthorCredit()
 					local displayedArtist = ""

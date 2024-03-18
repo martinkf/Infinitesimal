@@ -2,7 +2,7 @@
 -- ================================================================================================================= RETURNS AN ARRAY OF STRINGS
 -- returns: an array of strings - the list of possible Playlists
 -- HAS HARD-CODED CONTENT -- HAS HARD-CODED CONTENT -- HAS HARD-CODED CONTENT -- HAS HARD-CODED CONTENT -- HAS HARD-CODED CONTENT -- HAS HARD-CODED CONTENT -- HAS HARD-CODED CONTENT -- HAS HARD-CODED CONTENT -- HAS HARD-CODED CONTENT
-function ListOfPlaylists()
+function ListOfPlaylists_POI()
 	return {
 		"All Songs",
 		"The 1st DF",
@@ -15,8 +15,13 @@ end
 -- ================================================================================================================= RETURNS AN ARRAY OF POI NESTED LISTS
 -- returns: an array of POI nested lists - all lists used by playlists
 -- HAS HARD-CODED CONTENT -- HAS HARD-CODED CONTENT -- HAS HARD-CODED CONTENT -- HAS HARD-CODED CONTENT -- HAS HARD-CODED CONTENT -- HAS HARD-CODED CONTENT -- HAS HARD-CODED CONTENT -- HAS HARD-CODED CONTENT -- HAS HARD-CODED CONTENT
-function ListOfPOINestedLists()
+function ListOfPOINestedLists_POI()
 	return {
+		-- All Songs (empty POI Nested List)
+		{
+			{
+			},
+		},
 		-- The 1st DF
 		{
 			{	"/Songs/POI-database/101 - IGNITION STARTS/",
@@ -1059,7 +1064,7 @@ end
 -- 1 if you want the Chart POI Name returned, 2 if you want the Chart Origin returned
 -- returns: a string, for example: ["EXTRA EXPERT"] for a Chart POI Name, or ["Extra"] for a Chart Origin
 -- based on: the CHARTNAME in the SSC of that chart - it either returns the first or the second part, which are separated by parenthesis
-function FetchChartNameOrOriginFromChart(inputChart, inputInt)
+function FetchChartNameOrOriginFromChart_POI(inputChart, inputInt)
 	local output = ""
     
     local ChartFullChartnameFromSSC = inputChart:GetChartName()
@@ -1192,10 +1197,10 @@ function SublistOfSongs_POI(inputArrayOfSongs, inputListType)
 	return output
 end
 
--- takes: a string, from the possible ListOfPlaylists()
+-- takes: a string, from the possible ListOfPlaylists
 -- returns: an array of Songs
 -- based on: takes all the songs in the game, remove some to leave only the ones related to a PIU version playlist
-function GetArrayOfSongsBasedOnPlaylist(inputPlaylistAsString)
+function GetArrayOfSongsBasedOnPlaylist_POI(inputPlaylistAsString)
 	local outputSongArray = {}
 	
 	if inputPlaylistAsString ~= "All Songs" then	
@@ -1235,7 +1240,7 @@ function FilterChartFromGroup_POI(input_CurGroupName,input_CurrentSong,input_Cha
 	local outputChartArray = {}		
 	outputChartArray = input_ChartArray
 	
-	local LocalListOfPlaylists = ListOfPlaylists()
+	local LocalListOfPlaylists = ListOfPlaylists_POI()
 	
 	local found = false
 	local foundIndex = nil
@@ -1247,10 +1252,10 @@ function FilterChartFromGroup_POI(input_CurGroupName,input_CurrentSong,input_Cha
         end
 	end
 	
-	local poiExperienceNestedList = {{}}
+	local playlistNestedList = {{}}
 	if found then		
 		-- Pass the matched string from LocalListOfPlaylists
-        poiExperienceNestedList = GetPOINestedList_POI(LocalListOfPlaylists[foundIndex])		
+        playlistNestedList = GetPOINestedList_POI(LocalListOfPlaylists[foundIndex])		
 	else
 		return input_ChartArray -- handle the case where the input group name doesn't have a corresponding playlist string
 	end
@@ -1258,7 +1263,7 @@ function FilterChartFromGroup_POI(input_CurGroupName,input_CurrentSong,input_Cha
 	local currentSongDir = input_CurrentSong:GetSongDir()		
 	-- Find the sublist corresponding to the current song
 	local allowedDescriptions = {}
-	for _, sublist in ipairs(poiExperienceNestedList) do
+	for _, sublist in ipairs(playlistNestedList) do
 		if sublist[1] == currentSongDir then
 			-- Collect allowed descriptions
 			allowedDescriptions = {unpack(sublist, 2)}
@@ -1284,25 +1289,26 @@ end
 
 
 -- ================================================================================================================= RETURNS A POI NESTED LIST 
--- takes: a string, from the possible ListOfPlaylists()
+-- takes: a string, from the possible ListOfPlaylists_POI
 -- returns: a "POI Nested List" - list of lists containing songs + charts inside songs
 -- based on: fetching from the hard-coded list of playlists
 function GetPOINestedList_POI(inputPlaylistAsString)
-	local outputNestedList = {{},{}}
+    local playlistIndex = -1
     
-	if inputPlaylistAsString == "The 1st DF" then
-        outputNestedList = ListOfPOINestedLists()[1]
-    elseif inputPlaylistAsString == "The 2nd DF" then
-        outputNestedList = ListOfPOINestedLists()[2]
-    elseif inputPlaylistAsString == "O.B.G The 3rd" then
-        outputNestedList = ListOfPOINestedLists()[3]
-    elseif inputPlaylistAsString == "O.B.G Season Evo." then
-        outputNestedList = 	ListOfPOINestedLists()[4]
-	else        
-        return {{}}
+    -- Find the index of the inputPlaylistAsString in ListOfPlaylists_POI
+    for i, playlistName in ipairs(ListOfPlaylists_POI()) do
+        if playlistName == inputPlaylistAsString then
+            playlistIndex = i
+            break
+        end
     end
-	
-	return outputNestedList
+    
+    -- If the playlist is found, return the corresponding POI Nested List
+    if playlistIndex ~= -1 then
+        return ListOfPOINestedLists_POI()[playlistIndex]
+    else
+        return {{}} -- Return an empty list if the playlist is not found
+    end
 end
 
 
