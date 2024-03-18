@@ -258,23 +258,27 @@ function ReorderSongs_POI(inputArrayOfSongs)
 	return output
 end
 
--- takes: (1) an array of Songs
--- takes: (2) a string related to what kind of song array you want returned, from the list of the following:
--- "Arcades" "Remixes" "Fullsongs" "Shortcuts"
+-- takes: (1) an array of Songs, usually being all tunes from a playlist
+-- takes: (2) a string, from the list of the following:
+-- "SHORTCUT" "ARCADE" "REMIX" "FULLSONG" "ORIGINAL" "KPOP" "WORLDMUSIC"
 -- returns: an array of Songs
--- based on: the original array of Songs used for input, but filtered and ordered by the string list provided
-function FilterSongs_POI(inputArrayOfSongs, inputListType)	
+-- based on: the original array of Songs used for input, but filtered out - this generates a sublist from a playlist
+function SublistOfSongs_POI(inputArrayOfSongs, inputListType)	
 	local output = inputArrayOfSongs
 	local reorderedSongs = {}	
 	
 	for _, song in ipairs(inputArrayOfSongs) do
 		local shouldAdd = false
 		local songFirstTag = FetchFirstTag_POI(song)
+		local songGenre = song:GetGenre()
 
-		if inputListType == "Shortcuts" and songFirstTag == "SHORTCUT" then shouldAdd = true
-		elseif inputListType == "Fullsongs" and songFirstTag == "FULLSONG" then shouldAdd = true
-		elseif inputListType == "Remixes" and songFirstTag == "REMIX" then shouldAdd = true
-		elseif inputListType == "Arcades" and songFirstTag == "ARCADE" then shouldAdd = true
+		if inputListType == "SHORTCUT" and songFirstTag == inputListType then shouldAdd = true
+		elseif inputListType == "FULLSONG" and songFirstTag == inputListType then shouldAdd = true
+		elseif inputListType == "REMIX" and songFirstTag == inputListType then shouldAdd = true
+		elseif inputListType == "ARCADE" and songFirstTag == inputListType then shouldAdd = true
+		elseif inputListType == "ORIGINAL" and songGenre == inputListType then shouldAdd = true
+		elseif inputListType == "KPOP" and songGenre == inputListType then shouldAdd = true
+		elseif inputListType == "WORLDMUSIC" and songGenre == inputListType then shouldAdd = true
 		end
 	
 		if shouldAdd then table.insert(reorderedSongs, song) end

@@ -530,7 +530,7 @@ function AssembleGroupSorting_POI()
 	
 	-- creates MasterGroupsList.SubGroups for each playlist
 	for i = 1, #MasterGroupsList do
-		-- "All Tunes" filter		
+		-- "All Tunes" sublist		
 		table.insert(MasterGroupsList[i].SubGroups, 1, {
 			Name = playlistNames[i] .. "\n\n\nAll Tunes",
 			Banner = THEME:GetPathG("", "Common fallback banner"),
@@ -538,311 +538,37 @@ function AssembleGroupSorting_POI()
 			}
 		)
 		
-		-- "Short Cut" filter
-		-- grabs all the songs from current playlist
-		local filteredSongs = playlists[i]
-		-- filters the playlist allowing only Short Cuts
-		filteredSongs = FilterSongs_POI(filteredSongs, "Shortcuts")
-		-- if and only if the filtered result has any matches, create a subgroup with those filtered songs
-		if #filteredSongs > 0 then
-			table.insert(MasterGroupsList[i].SubGroups, #(MasterGroupsList[i].SubGroups) + 1, {
-				Name = playlistNames[i] .. "\n\n\nShort Cut Only\n(1 Heart)",
-				Banner = THEME:GetPathG("", "Common fallback banner"),
-				Songs = filteredSongs
-				}
-			)
-		else end
+		local TableSublistToText = {
+			-- first element is the input into SublistOfSongs_POI | second element is the displayed text in GroupSelect
+			{ "SHORTCUT", "\n\n\nShort Cut Only\n(1 Heart)" },
+			{ "ARCADE", "\n\n\nArcade Only\n(2 Hearts)" },
+			{ "REMIX", "\n\n\nRemix Only\n(3 Hearts)" },
+			{ "FULLSONG", "\n\n\nFull Songs Only\n(4 Hearts)" },
+			{ "ORIGINAL", "\n\n\nFilter by genre\n(Original Only)" },
+			{ "KPOP", "\n\n\nFilter by genre\n(K-Pop Only)" },
+			{ "WORLDMUSIC", "\n\n\nFilter by genre\n(World Music Only)" },
+		}
 		
-		-- "Arcade" filter
-		-- grabs all the songs from current playlist
-		local filteredSongs = playlists[i]
-		-- filters the playlist allowing only Short Cuts
-		filteredSongs = FilterSongs_POI(filteredSongs, "Arcades")
-		-- if and only if the filtered result has any matches, create a subgroup with those filtered songs
-		if #filteredSongs > 0 then
-			table.insert(MasterGroupsList[i].SubGroups, #(MasterGroupsList[i].SubGroups) + 1, {
-				Name = playlistNames[i] .. "\n\n\nArcade Only\n(2 Hearts)",
-				Banner = THEME:GetPathG("", "Common fallback banner"),
-				Songs = filteredSongs
-				}
-			)
-		else end
-		
-		-- "Remix" filter
-		-- grabs all the songs from current playlist
-		local filteredSongs = playlists[i]
-		-- filters the playlist allowing only Short Cuts
-		filteredSongs = FilterSongs_POI(filteredSongs, "Remixes")
-		-- if and only if the filtered result has any matches, create a subgroup with those filtered songs
-		if #filteredSongs > 0 then
-			table.insert(MasterGroupsList[i].SubGroups, #(MasterGroupsList[i].SubGroups) + 1, {
-				Name = playlistNames[i] .. "\n\n\nRemix Only\n(3 Hearts)",
-				Banner = THEME:GetPathG("", "Common fallback banner"),
-				Songs = filteredSongs
-				}
-			)
-		else end
-		
-		-- "Full Song" filter
-		-- grabs all the songs from current playlist
-		local filteredSongs = playlists[i]
-		-- filters the playlist allowing only Full Songs
-		filteredSongs = FilterSongs_POI(filteredSongs, "Fullsongs")
-		-- if and only if the filtered result has any matches, create a subgroup with those filtered songs
-		if #filteredSongs > 0 then
-			table.insert(MasterGroupsList[i].SubGroups, #(MasterGroupsList[i].SubGroups) + 1, {
-				Name = playlistNames[i] .. "\n\n\nFull Songs Only\n(4 Hearts)",
-				Banner = THEME:GetPathG("", "Common fallback banner"),
-				Songs = filteredSongs
-				}
-			)
-		else end
+		-- creates all other sublists
+		for j = 1, #TableSublistToText do
+			-- grabs all the songs from current playlist
+			local filteredSongs = playlists[i]
+			-- filters the playlist allowing only what this sublist allows
+			filteredSongs = SublistOfSongs_POI(filteredSongs, TableSublistToText[j][1])
+			-- if and only if the filtered result has any matches, create a subgroup with those filtered songs
+			if #filteredSongs > 0 then
+				table.insert(MasterGroupsList[i].SubGroups, #(MasterGroupsList[i].SubGroups) + 1, {
+					Name = playlistNames[i] .. TableSublistToText[j][2],
+					Banner = THEME:GetPathG("", "Common fallback banner"),
+					Songs = filteredSongs
+					}
+				)
+			else end
+		end
 	end
-	
-
+		
 --[[
 
-
-
-
-
-
-
-
-
-	
-    -- ============================================================== ALL SONGS > Hearts (1 Heart) ==============================================================
-	-- grabs the Songs from current playlist
-	local filteredSongs = playlist01_allsongs
-	-- filters the playlist allowing only Short Cuts
-	filteredSongs = FilterSongs_POI(filteredSongs, "Shortcuts")
-	
-	-- if the filtered result has any matches, create a subgroup with those filtered songs
-	if #filteredSongs > 0 then
-		table.insert(MasterGroupsList[#MasterGroupsList].SubGroups, #(MasterGroupsList[#MasterGroupsList].SubGroups) + 1, {
-			Name = "All Songs\n\n\nShort Cut Only\n(1 Heart)",
-			Banner = THEME:GetPathG("", "Common fallback banner"),
-			Songs = filteredSongs
-			}
-		)
-	else end
-	
-	-- ============================================================== ALL SONGS > Hearts (2 Hearts) ==============================================================
-	-- grabs the Songs from current playlist
-	local filteredSongs = playlist01_allsongs
-	-- filters the playlist allowing only Arcades
-	filteredSongs = FilterSongs_POI(filteredSongs, "Arcades")
-	
-	-- if the filtered result has any matches, create a subgroup with those filtered songs
-	if #filteredSongs > 0 then
-		table.insert(MasterGroupsList[#MasterGroupsList].SubGroups, #(MasterGroupsList[#MasterGroupsList].SubGroups) + 1, {
-			Name = "All Songs\n\n\nArcade Only\n(2 Hearts)",
-			Banner = THEME:GetPathG("", "Common fallback banner"),
-			Songs = filteredSongs
-			}
-		)
-	else end
-	
-	-- ============================================================== ALL SONGS > Hearts (3 Hearts) ==============================================================
-	-- grabs the Songs from current playlist
-	local filteredSongs = playlist01_allsongs
-	-- filters the playlist allowing only Remixes
-	filteredSongs = FilterSongs_POI(filteredSongs, "Remixes")
-	
-	-- if the filtered result has any matches, create a subgroup with those filtered songs
-	if #filteredSongs > 0 then
-		table.insert(MasterGroupsList[#MasterGroupsList].SubGroups, #(MasterGroupsList[#MasterGroupsList].SubGroups) + 1, {
-			Name = "All Songs\n\n\nRemix Only\n(3 Hearts)",
-			Banner = THEME:GetPathG("", "Common fallback banner"),
-			Songs = filteredSongs
-			}
-		)
-	else end
-	
-	-- ============================================================== ALL SONGS > Hearts (4 Hearts) ==============================================================
-	-- grabs the Songs from current playlist
-	local filteredSongs = playlist01_allsongs
-	-- filters the playlist allowing only Full Songs
-	filteredSongs = FilterSongs_POI(filteredSongs, "Fullsongs")
-	
-	-- if the filtered result has any matches, create a subgroup with those filtered songs
-	if #filteredSongs > 0 then
-		table.insert(MasterGroupsList[#MasterGroupsList].SubGroups, #(MasterGroupsList[#MasterGroupsList].SubGroups) + 1, {
-			Name = "All Songs\n\n\nFull Songs Only\n(4 Hearts)",
-			Banner = THEME:GetPathG("", "Common fallback banner"),
-			Songs = filteredSongs
-			}
-		)
-	else end
-	
-
-	
-	-- ============================================================== The 1st DF > All Tunes ==============================================================
-	-- grabs all the Songs related to this playlist
-	local playlist02_allsongs = GetArrayOfSongsBasedOnExperience("The 1st DF")
-	
-	table.insert(MasterGroupsList[#MasterGroupsList].SubGroups, #(MasterGroupsList[#MasterGroupsList].SubGroups) + 1, {
-		Name = "PIU \"The 1st DF\"\n\n\nAll Tunes",
-		Banner = THEME:GetPathG("", "Common fallback banner"),
-		Songs = playlist02_allsongs
-		}
-	)
-	
-    -- ============================================================== The 1st DF > Hearts (1 Heart) ==============================================================
-	-- grabs the Songs from current playlist
-	local filteredSongs = playlist02_allsongs
-	-- filters the playlist allowing only Short Cuts
-	filteredSongs = FilterSongs_POI(filteredSongs, "Shortcuts")
-	
-	-- if the filtered result has any matches, create a subgroup with those filtered songs
-	if #filteredSongs > 0 then
-		table.insert(MasterGroupsList[#MasterGroupsList].SubGroups, #(MasterGroupsList[#MasterGroupsList].SubGroups) + 1, {
-			Name = "PIU \"The 1st DF\"\n\n\nShort Cut Only\n(1 Heart)",
-			Banner = THEME:GetPathG("", "Common fallback banner"),
-			Songs = filteredSongs
-			}
-		)
-	else end
-	
-	-- ============================================================== The 1st DF > Hearts (2 Hearts) ==============================================================
-	-- grabs the Songs from current playlist
-	local filteredSongs = playlist02_allsongs
-	-- filters the playlist allowing only Arcades
-	filteredSongs = FilterSongs_POI(filteredSongs, "Arcades")
-	
-	-- if the filtered result has any matches, create a subgroup with those filtered songs
-	if #filteredSongs > 0 then
-		table.insert(MasterGroupsList[#MasterGroupsList].SubGroups, #(MasterGroupsList[#MasterGroupsList].SubGroups) + 1, {
-			Name = "PIU \"The 1st DF\"\n\n\nArcade Only\n(2 Hearts)",
-			Banner = THEME:GetPathG("", "Common fallback banner"),
-			Songs = filteredSongs
-			}
-		)
-	else end
-	
-	-- ============================================================== The 1st DF > Hearts (3 Hearts) ==============================================================
-	-- grabs the Songs from current playlist
-	local filteredSongs = playlist02_allsongs
-	-- filters the playlist allowing only Remixes
-	filteredSongs = FilterSongs_POI(filteredSongs, "Remixes")
-	
-	-- if the filtered result has any matches, create a subgroup with those filtered songs
-	if #filteredSongs > 0 then
-		table.insert(MasterGroupsList[#MasterGroupsList].SubGroups, #(MasterGroupsList[#MasterGroupsList].SubGroups) + 1, {
-			Name = "PIU \"The 1st DF\"\n\n\nRemix Only\n(3 Hearts)",
-			Banner = THEME:GetPathG("", "Common fallback banner"),
-			Songs = filteredSongs
-			}
-		)
-	else end
-	
-	-- ============================================================== The 1st DF > Hearts (4 Hearts) ==============================================================
-	-- grabs the Songs from current playlist
-	local filteredSongs = playlist02_allsongs
-	-- filters the playlist allowing only Full Songs
-	filteredSongs = FilterSongs_POI(filteredSongs, "Fullsongs")
-	
-	-- if the filtered result has any matches, create a subgroup with those filtered songs
-	if #filteredSongs > 0 then
-		table.insert(MasterGroupsList[#MasterGroupsList].SubGroups, #(MasterGroupsList[#MasterGroupsList].SubGroups) + 1, {
-			Name = "PIU \"The 1st DF\"\n\n\nFull Songs Only\n(4 Hearts)",
-			Banner = THEME:GetPathG("", "Common fallback banner"),
-			Songs = filteredSongs
-			}
-		)
-	else end
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	-- ============================================================== PLAYLISTS > PIU "The 2nd DF" Experience ==============================================================
-	whichExperienceIsIt = "PIU \"The 2nd DF\"\n\n\nAll Tunes"
-	filteredSongs = GetArrayOfSongsBasedOnExperience(whichExperienceIsIt)
-	if #filteredSongs > 0 then
-		table.insert(MasterGroupsList[#MasterGroupsList].SubGroups, #(MasterGroupsList[#MasterGroupsList].SubGroups) + 1, {
-			Name = whichExperienceIsIt,
-			Banner = THEME:GetPathG("", "Common fallback banner"),
-			Songs = filteredSongs
-			}
-		)
-	else end
-	
-	-- ============================================================== PLAYLISTS > PIU "O.B.G The 3rd" Experience ==============================================================
-	whichExperienceIsIt = "PIU \"O.B.G The 3rd\"\n\n\nAll Tunes"
-	filteredSongs = GetArrayOfSongsBasedOnExperience(whichExperienceIsIt)
-	if #filteredSongs > 0 then
-		table.insert(MasterGroupsList[#MasterGroupsList].SubGroups, #(MasterGroupsList[#MasterGroupsList].SubGroups) + 1, {
-			Name = whichExperienceIsIt,
-			Banner = THEME:GetPathG("", "Common fallback banner"),
-			Songs = filteredSongs
-			}
-		)
-	else end
-	
-
-	
-	-- ================================================================================================== HEARTS ==================================================================================================
-	MasterGroupsList[#MasterGroupsList + 1] = {
-		Name = "Hearts",
-		Banner = THEME:GetPathG("", "Common fallback banner"),
-		SubGroups = {}
-    }
-	-- ============================================================== HEARTS > Short Cut Songs (1 Hearts) ==============================================================	
-	local filteredSongs = FilterSongs_POI(AllSongs, "Shortcuts")
-		
-	if #filteredSongs > 0 then
-		table.insert(MasterGroupsList[#MasterGroupsList].SubGroups, #(MasterGroupsList[#MasterGroupsList].SubGroups) + 1, {
-			Name = "Short Cut Songs\n(1 Hearts)",
-			Banner = THEME:GetPathG("", "Common fallback banner"),
-			Songs = filteredSongs
-			}
-		)
-	else end
-	
-	-- ============================================================== HEARTS > Arcade Songs (2 Hearts) ==============================================================	
-	local filteredSongs = FilterSongs_POI(AllSongs, "Arcades")
-	
-	if #filteredSongs > 0 then
-		table.insert(MasterGroupsList[#MasterGroupsList].SubGroups, #(MasterGroupsList[#MasterGroupsList].SubGroups) + 1, {
-			Name = "Arcade Songs\n(2 Hearts)",
-			Banner = THEME:GetPathG("", "Common fallback banner"),
-			Songs = filteredSongs
-			}
-		)
-	else end
-	
-	-- ============================================================== HEARTS > Remix Songs (3 Hearts) ==============================================================
-	local filteredSongs = FilterSongs_POI(AllSongs, "Remixes")
-	
-	if #filteredSongs > 0 then
-		table.insert(MasterGroupsList[#MasterGroupsList].SubGroups, #(MasterGroupsList[#MasterGroupsList].SubGroups) + 1, {
-			Name = "Remix Songs\n(3 Hearts)",
-			Banner = THEME:GetPathG("", "Common fallback banner"),
-			Songs = filteredSongs
-			}
-		)
-	else end
-
-	-- ============================================================== HEARTS > Full Songs (4 Hearts) ==============================================================
-	local filteredSongs = FilterSongs_POI(AllSongs, "Fullsongs")
-
-	if #filteredSongs > 0 then
-		table.insert(MasterGroupsList[#MasterGroupsList].SubGroups, #(MasterGroupsList[#MasterGroupsList].SubGroups) + 1, {
-			Name = "Full Songs\n(4 Hearts)",
-			Banner = THEME:GetPathG("", "Common fallback banner"),
-			Songs = filteredSongs
-			}
-		)
-	else end
 	
 	-- ================================================================================================== CUSTOM GROUPS ==================================================================================================        
 	MasterGroupsList[#MasterGroupsList + 1] = {

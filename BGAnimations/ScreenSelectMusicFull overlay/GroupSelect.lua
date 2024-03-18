@@ -540,8 +540,8 @@ if usingPOIUX then
 	-- levers
 	local PlaylistLabel_Y = SCREEN_CENTER_Y - 160
 	local PlaylistWheel_Y = SCREEN_CENTER_Y - 120
-	local FilterLabel_Y = SCREEN_CENTER_Y + 30
-	local FilterWheel_Y = SCREEN_CENTER_Y + 110
+	local SublistLabel_Y = SCREEN_CENTER_Y + 30
+	local SublistWheel_Y = SCREEN_CENTER_Y + 110
 	MainWheelSpacing = 300
 	
 	
@@ -748,7 +748,7 @@ if usingPOIUX then
 				self:GetChild("Highlight"):playcommand("Refresh")
 
 				-- Animate!
-				self:xy(xpos + displace, FilterWheel_Y)
+				self:xy(xpos + displace, SublistWheel_Y)
 				self:rotationy((SCREEN_CENTER_X - xpos - displace) * -WheelRotation)
 				self:z(-math.abs(SCREEN_CENTER_X - xpos - displace) * 0.25)
 			end,
@@ -824,11 +824,11 @@ if usingPOIUX then
 		},
 		Def.BitmapText {
 			Font="Montserrat semibold 20px",
-			Name="FilterLabel",
-			Text="Filters",
+			Name="SublistLabel",
+			Text="Sublists",
 			InitCommand=function(self)
 				self:diffusealpha(1)
-				:xy(SCREEN_CENTER_X, FilterLabel_Y)
+				:xy(SCREEN_CENTER_X, SublistLabel_Y)
 			end,
 			RefreshHighlightMessageCommand=function(self)
 				self:finishtweening():easeoutexpo(0.4):diffusealpha(IsFocusedMain and 0.2 or 1)
