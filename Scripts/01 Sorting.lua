@@ -510,25 +510,65 @@ function AssembleGroupSorting_POI()
 	MasterGroupsList = {}
     GroupsList = {}
     
-	-- ================================================================================================== ALL SONGS ==================================================================================================
-	MasterGroupsList[#MasterGroupsList + 1] = {
-		Name = "All Songs",
+	local playlists = {}
+	local playlistNames = {}
+	
+	--	
+	local playlistName = "All Songs"
+	MasterGroupsList[1] = {
+		Name = playlistName,
 		Banner = THEME:GetPathG("", "Common fallback banner"),
 		SubGroups = {}
     }
-	
-    -- ============================================================== ALL SONGS > All Tunes ==============================================================
-	-- grabs all the available Songs in the game
-	local playlist01_allsongs = SONGMAN:GetAllSongs()
-	-- orders the songs following POI standard	
-	playlist01_allsongs = ReorderSongs_POI(playlist01_allsongs)
-	
-	table.insert(MasterGroupsList[#MasterGroupsList].SubGroups, #(MasterGroupsList[#MasterGroupsList].SubGroups) + 1, {
-		Name = "All Songs\n\n\nAll Tunes",
+	playlistNames[1] = playlistName
+	playlists[1] = SONGMAN:GetAllSongs()
+	playlists[1] = ReorderSongs_POI(playlists[1])
+		
+	local playlistName = "PIU \"The 1st DF\""
+	MasterGroupsList[2] = {
+		Name = playlistName,
 		Banner = THEME:GetPathG("", "Common fallback banner"),
-		Songs = playlist01_allsongs
-		}
-	)
+		SubGroups = {}
+    }
+	playlistNames[2] = playlistName
+	playlists[2] = GetArrayOfSongsBasedOnPlaylist("The 1st DF")
+	
+	local playlistName = "PIU \"The 2nd DF\""
+	MasterGroupsList[3] = {
+		Name = playlistName,
+		Banner = THEME:GetPathG("", "Common fallback banner"),
+		SubGroups = {}
+    }
+	playlistNames[3] = playlistName
+	playlists[3] = GetArrayOfSongsBasedOnPlaylist("The 2nd DF")
+	--
+	for i = 1, #MasterGroupsList do
+		--		
+		table.insert(MasterGroupsList[i].SubGroups, 1, {
+			Name = playlistNames[i] .. "\n\n\nAll Tunes",
+			Banner = THEME:GetPathG("", "Common fallback banner"),
+			Songs = playlists[i]
+			}
+		)
+		
+		--
+		
+		--
+		
+		--
+	end
+	
+
+--[[
+
+
+
+
+
+
+
+
+
 	
     -- ============================================================== ALL SONGS > Hearts (1 Heart) ==============================================================
 	-- grabs the Songs from current playlist
@@ -594,16 +634,11 @@ function AssembleGroupSorting_POI()
 		)
 	else end
 	
-	-- ================================================================================================== The 1st DF ==================================================================================================
-	MasterGroupsList[#MasterGroupsList + 1] = {
-		Name = "PIU \"The 1st DF\"",
-		Banner = THEME:GetPathG("", "Common fallback banner"),
-		SubGroups = {}
-    }
+
 	
 	-- ============================================================== The 1st DF > All Tunes ==============================================================
 	-- grabs all the Songs related to this playlist
-	local playlist02_allsongs = GetArrayOfSongsBasedOnExperience("PIU \"The 1st DF\"\n\n\nAll Tunes")
+	local playlist02_allsongs = GetArrayOfSongsBasedOnExperience("The 1st DF")
 	
 	table.insert(MasterGroupsList[#MasterGroupsList].SubGroups, #(MasterGroupsList[#MasterGroupsList].SubGroups) + 1, {
 		Name = "PIU \"The 1st DF\"\n\n\nAll Tunes",
@@ -612,6 +647,69 @@ function AssembleGroupSorting_POI()
 		}
 	)
 	
+    -- ============================================================== The 1st DF > Hearts (1 Heart) ==============================================================
+	-- grabs the Songs from current playlist
+	local filteredSongs = playlist02_allsongs
+	-- filters the playlist allowing only Short Cuts
+	filteredSongs = FilterSongs_POI(filteredSongs, "Shortcuts")
+	
+	-- if the filtered result has any matches, create a subgroup with those filtered songs
+	if #filteredSongs > 0 then
+		table.insert(MasterGroupsList[#MasterGroupsList].SubGroups, #(MasterGroupsList[#MasterGroupsList].SubGroups) + 1, {
+			Name = "PIU \"The 1st DF\"\n\n\nShort Cut Only\n(1 Heart)",
+			Banner = THEME:GetPathG("", "Common fallback banner"),
+			Songs = filteredSongs
+			}
+		)
+	else end
+	
+	-- ============================================================== The 1st DF > Hearts (2 Hearts) ==============================================================
+	-- grabs the Songs from current playlist
+	local filteredSongs = playlist02_allsongs
+	-- filters the playlist allowing only Arcades
+	filteredSongs = FilterSongs_POI(filteredSongs, "Arcades")
+	
+	-- if the filtered result has any matches, create a subgroup with those filtered songs
+	if #filteredSongs > 0 then
+		table.insert(MasterGroupsList[#MasterGroupsList].SubGroups, #(MasterGroupsList[#MasterGroupsList].SubGroups) + 1, {
+			Name = "PIU \"The 1st DF\"\n\n\nArcade Only\n(2 Hearts)",
+			Banner = THEME:GetPathG("", "Common fallback banner"),
+			Songs = filteredSongs
+			}
+		)
+	else end
+	
+	-- ============================================================== The 1st DF > Hearts (3 Hearts) ==============================================================
+	-- grabs the Songs from current playlist
+	local filteredSongs = playlist02_allsongs
+	-- filters the playlist allowing only Remixes
+	filteredSongs = FilterSongs_POI(filteredSongs, "Remixes")
+	
+	-- if the filtered result has any matches, create a subgroup with those filtered songs
+	if #filteredSongs > 0 then
+		table.insert(MasterGroupsList[#MasterGroupsList].SubGroups, #(MasterGroupsList[#MasterGroupsList].SubGroups) + 1, {
+			Name = "PIU \"The 1st DF\"\n\n\nRemix Only\n(3 Hearts)",
+			Banner = THEME:GetPathG("", "Common fallback banner"),
+			Songs = filteredSongs
+			}
+		)
+	else end
+	
+	-- ============================================================== The 1st DF > Hearts (4 Hearts) ==============================================================
+	-- grabs the Songs from current playlist
+	local filteredSongs = playlist02_allsongs
+	-- filters the playlist allowing only Full Songs
+	filteredSongs = FilterSongs_POI(filteredSongs, "Fullsongs")
+	
+	-- if the filtered result has any matches, create a subgroup with those filtered songs
+	if #filteredSongs > 0 then
+		table.insert(MasterGroupsList[#MasterGroupsList].SubGroups, #(MasterGroupsList[#MasterGroupsList].SubGroups) + 1, {
+			Name = "PIU \"The 1st DF\"\n\n\nFull Songs Only\n(4 Hearts)",
+			Banner = THEME:GetPathG("", "Common fallback banner"),
+			Songs = filteredSongs
+			}
+		)
+	else end
 	
 	
 	
@@ -623,11 +721,10 @@ function AssembleGroupSorting_POI()
 	
 	
 	
-	--[[
 	
 	
 	-- ============================================================== PLAYLISTS > PIU "The 2nd DF" Experience ==============================================================
-	whichExperienceIsIt = "PIU 'The 2nd DF'\nExperience"
+	whichExperienceIsIt = "PIU \"The 2nd DF\"\n\n\nAll Tunes"
 	filteredSongs = GetArrayOfSongsBasedOnExperience(whichExperienceIsIt)
 	if #filteredSongs > 0 then
 		table.insert(MasterGroupsList[#MasterGroupsList].SubGroups, #(MasterGroupsList[#MasterGroupsList].SubGroups) + 1, {
@@ -639,7 +736,7 @@ function AssembleGroupSorting_POI()
 	else end
 	
 	-- ============================================================== PLAYLISTS > PIU "O.B.G The 3rd" Experience ==============================================================
-	whichExperienceIsIt = "PIU 'O.B.G The 3rd'\nExperience"
+	whichExperienceIsIt = "PIU \"O.B.G The 3rd\"\n\n\nAll Tunes"
 	filteredSongs = GetArrayOfSongsBasedOnExperience(whichExperienceIsIt)
 	if #filteredSongs > 0 then
 		table.insert(MasterGroupsList[#MasterGroupsList].SubGroups, #(MasterGroupsList[#MasterGroupsList].SubGroups) + 1, {

@@ -330,14 +330,14 @@ function FilterSongs_POI(inputArrayOfSongs, inputListType)
 	return output
 end
 
--- takes: a string, related to POI Experience versions, from the list of the following:
--- "PIU \"The 1st DF\"\n\n\nAll Tunes" / "PIU 'The 2nd DF'\nExperience" / etc
+-- takes: a string, related to playlists, from the list of the following:
+-- "The 1st DF" / "The 2nd DF" / "O.B.G The 3rd" / etc
 -- returns: an array of Songs
 -- based on: takes all the songs in the game, remove some to leave only the ones related to a PIU version playlist
-function GetArrayOfSongsBasedOnExperience(inputExperienceAsString)
+function GetArrayOfSongsBasedOnPlaylist(inputPlaylistAsString)
 	local outputSongArray = {}
 	
-	local stringArrayOfFolderNamesToMatch = GetArrayOfStringsongdirFromPOINestedList_POI(GetPOINestedList_POI(inputExperienceAsString))		
+	local stringArrayOfFolderNamesToMatch = GetArrayOfStringsongdirFromPOINestedList_POI(GetPOINestedList_POI(inputPlaylistAsString))		
 
 	-- Iterate through each folder name to match
 	for _, folderNameToMatch in ipairs(stringArrayOfFolderNamesToMatch) do
@@ -371,25 +371,28 @@ function FilterChartFromGroup_POI(input_CurGroupName,input_CurrentSong,input_Cha
 	outputChartArray = input_ChartArray
 	
 	local POIExperiencesList = {
-		"PIU \"The 1st DF\"\n\n\nAll Tunes",
-		"PIU 'The 2nd DF'\nExperience",
-		"PIU 'O.B.G The 3rd'\nExperience",
+		"The 1st DF",
+		"The 2nd DF",
+		"O.B.G The 3rd",
 	}
 	
 	local found = false
-	for _, experience in ipairs(POIExperiencesList) do
-		if experience:find(input_CurGroupName) then
-			found = true
-			break
-		end
+	local foundIndex = nil
+	for i, experience in ipairs(POIExperiencesList) do
+		if string.find(input_CurGroupName, experience, 1, true) then			
+            found = true
+			foundIndex = i
+            break -- break if found to avoid unnecessary iterations
+        end
 	end
 	
 	local poiExperienceNestedList = {{}}
-	if found then
-		poiExperienceNestedList = GetPOINestedList_POI(input_CurGroupName)
-	else -- handle the case where the input group name doesn't have a corresponding POI Experience string
-		return input_ChartArray -- in other words, skip this entire thing altogether
-	end	
+	if found then		
+		-- Pass the matched string from POIExperiencesList
+        poiExperienceNestedList = GetPOINestedList_POI(POIExperiencesList[foundIndex])		
+	else
+		return input_ChartArray -- handle the case where the input group name doesn't have a corresponding POI Experience string
+	end
 
 	local currentSongDir = input_CurrentSong:GetSongDir()		
 	-- Find the sublist corresponding to the current song
@@ -410,6 +413,10 @@ function FilterChartFromGroup_POI(input_CurGroupName,input_CurrentSong,input_Cha
 		end
 	end
 	
+	if #outputChartArray == 0 then -- what happens if no chart can be found for song
+		return {} -- this will return an empty ChartArray, and ChartDisplay.lua will repopulate it with all possible charts for this song "to avoid other crashes" in their words
+	end
+	
 	return outputChartArray
 end
 
@@ -417,14 +424,14 @@ end
 
 -- ================================================================================================================= RETURNS A POI NESTED LIST 
 -- takes: a string, related to POI Experience versions, from the list of the following:
--- "PIU \"The 1st DF\"\n\n\nAll Tunes" / "PIU 'The 2nd DF'\nExperience" / etc
+-- "The 1st DF" / "The 2nd DF" / "O.B.G The 3rd" / etc
 -- returns: a "POI Nested List" - list of lists containing songs and charts inside songs
 -- based on: hard-coded list of POI Experiences
 -- HAS HARD-CODED CONTENT -- HAS HARD-CODED CONTENT -- HAS HARD-CODED CONTENT -- HAS HARD-CODED CONTENT -- HAS HARD-CODED CONTENT -- HAS HARD-CODED CONTENT -- HAS HARD-CODED CONTENT -- HAS HARD-CODED CONTENT -- HAS HARD-CODED CONTENT
 function GetPOINestedList_POI(inputExperienceAsString)
 	local outputNestedList = {{},{}}
     
-	if inputExperienceAsString == "PIU \"The 1st DF\"\n\n\nAll Tunes" then
+	if inputExperienceAsString == "The 1st DF" then
         outputNestedList = {
 			{
 				"/Songs/POI-database/101 - IGNITION STARTS/",
@@ -554,7 +561,7 @@ function GetPOINestedList_POI(inputExperienceAsString)
 				--"EXC2-CRAZY",				
 			},
         }
-    elseif inputExperienceAsString == "PIU 'The 2nd DF'\nExperience" then
+    elseif inputExperienceAsString == "The 2nd DF" then
         outputNestedList = {
 			{
 				"/Songs/POI-database/201 - CREAMY SKINNY/",
@@ -757,7 +764,7 @@ function GetPOINestedList_POI(inputExperienceAsString)
 				--"EXC2-CRAZY",				
 			},
         }
-    elseif inputExperienceAsString == "PIU 'O.B.G The 3rd'\nExperience" then
+    elseif inputExperienceAsString == "O.B.G The 3rd" then
         outputNestedList = {
             {
 				"/Songs/POI-database/301 - FINAL AUDITION 2/",
