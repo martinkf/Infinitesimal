@@ -540,31 +540,11 @@ if usingPOIUX then
 						:rotationz(-20):visible(false)
 					end,
 					RefreshCommand = function(self, param)
-						local song_foldername = Songs[Targets[i]]:GetSongDir()
 						local visibility = false
+						local song_firstTag = FetchFirstTag_POI(Songs[Targets[i]])
+						local song_secondTag = FetchSecondTag_POI(Songs[Targets[i]])
 						
-						-- Define the lists of folder names
-						local lists = {
-							ReturnStringFolderList_POI("Anothers"),
-							ReturnStringFolderList_POI("Shortcuts"),
-							ReturnStringFolderList_POI("Remixes"),
-							ReturnStringFolderList_POI("Fullsongs")
-						}
-						
-						-- Loop through each list
-						for _, folderList in ipairs(lists) do
-							-- Loop through the folder names in the current list
-							for _, folderName in ipairs(folderList) do
-								-- Check if the song folder name contains the current folder name
-								if string.find(song_foldername, folderName, 1, true) then
-									visibility = true
-									-- Exit both loops once a match is found
-									break
-								end
-							end
-							-- Exit the outer loop once visibility is true
-							if visibility then break end
-						end
+						if song_firstTag == "SHORTCUT" or song_firstTag == "REMIX" or song_firstTag == "FULLSONG" or song_secondTag == "ANOTHER" then visibility = true end
 						
 						self:visible(visibility)
 					end
@@ -577,32 +557,23 @@ if usingPOIUX then
 						self:addy(-1):zoom(0.6):skewx(-0.1):shadowlength(1.5):rotationz(-20)
 					end,
 					RefreshCommand = function(self, param)
-						local song_foldername = Songs[Targets[i]]:GetSongDir()
+						local song_firstTag = FetchFirstTag_POI(Songs[Targets[i]])
+						local song_secondTag = FetchSecondTag_POI(Songs[Targets[i]])
 						local outputText = ""
 						local colour = "#ffffff"
 						
-						-- Define the lists and their corresponding output text and color
-						local listInfo = {
-							{list = ReturnStringFolderList_POI("Anothers"), text = "ANOTHER", color = "#ff0000"},
-							{list = ReturnStringFolderList_POI("Shortcuts"), text = "SHORT CUT", color = "#ffff00"},
-							{list = ReturnStringFolderList_POI("Remixes"), text = "REMIX", color = "#0000ff"},
-							{list = ReturnStringFolderList_POI("Fullsongs"), text = "FULL SONG", color = "#009900"}
-						}
-						
-						-- Loop through the listInfo table
-						for _, info in ipairs(listInfo) do
-							-- Loop through the folder names in the current list
-							for _, folderName in ipairs(info.list) do
-								-- Check if the song folder name contains the current folder name
-								if string.find(song_foldername, folderName, 1, true) then
-									outputText = info.text
-									colour = info.color
-									-- Exit both loops once a match is found
-									break
-								end
-							end
-							-- Exit the outer loop once outputText is not empty
-							if outputText ~= "" then break end
+						if song_firstTag == "SHORTCUT" then
+							outputText = "SHORT CUT"
+							colour = "#ffff00"
+						elseif song_firstTag == "REMIX" then
+							outputText = "REMIX"
+							colour = "#0000ff"
+						elseif song_firstTag == "FULLSONG" then
+							outputText = "FULL SONG"
+							colour = "#009900"
+						elseif song_secondTag == "ANOTHER" then
+							outputText = "ANOTHER"
+							colour = "#ff0000"
 						end
 						
 						self:diffuse(color(colour)):settext(outputText)

@@ -545,7 +545,7 @@ function AssembleGroupSorting_POI()
 		filteredSongs = FilterSongs_POI(filteredSongs, "Shortcuts")
 		-- if and only if the filtered result has any matches, create a subgroup with those filtered songs
 		if #filteredSongs > 0 then
-			table.insert(MasterGroupsList[i].SubGroups, 2, {
+			table.insert(MasterGroupsList[i].SubGroups, #(MasterGroupsList[i].SubGroups) + 1, {
 				Name = playlistNames[i] .. "\n\n\nShort Cut Only\n(1 Heart)",
 				Banner = THEME:GetPathG("", "Common fallback banner"),
 				Songs = filteredSongs
@@ -560,7 +560,7 @@ function AssembleGroupSorting_POI()
 		filteredSongs = FilterSongs_POI(filteredSongs, "Arcades")
 		-- if and only if the filtered result has any matches, create a subgroup with those filtered songs
 		if #filteredSongs > 0 then
-			table.insert(MasterGroupsList[i].SubGroups, 2, {
+			table.insert(MasterGroupsList[i].SubGroups, #(MasterGroupsList[i].SubGroups) + 1, {
 				Name = playlistNames[i] .. "\n\n\nArcade Only\n(2 Hearts)",
 				Banner = THEME:GetPathG("", "Common fallback banner"),
 				Songs = filteredSongs
@@ -575,7 +575,7 @@ function AssembleGroupSorting_POI()
 		filteredSongs = FilterSongs_POI(filteredSongs, "Remixes")
 		-- if and only if the filtered result has any matches, create a subgroup with those filtered songs
 		if #filteredSongs > 0 then
-			table.insert(MasterGroupsList[i].SubGroups, 2, {
+			table.insert(MasterGroupsList[i].SubGroups, #(MasterGroupsList[i].SubGroups) + 1, {
 				Name = playlistNames[i] .. "\n\n\nRemix Only\n(3 Hearts)",
 				Banner = THEME:GetPathG("", "Common fallback banner"),
 				Songs = filteredSongs
@@ -590,7 +590,7 @@ function AssembleGroupSorting_POI()
 		filteredSongs = FilterSongs_POI(filteredSongs, "Fullsongs")
 		-- if and only if the filtered result has any matches, create a subgroup with those filtered songs
 		if #filteredSongs > 0 then
-			table.insert(MasterGroupsList[i].SubGroups, 2, {
+			table.insert(MasterGroupsList[i].SubGroups, #(MasterGroupsList[i].SubGroups) + 1, {
 				Name = playlistNames[i] .. "\n\n\nFull Songs Only\n(4 Hearts)",
 				Banner = THEME:GetPathG("", "Common fallback banner"),
 				Songs = filteredSongs
