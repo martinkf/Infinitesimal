@@ -11,7 +11,7 @@ local ChartPreview = LoadModule("Config.Load.lua")("ChartPreview","Save/OutFoxPr
 
 -- Not load anything if no group sorts are available (catastrophic event or no songs)
 if next(GroupsList) == nil then
-    AssembleGroupSortingPOI()
+	POIBranch_AssembleGroupSorting()
     UpdateGroupSorting()
     
     if next(GroupsList) == nil then
@@ -435,6 +435,8 @@ if usingPOIUX then
 				self:z(-math.abs(SCREEN_CENTER_X - xpos - displace) * 0.25)
 				self:GetChild(""):GetChild("Index"):playcommand("Refresh")
 				self:GetChild(""):GetChild("OriginLabel"):playcommand("Refresh")
+				self:GetChild(""):GetChild("CategoryQuad"):playcommand("Refresh")
+				self:GetChild(""):GetChild("CategoryLabel"):playcommand("Refresh")
 			end,
 
 
@@ -499,7 +501,7 @@ if usingPOIUX then
 					Name="OriginLabel",
 					Font="Montserrat semibold 40px",				
 					InitCommand=function(self)
-						self:addy(-73):zoom(0.4):skewx(-0.1):diffusetopedge(0.95,0.95,0.95,0.8):shadowlength(1.5)
+						self:addy(-73):zoom(0.4):skewx(-0.1):shadowlength(1.5)
 					end,
 					
 					RefreshCommand=function(self,param)
@@ -526,7 +528,57 @@ if usingPOIUX then
 						
 						self:diffuse(color(colour)):settext(song_origin)
 					end
-				}
+				},
+				
+				-- quad songCategory
+				Def.Quad {
+					Name="CategoryQuad",
+					InitCommand=function(self)
+						self:zoomto(170, 24)
+						:diffuse(0,0,0,0.8)
+						:fadeleft(0.2):faderight(0.2)
+						:rotationz(-20):visible(false)
+					end,
+					RefreshCommand = function(self, param)
+						local visibility = false
+						local song_firstTag = FetchFirstTag_POI(Songs[Targets[i]])
+						local song_secondTag = FetchSecondTag_POI(Songs[Targets[i]])
+						
+						if song_firstTag == "SHORTCUT" or song_firstTag == "REMIX" or song_firstTag == "FULLSONG" or song_secondTag == "ANOTHER" then visibility = true end
+						
+						self:visible(visibility)
+					end
+				},
+				-- text songCategory
+				Def.BitmapText {
+					Name="CategoryLabel",
+					Font="Montserrat semibold 40px",
+					InitCommand=function(self)
+						self:addy(-1):zoom(0.6):skewx(-0.1):shadowlength(1.5):rotationz(-20)
+					end,
+					RefreshCommand = function(self, param)
+						local song_firstTag = FetchFirstTag_POI(Songs[Targets[i]])
+						local song_secondTag = FetchSecondTag_POI(Songs[Targets[i]])
+						local outputText = ""
+						local colour = "#ffffff"
+						
+						if song_firstTag == "SHORTCUT" then
+							outputText = "SHORT CUT"
+							colour = "#ffff00"
+						elseif song_firstTag == "REMIX" then
+							outputText = "REMIX"
+							colour = "#0000ff"
+						elseif song_firstTag == "FULLSONG" then
+							outputText = "FULL SONG"
+							colour = "#009900"
+						elseif song_secondTag == "ANOTHER" then
+							outputText = "ANOTHER"
+							colour = "#ff0000"
+						end
+						
+						self:diffuse(color(colour)):settext(outputText)
+					end
+				},
 			}
 		}
 	end

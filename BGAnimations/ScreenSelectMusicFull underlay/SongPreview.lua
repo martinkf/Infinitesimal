@@ -281,6 +281,7 @@ if usingPOIUX then
 	-- levers
 	local FrameW2 = 1600
 	local FrameH2 = 900	
+	PreviewDelay = 0.11
 	
 	t = Def.ActorFrame {
 		OnCommand=function(self)
@@ -302,7 +303,7 @@ if usingPOIUX then
 			Def.BitmapText {
 				Name="NextPrevText",
 				Font="VCR OSD Mono 40px",
-				Text="AAAAAAAAAAAAA",
+				Text="",
 				InitCommand=function(self)
 					self:zoom(2):xy(0,-200)
 					:shadowlength(4)					

@@ -491,6 +491,9 @@ if usingPOIUX then
 					end
 				end
 
+				-- uses external FilterChartFromGroup POI function to filter out any unwanted chart, based on CurGroupName				
+				ChartArray = FilterChartFromGroup_POI(CurGroupName,CurrentSong,ChartArray)
+				
 				-- If no charts are left, load all of them again in an attempt to avoid other crashes
 				if #ChartArray == 0 then ChartArray = SongUtil.GetPlayableSteps(CurrentSong) end
 				table.sort(ChartArray, SortCharts)
@@ -575,7 +578,7 @@ if usingPOIUX then
 						if ChartMeter == 99 then ChartMeter = "??" end
 						local ChartDescription = Chart:GetDescription()
 
-						self:GetChild("")[i]:GetChild("Icon"):visible(true):diffuse(ChartTypeToColorPOI(Chart))
+						self:GetChild("")[i]:GetChild("Icon"):visible(true):diffuse(ChartTypeToColor_POI(Chart))
 						self:GetChild("")[i]:GetChild("IconTrim"):visible(true)
 						self:GetChild("")[i]:GetChild("Level"):visible(true):settext(ChartMeter)
 						self:GetChild("")[i]:GetChild("HighlightP1"):visible(

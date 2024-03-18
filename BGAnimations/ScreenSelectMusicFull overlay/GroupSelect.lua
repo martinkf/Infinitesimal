@@ -13,7 +13,7 @@ local MenuButtonsOnly = PREFSMAN:GetPreference("OnlyDedicatedMenuButtons")
 
 -- Not load anything if no group sorts are available (catastrophic event or no songs)
 if next(GroupsList) == nil then
-    AssembleGroupSortingPOI()
+	POIBranch_AssembleGroupSorting()
     UpdateGroupSorting()
     
     if next(GroupsList) == nil then
@@ -530,6 +530,312 @@ t[#t+1] = Def.ActorFrame {
         end
     }
 }
+
+----
+-- vvvv POI PROJECT vvvv
+----
+
+local usingPOIUX = LoadModule("Config.Load.lua")("ActivatePOIProjectUX", "Save/OutFoxPrefs.ini") or false
+if usingPOIUX then
+	-- levers
+	local PlaylistLabel_Y = SCREEN_CENTER_Y - 160
+	local PlaylistWheel_Y = SCREEN_CENTER_Y - 120
+	local SublistLabel_Y = SCREEN_CENTER_Y + 30
+	local SublistWheel_Y = SCREEN_CENTER_Y + 110
+	MainWheelSpacing = 300
+	
+	
+	t = Def.ActorFrame {
+		InitCommand=function(self)
+			self:fov(90):SetDrawByZPosition(true)
+			:vanishpoint(SCREEN_CENTER_X, SCREEN_CENTER_Y + 40):diffusealpha(0)
+			UpdateMainItemTargets(CurMainIndex)
+			UpdateSubItemTargets(CurSubIndex)
+		end,
+
+		OnCommand=function(self)
+			BlockScreenInput(false)
+			ScreenSelectMusic = SCREENMAN:GetTopScreen()
+			ScreenSelectMusic:AddInputCallback(InputHandler)
+		end,
+		
+		OffCommand=function(self) BlockScreenInput(false) end,
+		
+		SongChosenMessageCommand=function(self) self:queuecommand("Busy") end,
+		SongUnchosenMessageCommand=function(self) self:sleep(0.01):queuecommand("NotBusy") end,
+		
+		OptionsListOpenedMessageCommand=function(self, params) IsOptionsList[params.Player] = true end,
+		OptionsListClosedMessageCommand=function(self, params) IsOptionsList[params.Player] = false end,
+
+		CodeMessageCommand=function(self, params)
+			if params.Name == "GroupSelectPad1" or params.Name == "GroupSelectPad2" or 
+			params.Name == "GroupSelectButton1" or params.Name == "GroupSelectButton2" then
+				if not IsBusy and not IsOptionsList[PLAYER_1] and not IsOptionsList[PLAYER_2] then
+					-- Prevent the song list from moving when transitioning
+					BlockScreenInput(true)
+					MESSAGEMAN:Broadcast("OpenGroupWheel")
+					self:stoptweening():sleep(0.01):queuecommand("OpenGroup"):easeoutexpo(1):diffusealpha(1)
+				end
+			end
+		end,
+		
+		BusyCommand=function(self) IsBusy = true end,
+		NotBusyCommand=function(self) IsBusy = false end,
+		
+		OpenGroupCommand=function(self) IsSelectingGroup = true end,
+		CloseGroupCommand=function(self) IsSelectingGroup = false end,
+		
+		CloseGroupWheelMessageCommand=function(self, params)
+			self:stoptweening():easeoutexpo(0.25):diffusealpha(0)
+			
+			BlockScreenInput(false)
+			IsSelectingGroup = false
+			
+			if params.Silent == false then
+				-- The built in wheel needs to be told the group has been changed
+				ScreenSelectMusic:PostScreenMessage("SM_SongChanged", 0 )
+				MESSAGEMAN:Broadcast("StartSelectingSong")
+			end
+		end,
+
+		Def.Sound {
+			File=THEME:GetPathS("MusicWheel", "change"),
+			IsAction=true,
+			ScrollMainMessageCommand=function(self) self:play() end,
+			ScrollSubMessageCommand=function(self, params) if params.Direction ~= 0 then self:play() end end
+		},
+
+		Def.Sound {
+			File=THEME:GetPathS("Common", "Start"),
+			IsAction=true,
+			CloseGroupWheelMessageCommand=function(self) self:play() end
+		},
+	}
+	
+	-- The Wheel: originally made by Luizsan
+	-- First wheel will be responsible for the main sort options
+	for i = 1, MainWheelSize do
+		t[#t+1] = Def.ActorFrame{
+			OnCommand=function(self)
+				-- Update sort text
+				self:GetChild("Text"):settext(GroupsList[MainTargets[i]].Name)				
+				
+				-- Set initial position, Direction = 0 means it won't tween
+				self:playcommand("ScrollMain", {Direction = 0})
+			end,
+
+			ScrollMainMessageCommand=function(self, params)
+				self:stoptweening()
+
+				-- Calculate position
+				local xpos = SCREEN_CENTER_X + (i - MainWheelCenter) * MainWheelSpacing
+
+				-- Calculate displacement based on input
+				local displace = -params.Direction * MainWheelSpacing
+
+				-- Only tween if a direction was specified
+				local tween = params and params.Direction and math.abs(params.Direction) > 0
+				
+				-- Adjust and wrap actor index
+				i = i - params.Direction
+				while i > MainWheelSize do i = i - MainWheelSize end
+				while i < 1 do i = i + MainWheelSize end
+
+				-- If it's an edge item, update text. Edge items should never tween
+				if i == 2 or i == MainWheelSize - 1 then
+					self:GetChild("Text"):settext(GroupsList[MainTargets[i]].Name)
+				elseif tween then
+					self:easeoutexpo(0.4)
+				end
+
+				-- Animate!
+				self:xy(xpos + displace, PlaylistWheel_Y)
+			end,
+			
+			Def.Quad {
+				InitCommand=function(self)
+					self:zoomto(MainWheelSpacing, 40)
+					:diffuse(color("#1d1d1d")):diffusebottomedge(color("#7b7b7b"))
+				end,
+				
+				OnCommand=function(self) self:playcommand("Refresh") end,
+				RefreshHighlightMessageCommand=function(self) self:playcommand("Refresh") end,
+				
+				RefreshCommand=function(self)
+					self:finishtweening():easeoutexpo(0.4):diffusealpha(IsFocusedMain and 1 or 0.2)
+				end,
+			},
+			
+			Def.BitmapText {
+				Name="Text",
+				Font="Montserrat semibold 40px",
+				InitCommand=function(self)
+					self:zoom(0.75):skewx(-0.1):diffusetopedge(0.95,0.95,0.95,0.8):shadowlength(1.5)
+					:maxwidth(MainWheelSpacing / self:GetZoom())
+				end,
+				
+				OnCommand=function(self) self:playcommand("Refresh") end,
+				RefreshHighlightMessageCommand=function(self) self:playcommand("Refresh") end,
+				
+				RefreshCommand=function(self)
+					self:finishtweening():easeoutexpo(0.4):diffusealpha((IsFocusedMain or i == MainWheelCenter) and 1 or 0.2)
+				end,
+			}
+		}
+	end
+
+	-- Second wheel will be responsible for the sub groups
+	for i = 1, SubWheelSize do
+		t[#t+1] = Def.ActorFrame{
+			OnCommand=function(self)
+				if CurMainIndex == OrigGroupIndex then
+					self:GetChild("Banner"):visible(true)
+					UpdateBanner(self:GetChild("Banner"), GroupsList[CurMainIndex].SubGroups[SubTargets[i]].Banner)
+				else
+					self:GetChild("Banner"):visible(false)
+				end
+				
+				self:GetChild("GroupInfo"):playcommand("Refresh")
+				self:GetChild(""):GetChild("Index"):playcommand("Refresh")
+				
+				-- Ensure the wheel is highlighted or not at the beginning
+				self:diffusealpha(IsFocusedMain and 0.2 or 1)
+				
+				-- Set initial position, Direction = 0 means it won't tween
+				self:playcommand("ScrollSub", {Direction = 0})
+			end,
+			
+			-- This is so that whenever the main wheel scrolls all the bottom items can update as well.
+			RefreshSubMessageCommand=function(self, params) self:playcommand("On") end,
+			
+			RefreshHighlightMessageCommand=function(self)
+				self:finishtweening():easeoutexpo(0.4):diffusealpha(IsFocusedMain and 0.2 or 1)
+			end,
+
+			ScrollSubMessageCommand=function(self, params)
+				self:stoptweening()
+
+				-- Calculate position
+				local xpos = SCREEN_CENTER_X + (i - SubWheelCenter) * SubWheelSpacing
+
+				-- Calculate displacement based on input
+				local displace = -params.Direction * SubWheelSpacing
+
+				-- Only tween if a direction was specified
+				local tween = params and params.Direction and math.abs(params.Direction) > 0
+				
+				-- Adjust and wrap actor index
+				i = i - params.Direction
+				while i > SubWheelSize do i = i - SubWheelSize end
+				while i < 1 do i = i + SubWheelSize end
+
+				-- Update edge items with new info, they should also never tween
+				if i == 2 or i == SubWheelSize - 1 then
+					-- Force update banners because of how the sub wheel is now refreshed
+					if CurMainIndex == OrigGroupIndex then
+						self:GetChild("Banner"):visible(true)
+						UpdateBanner(self:GetChild("Banner"), GroupsList[CurMainIndex].SubGroups[SubTargets[i]].Banner)
+					else
+						self:GetChild("Banner"):visible(false)
+					end
+					
+					self:GetChild("GroupInfo"):playcommand("Refresh")
+					self:GetChild(""):GetChild("Index"):playcommand("Refresh")
+				elseif tween then
+					self:easeoutexpo(0.4)
+				end
+				
+				self:GetChild("Highlight"):playcommand("Refresh")
+
+				-- Animate!
+				self:xy(xpos + displace, SublistWheel_Y)
+				self:rotationy((SCREEN_CENTER_X - xpos - displace) * -WheelRotation)
+				self:z(-math.abs(SCREEN_CENTER_X - xpos - displace) * 0.25)
+			end,
+			
+			Def.Sprite {
+				Name="Highlight",
+				Texture=THEME:GetPathG("", "MusicWheel/FrameHighlight"),
+				RefreshCommand=function(self)
+					self:stoptweening():easeoutexpo(0.4):diffusealpha(i == SubWheelCenter and 1 or 0)
+				end
+			},
+			
+			Def.Sprite {
+				Texture=THEME:GetPathG("", "MusicWheel/GradientBanner"),
+				InitCommand=function(self) self:scaletoclipped(WheelItem.Width, WheelItem.Height) end
+			},
+			
+			Def.Banner {
+				Name="Banner",
+			},
+
+			Def.Sprite {
+				Texture=THEME:GetPathG("", "MusicWheel/GroupFrame"),
+			},
+			
+			Def.ActorFrame {
+				Def.Quad {
+					InitCommand=function(self)
+						self:zoomto(60, 18):addy(-50)
+						:diffuse(0,0,0,0.6)
+						:fadeleft(0.3):faderight(0.3):diffusealpha(0)
+					end
+				},
+
+				Def.BitmapText {
+					Name="Index",
+					Font="Montserrat semibold 40px",
+					InitCommand=function(self)
+						self:addy(-50):zoom(0.4):skewx(-0.1):diffusetopedge(0.95,0.95,0.95,0.8):shadowlength(1.5):diffusealpha(0)
+					end,
+					RefreshCommand=function(self, params) self:settext(SubTargets[i]) end
+				}
+			},
+			
+			Def.BitmapText {
+				Name="GroupInfo",
+				Font="Montserrat semibold 40px",
+				InitCommand=function(self)
+					self:y(CurMainIndex == OrigGroupIndex and 64 or -54):zoom(0.5):skewx(-0.1):diffusetopedge(0.95,0.95,0.95,0.8):shadowlength(1.5)
+					:maxwidth(420):vertalign(0):wrapwidthpixels(420):vertspacing(-16)
+				end,
+				RefreshCommand=function(self, params) 
+					self:settext(GroupsList[CurMainIndex].SubGroups[SubTargets[i]].Name) 
+					:y(CurMainIndex == OrigGroupIndex and 64 or -54)
+				end
+			}
+		}
+	end
+
+	-- Permanent labels
+	t[#t+1] = Def.ActorFrame {
+		Def.BitmapText {
+			Font="Montserrat semibold 20px",
+			Name="PlaylistLabel",
+			Text="Playlists",
+			InitCommand=function(self)
+				self:diffusealpha(1)
+				:xy(SCREEN_CENTER_X, PlaylistLabel_Y)
+			end,
+			RefreshHighlightMessageCommand=function(self)
+				self:finishtweening():easeoutexpo(0.4):diffusealpha((IsFocusedMain or i == MainWheelCenter) and 1 or 0.2)
+			end,
+		},
+		Def.BitmapText {
+			Font="Montserrat semibold 20px",
+			Name="SublistLabel",
+			Text="Sublists",
+			InitCommand=function(self)
+				self:diffusealpha(1)
+				:xy(SCREEN_CENTER_X, SublistLabel_Y)
+			end,
+			RefreshHighlightMessageCommand=function(self)
+				self:finishtweening():easeoutexpo(0.4):diffusealpha(IsFocusedMain and 0.2 or 1)
+			end,
+		},
+	}
+end
 
 return t
 
