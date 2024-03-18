@@ -331,9 +331,9 @@ function FilterSongs_POI(inputArrayOfSongs, inputListType)
 end
 
 -- takes: a string, related to POI Experience versions, from the list of the following:
--- "PIU 'The 1st DF'\nExperience" / "PIU 'The 2nd DF'\nExperience" / etc
+-- "PIU \"The 1st DF\"\n\n\nAll Tunes" / "PIU 'The 2nd DF'\nExperience" / etc
 -- returns: an array of Songs
--- based on: takes all the songs, filters them according to the input POI Experience version which is hard-coded elsewhere
+-- based on: takes all the songs in the game, remove some to leave only the ones related to a PIU version playlist
 function GetArrayOfSongsBasedOnExperience(inputExperienceAsString)
 	local outputSongArray = {}
 	
@@ -371,7 +371,7 @@ function FilterChartFromGroup_POI(input_CurGroupName,input_CurrentSong,input_Cha
 	outputChartArray = input_ChartArray
 	
 	local POIExperiencesList = {
-		"PIU 'The 1st DF'\nExperience",
+		"PIU \"The 1st DF\"\n\n\nAll Tunes",
 		"PIU 'The 2nd DF'\nExperience",
 		"PIU 'O.B.G The 3rd'\nExperience",
 	}
@@ -417,14 +417,14 @@ end
 
 -- ================================================================================================================= RETURNS A POI NESTED LIST 
 -- takes: a string, related to POI Experience versions, from the list of the following:
--- "PIU 'The 1st DF'\nExperience" / "PIU 'The 2nd DF'\nExperience" / etc
+-- "PIU \"The 1st DF\"\n\n\nAll Tunes" / "PIU 'The 2nd DF'\nExperience" / etc
 -- returns: a "POI Nested List" - list of lists containing songs and charts inside songs
 -- based on: hard-coded list of POI Experiences
 -- HAS HARD-CODED CONTENT -- HAS HARD-CODED CONTENT -- HAS HARD-CODED CONTENT -- HAS HARD-CODED CONTENT -- HAS HARD-CODED CONTENT -- HAS HARD-CODED CONTENT -- HAS HARD-CODED CONTENT -- HAS HARD-CODED CONTENT -- HAS HARD-CODED CONTENT
 function GetPOINestedList_POI(inputExperienceAsString)
 	local outputNestedList = {{},{}}
     
-	if inputExperienceAsString == "PIU 'The 1st DF'\nExperience" then
+	if inputExperienceAsString == "PIU \"The 1st DF\"\n\n\nAll Tunes" then
         outputNestedList = {
 			{
 				"/Songs/POI-database/101 - IGNITION STARTS/",

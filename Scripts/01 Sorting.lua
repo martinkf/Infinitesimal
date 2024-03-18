@@ -518,7 +518,7 @@ function AssembleGroupSorting_POI()
     }
 	
     -- ============================================================== ALL SONGS > All Tunes ==============================================================
-	-- grabs all the available Songs
+	-- grabs all the available Songs in the game
 	local playlist01_allsongs = SONGMAN:GetAllSongs()
 	-- orders the songs following POI standard	
 	playlist01_allsongs = ReorderSongs_POI(playlist01_allsongs)
@@ -594,24 +594,37 @@ function AssembleGroupSorting_POI()
 		)
 	else end
 	
+	-- ================================================================================================== The 1st DF ==================================================================================================
+	MasterGroupsList[#MasterGroupsList + 1] = {
+		Name = "PIU \"The 1st DF\"",
+		Banner = THEME:GetPathG("", "Common fallback banner"),
+		SubGroups = {}
+    }
+	
+	-- ============================================================== The 1st DF > All Tunes ==============================================================
+	-- grabs all the Songs related to this playlist
+	local playlist02_allsongs = GetArrayOfSongsBasedOnExperience("PIU \"The 1st DF\"\n\n\nAll Tunes")
+	
+	table.insert(MasterGroupsList[#MasterGroupsList].SubGroups, #(MasterGroupsList[#MasterGroupsList].SubGroups) + 1, {
+		Name = "PIU \"The 1st DF\"\n\n\nAll Tunes",
+		Banner = THEME:GetPathG("", "Common fallback banner"),
+		Songs = playlist02_allsongs
+		}
+	)
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 	
 	--[[
 	
-	
-	
-	
-	-- ============================================================== PLAYLISTS > PIU "The 1st DF" Experience ==============================================================
-	local whichExperienceIsIt = "PIU 'The 1st DF'\nExperience"
-	local filteredSongs = GetArrayOfSongsBasedOnExperience(whichExperienceIsIt)
-	if #filteredSongs > 0 then
-		table.insert(MasterGroupsList[#MasterGroupsList].SubGroups, #(MasterGroupsList[#MasterGroupsList].SubGroups) + 1, {
-			Name = whichExperienceIsIt,
-			Banner = THEME:GetPathG("", "Common fallback banner"),
-			Songs = filteredSongs
-			}
-		)
-	else end
 	
 	-- ============================================================== PLAYLISTS > PIU "The 2nd DF" Experience ==============================================================
 	whichExperienceIsIt = "PIU 'The 2nd DF'\nExperience"
