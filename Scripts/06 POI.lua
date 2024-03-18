@@ -73,9 +73,39 @@ function TableOfColors_POI()
 		{"O.B.G Season Evo.",color("#ffff00")}, --yellow
 		{"Perfect",color("#ff9900")}, --orange
 		{"Extra",color("#ff0000")}, --red
-		{"Pro",color("#aaaaaa")}, --gray
+		{"Premiere",color("#ff00ff")}, --pink
+		{"Rebirth",color("#1144ff")}, --blue
+		{"Premiere 3",color("#33bb00")}, --green
+		{"Prex 3",color("#ffff00")}, --yellow
+		{"Exceed",color("#ff9900")}, --orange
+		{"Exceed 2",color("#ff0000")}, --red
+		{"Zero",color("#ff00ff")}, --pink
+		{"NX",color("#1144ff")}, --blue
+		{"NX 2",color("#33bb00")}, --green
+		{"NX Absolute",color("#ffff00")}, --yellow
+		{"Fiesta",color("#ff9900")}, --orange
+		{"Fiesta EX",color("#ff0000")}, --red
+		{"Fiesta 2",color("#ff00ff")}, --pink
+		{"Prime",color("#1144ff")}, --blue
+		{"Prime 2",color("#33bb00")}, --green
+		{"XX",color("#ffff00")}, --yellow
+		{"M",color("#ff9900")}, --orange
+		{"Phoenix",color("#ff0000")}, --red
+		{"Pro",color("#5a5a5a")}, --gray darker
+		{"Pro Encore",color("#5a5a5a")}, --gray darker
+		{"Pro 2",color("#888888")}, --gray dark
+		{"Infinity",color("#aaaaaa")}, --gray		
 		-- song genres
 		{"ORIGINAL",color("#1144ff")}, --blue
+		{"KPOP",color("#ffff00")}, --yellow
+		{"WORLDMUSIC",color("#11eeee")}, --cyan
+		{"JMUSIC",color("#ff0000")}, --red
+		{"XROSS",color("#33bb00")}, --green
+		-- song tags
+		{"ANOTHER",color("#ff0000")}, --red
+		{"SHORTCUT",color("#ffff00")}, --yellow
+		{"REMIX",color("#1144ff")}, --blue
+		{"FULLSONG",color("#33bb00")}, --green
 	}
 end
 
@@ -1081,10 +1111,20 @@ function GetColor_POI(inputString)
 	return outputColor
 end
 
+-- takes: a Song
+-- returns: a Color object
+-- based on: the Song origin version
+function ColorFromSongOrigin_POI(input_song) return GetColor_POI(input_song:GetOrigin()) end
+
+-- takes: a Song
+-- returns: a Color object
+-- based on: the Song genre
+function ColorFromSongGenre_POI(input_song) return GetColor_POI(input_song:GetGenre()) end
+
 -- takes: a Chart
 -- returns: a Color object
 -- based on: the Chart stepstype
-function ChartTypeToColor_POI(input_chart)
+function ColorFromChart_POI(input_chart)
 	local outputColor = ""
 	
 	if FetchChartNameOrOriginFromChart_POI(input_chart, 1):sub(1, 3) == "IDK" then
