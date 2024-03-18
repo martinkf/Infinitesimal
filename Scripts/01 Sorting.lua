@@ -512,11 +512,7 @@ function AssembleGroupSorting_POI()
     
 	--
 	local playlists = {}
-	local playlistNames = {
-		"All Songs",
-		"The 1st DF",
-		"The 2nd DF",
-	}
+	local playlistNames = ListOfPlaylists()
 	
 	-- populates MasterGroupLists with all Playlists
 	for i, thisPlaylistName in ipairs(playlistNames) do		

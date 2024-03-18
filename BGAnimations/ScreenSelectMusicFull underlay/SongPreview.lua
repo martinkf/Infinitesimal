@@ -281,6 +281,7 @@ if usingPOIUX then
 	-- levers
 	local FrameW2 = 1600
 	local FrameH2 = 900	
+	PreviewDelay = 0.11
 	
 	t = Def.ActorFrame {
 		OnCommand=function(self)
