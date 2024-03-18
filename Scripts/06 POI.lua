@@ -331,27 +331,32 @@ function FilterSongs_POI(inputArrayOfSongs, inputListType)
 end
 
 -- takes: a string, related to playlists, from the list of the following:
--- "The 1st DF" / "The 2nd DF" / "O.B.G The 3rd" / etc
+-- "All Songs" / "The 1st DF" / "The 2nd DF" / "O.B.G The 3rd" / etc
 -- returns: an array of Songs
 -- based on: takes all the songs in the game, remove some to leave only the ones related to a PIU version playlist
 function GetArrayOfSongsBasedOnPlaylist(inputPlaylistAsString)
 	local outputSongArray = {}
 	
-	local stringArrayOfFolderNamesToMatch = GetArrayOfStringsongdirFromPOINestedList_POI(GetPOINestedList_POI(inputPlaylistAsString))		
+	if inputPlaylistAsString ~= "All Songs" then	
+		-- loads up an array of strings, each containing the folder name of the songs "allowed in" this playlist
+		local stringArrayOfFolderNamesToMatch = GetArrayOfStringsongdirFromPOINestedList_POI(GetPOINestedList_POI(inputPlaylistAsString))		
 
-	-- Iterate through each folder name to match
-	for _, folderNameToMatch in ipairs(stringArrayOfFolderNamesToMatch) do
-		-- Iterate through all songs
-		for _, song in ipairs(SONGMAN:GetAllSongs()) do
-			-- Extract the folder name from the song's directory
-			local folderName = song:GetSongDir()
+		-- Iterate through each folder name to match
+		for _, folderNameToMatch in ipairs(stringArrayOfFolderNamesToMatch) do
+			-- Iterate through all songs
+			for _, song in ipairs(SONGMAN:GetAllSongs()) do
+				-- Extract the folder name from the song's directory
+				local folderName = song:GetSongDir()
 
-			-- Check if the folder name matches the current folder name to match
-			if string.find(folderName, folderNameToMatch, 1, true) then
-				-- Add the song to the filtered array
-				table.insert(outputSongArray, song)
+				-- Check if the folder name matches the current folder name to match
+				if string.find(folderName, folderNameToMatch, 1, true) then
+					-- Add the song to the filtered array
+					table.insert(outputSongArray, song)
+				end
 			end
 		end
+	else		
+		outputSongArray = ReorderSongs_POI(SONGMAN:GetAllSongs())
 	end
 	
 	return outputSongArray

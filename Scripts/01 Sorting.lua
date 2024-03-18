@@ -510,40 +510,27 @@ function AssembleGroupSorting_POI()
 	MasterGroupsList = {}
     GroupsList = {}
     
-	local playlists = {}
-	local playlistNames = {}
-	
-	--	
-	local playlistName = "All Songs"
-	MasterGroupsList[1] = {
-		Name = playlistName,
-		Banner = THEME:GetPathG("", "Common fallback banner"),
-		SubGroups = {}
-    }
-	playlistNames[1] = playlistName
-	playlists[1] = SONGMAN:GetAllSongs()
-	playlists[1] = ReorderSongs_POI(playlists[1])
-		
-	local playlistName = "PIU \"The 1st DF\""
-	MasterGroupsList[2] = {
-		Name = playlistName,
-		Banner = THEME:GetPathG("", "Common fallback banner"),
-		SubGroups = {}
-    }
-	playlistNames[2] = playlistName
-	playlists[2] = GetArrayOfSongsBasedOnPlaylist("The 1st DF")
-	
-	local playlistName = "PIU \"The 2nd DF\""
-	MasterGroupsList[3] = {
-		Name = playlistName,
-		Banner = THEME:GetPathG("", "Common fallback banner"),
-		SubGroups = {}
-    }
-	playlistNames[3] = playlistName
-	playlists[3] = GetArrayOfSongsBasedOnPlaylist("The 2nd DF")
 	--
+	local playlists = {}
+	local playlistNames = {
+		"All Songs",
+		"The 1st DF",
+		"The 2nd DF",
+	}
+	
+	-- populates MasterGroupLists with all Playlists
+	for i, thisPlaylistName in ipairs(playlistNames) do		
+		MasterGroupsList[i] = {
+			Name = thisPlaylistName,
+			Banner = THEME:GetPathG("", "Common fallback banner"),
+			SubGroups = {}
+		}
+		playlists[i] = GetArrayOfSongsBasedOnPlaylist(thisPlaylistName)
+	end
+	
+	-- creates MasterGroupsList.SubGroups for each playlist
 	for i = 1, #MasterGroupsList do
-		--		
+		-- "All Tunes" filter		
 		table.insert(MasterGroupsList[i].SubGroups, 1, {
 			Name = playlistNames[i] .. "\n\n\nAll Tunes",
 			Banner = THEME:GetPathG("", "Common fallback banner"),
@@ -551,11 +538,65 @@ function AssembleGroupSorting_POI()
 			}
 		)
 		
-		--
+		-- "Short Cut" filter
+		-- grabs all the songs from current playlist
+		local filteredSongs = playlists[i]
+		-- filters the playlist allowing only Short Cuts
+		filteredSongs = FilterSongs_POI(filteredSongs, "Shortcuts")
+		-- if and only if the filtered result has any matches, create a subgroup with those filtered songs
+		if #filteredSongs > 0 then
+			table.insert(MasterGroupsList[i].SubGroups, 2, {
+				Name = playlistNames[i] .. "\n\n\nShort Cut Only\n(1 Heart)",
+				Banner = THEME:GetPathG("", "Common fallback banner"),
+				Songs = filteredSongs
+				}
+			)
+		else end
 		
-		--
+		-- "Arcade" filter
+		-- grabs all the songs from current playlist
+		local filteredSongs = playlists[i]
+		-- filters the playlist allowing only Short Cuts
+		filteredSongs = FilterSongs_POI(filteredSongs, "Arcades")
+		-- if and only if the filtered result has any matches, create a subgroup with those filtered songs
+		if #filteredSongs > 0 then
+			table.insert(MasterGroupsList[i].SubGroups, 2, {
+				Name = playlistNames[i] .. "\n\n\nArcade Only\n(2 Hearts)",
+				Banner = THEME:GetPathG("", "Common fallback banner"),
+				Songs = filteredSongs
+				}
+			)
+		else end
 		
-		--
+		-- "Remix" filter
+		-- grabs all the songs from current playlist
+		local filteredSongs = playlists[i]
+		-- filters the playlist allowing only Short Cuts
+		filteredSongs = FilterSongs_POI(filteredSongs, "Remixes")
+		-- if and only if the filtered result has any matches, create a subgroup with those filtered songs
+		if #filteredSongs > 0 then
+			table.insert(MasterGroupsList[i].SubGroups, 2, {
+				Name = playlistNames[i] .. "\n\n\nRemix Only\n(3 Hearts)",
+				Banner = THEME:GetPathG("", "Common fallback banner"),
+				Songs = filteredSongs
+				}
+			)
+		else end
+		
+		-- "Full Song" filter
+		-- grabs all the songs from current playlist
+		local filteredSongs = playlists[i]
+		-- filters the playlist allowing only Full Songs
+		filteredSongs = FilterSongs_POI(filteredSongs, "Fullsongs")
+		-- if and only if the filtered result has any matches, create a subgroup with those filtered songs
+		if #filteredSongs > 0 then
+			table.insert(MasterGroupsList[i].SubGroups, 2, {
+				Name = playlistNames[i] .. "\n\n\nFull Songs Only\n(4 Hearts)",
+				Banner = THEME:GetPathG("", "Common fallback banner"),
+				Songs = filteredSongs
+				}
+			)
+		else end
 	end
 	
 
