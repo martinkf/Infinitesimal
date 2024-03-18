@@ -53,6 +53,32 @@ function ListOfPlaylists_POI()
 	}
 end
 
+-- ================================================================================================================= RETURNS AN ARRAY OF "STRING PAIRS"
+-- returns: an array of string pairs - the list of colors used by the theme
+-- HAS HARD-CODED CONTENT -- HAS HARD-CODED CONTENT -- HAS HARD-CODED CONTENT -- HAS HARD-CODED CONTENT -- HAS HARD-CODED CONTENT -- HAS HARD-CODED CONTENT -- HAS HARD-CODED CONTENT -- HAS HARD-CODED CONTENT -- HAS HARD-CODED CONTENT
+function TableOfColors_POI()
+	return {
+		-- black
+		{"Black",color("#ffffff")},
+		-- IDK songs
+		{"IDK",color("#333333")}, -- gray
+		-- chart stepstype
+		{"Single",color("#ff8811")}, -- orange
+		{"Halfdouble",color("#ccff00")}, -- lime green
+		{"Double",color("#119922")}, -- forest green
+		-- song origins
+		{"The 1st DF",color("#ff00ff")}, --pink
+		{"The 2nd DF",color("#1144ff")}, --blue
+		{"O.B.G The 3rd",color("#33bb00")}, --green
+		{"O.B.G Season Evo.",color("#ffff00")}, --yellow
+		{"Perfect",color("#ff9900")}, --orange
+		{"Extra",color("#ff0000")}, --red
+		{"Pro",color("#aaaaaa")}, --gray
+		-- song genres
+		{"ORIGINAL",color("#1144ff")}, --blue
+	}
+end
+
 -- ================================================================================================================= RETURNS AN ARRAY OF POI NESTED LISTS
 -- returns: an array of POI nested lists - all lists used by playlists
 -- HAS HARD-CODED CONTENT -- HAS HARD-CODED CONTENT -- HAS HARD-CODED CONTENT -- HAS HARD-CODED CONTENT -- HAS HARD-CODED CONTENT -- HAS HARD-CODED CONTENT -- HAS HARD-CODED CONTENT -- HAS HARD-CODED CONTENT -- HAS HARD-CODED CONTENT
@@ -955,103 +981,6 @@ end
 
 
 -- ================================================================================================================= FUNCTIONS (TAKES INPUTS, REGURGITATES RETURNS)
--- ================================================================================================================= RETURNS A STRING (RELATED TO COLOR) 
--- takes: a Chart
--- returns: a string related to color, for example: ["#FF00FF"]
--- based on: the Chart style (single, half-double, double)
--- HAS HARD-CODED CONTENT -- HAS HARD-CODED CONTENT -- HAS HARD-CODED CONTENT -- HAS HARD-CODED CONTENT -- HAS HARD-CODED CONTENT -- HAS HARD-CODED CONTENT -- HAS HARD-CODED CONTENT -- HAS HARD-CODED CONTENT -- HAS HARD-CODED CONTENT
-function ChartTypeToColor_POI(Chart)	
-    local ChartMeter = Chart:GetMeter()
-    local ChartDescription = Chart:GetDescription()
-    local ChartType = ToEnumShortString(ToEnumShortString(Chart:GetStepsType()))
-	
-	local ChartDescriptionText = Chart:GetChartName()
-	local ChartNameFromDesc = ""
-	local ChartOriginFromDesc = ""
-	local openParen = ChartDescriptionText:find("%(")
-	local closeParen = ChartDescriptionText:find("%)")
-	ChartNameFromDesc = ChartDescriptionText:sub(1, openParen - 2)
-	ChartOriginFromDesc = ChartDescriptionText:sub(openParen + 1, closeParen - 1)
-
-	--[[
-    if ChartType == "Single" then
-		if ChartNameFromDesc:sub(1, 3) == "IDK" then
-			return color("#333333") --gray
-		elseif ChartMeter <= 3 then
-			return color("#ff77aa")
-		elseif ChartMeter <= 6 then
-			return color("#ffbb33")
-		elseif ChartMeter <= 10 then
-			return color("#ff9000")
-		elseif ChartMeter <= 14 then
-			return color("#ff6000")
-		elseif ChartMeter <= 18 then
-			return color("#ff2b00")
-		elseif ChartMeter <= 22 then
-			return color("#c80000")
-		else -- 23+
-			return color("#880000")
-		end
-	elseif ChartType == "Halfdouble" then
-		if ChartNameFromDesc:sub(1, 3) == "IDK" then
-			return color("#333333") --gray
-		else
-			return color("#00ffff")
-		end
-	elseif ChartType == "Double" then
-		if ChartNameFromDesc:sub(1, 3) == "IDK" then
-			return color("#333333") --gray
-		elseif ChartMeter <= 3 then
-			return color("#9977ff")
-		elseif ChartMeter <= 6 then
-			return color("#00ffa8")
-		elseif ChartMeter <= 10 then
-			return color("#00e469")
-		elseif ChartMeter <= 14 then
-			return color("#00c251")
-		elseif ChartMeter <= 18 then
-			return color("#00aa39")
-		elseif ChartMeter <= 22 then
-			return color("#007f00")
-		else -- 23+
-			return color("#005500")
-		end
-	else
-		return color("#9199D4") -- greyed-out lilac
-	end	
-	return color("#9199D4") -- greyed-out lilac
-	]]
-	
-	if ChartType == "Single" then
-		if ChartNameFromDesc:sub(1, 3) == "IDK" then
-			return color("#333333") --gray
-		else		
-			return color("#ff871f")
-		end
-	elseif ChartType == "Halfdouble" then
-		if ChartNameFromDesc:sub(1, 3) == "IDK" then
-			return color("#333333") --gray
-		else
-			return color("#00ffff")
-		end
-	elseif ChartType == "Double" then
-		if ChartNameFromDesc:sub(1, 3) == "IDK" then
-			return color("#333333") --gray		
-		else
-			return color("#21db30")
-		end
-	else
-		return color("#9199D4") -- greyed-out lilac
-	end	
-	return color("#9199D4") -- greyed-out lilac
-end
-
--- takes: a Song
--- returns: a string related to color, for example: ["#FF00FF"]
--- based on: the Song Origin ("The 1st DF" is pink, "The 2nd DF" is blue, etc etc)
--- HAS HARD-CODED CONTENT -- HAS HARD-CODED CONTENT -- HAS HARD-CODED CONTENT -- HAS HARD-CODED CONTENT -- HAS HARD-CODED CONTENT -- HAS HARD-CODED CONTENT -- HAS HARD-CODED CONTENT -- HAS HARD-CODED CONTENT -- HAS HARD-CODED CONTENT
--- to-do and replace code in ScreenSelectMusicFull underlay\MusicWheel.lua (line 511)
-
 -- ================================================================================================================= RETURNS A STRING (RELATED TO SONG) 
 -- takes: a Song
 -- returns: a string, from the list of the following:
@@ -1123,6 +1052,48 @@ function FetchChartNameOrOriginFromChart_POI(inputChart, inputInt)
     end
     
     return output
+end
+
+
+
+-- ================================================================================================================= RETURNS A COLOR OBJECT
+-- takes: a string, from a list of limited inputs (from TableOfColors_POI)
+-- returns: a Color object
+-- based on: hard-coded list of official colors used by the theme in various UI elements
+function GetColor_POI(inputString)
+	local outputColor = ""
+	
+	local found = false
+	local foundIndex = nil
+	for i, colorRelationship in ipairs(TableOfColors_POI()) do
+		if TableOfColors_POI()[i][1] == inputString then
+            found = true
+			foundIndex = i
+            break -- break if found to avoid unnecessary iterations
+        end
+	end
+	if found then
+        outputColor = TableOfColors_POI()[foundIndex][2]
+	else
+		return TableOfColors_POI()[1][2] -- handle the case where the input string doesn't have a corresponding color
+	end
+	
+	return outputColor
+end
+
+-- takes: a Chart
+-- returns: a Color object
+-- based on: the Chart stepstype
+function ChartTypeToColor_POI(input_chart)
+	local outputColor = ""
+	
+	if FetchChartNameOrOriginFromChart_POI(input_chart, 1):sub(1, 3) == "IDK" then
+		outputColor = GetColor_POI("IDK")
+	else 
+		outputColor = GetColor_POI(ToEnumShortString(ToEnumShortString(input_chart:GetStepsType())))
+	end
+	
+	return outputColor
 end
 
 
