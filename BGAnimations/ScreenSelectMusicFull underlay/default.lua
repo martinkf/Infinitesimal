@@ -180,10 +180,11 @@ local usingPOIUX = LoadModule("Config.Load.lua")("ActivatePOIProjectUX", "Save/O
 if usingPOIUX then
 	-- levers
 	local chartInfoScoreDisplay_Y = 463
-	local chartsBalls_SelectingSongY = 400
+	local chartsBalls_SelectingSongY = 242
+	local chartsBalls_SelectingSongZoom = 1.5
 	local chartsBalls_SelectingChartY = 144
-	local chartsBalls_SelectingSongDiffuseAlpha = 0
-	local chartsBalls_SelectingChartDiffuseAlpha = 0
+	local chartsBalls_SelectingSongDiffuseAlpha = 0.4
+	local chartsBalls_SelectingChartDiffuseAlpha = 0.8
 	
 	t = Def.ActorFrame {}
 	
@@ -229,18 +230,18 @@ if usingPOIUX then
 		Def.ActorFrame {
 			InitCommand=function(self)
 				self:xy(SCREEN_CENTER_X, 860)
-				:easeoutexpo(1):y(chartsBalls_SelectingSongY)
+				:easeoutexpo(1):y(chartsBalls_SelectingSongY):zoom(chartsBalls_SelectingSongZoom)
 			end,
-			OffCommand=function(self) self:stoptweening():easeoutexpo(1):y(chartsBalls_SelectingSongY) end,
-			SongChosenMessageCommand=function(self) self:stoptweening():easeoutexpo(1):y(chartsBalls_SelectingChartY) end,
-			SongUnchosenMessageCommand=function(self) self:stoptweening():easeoutexpo(0.5):y(chartsBalls_SelectingSongY) end,
+			OffCommand=function(self) self:stoptweening():easeoutexpo(1):y(chartsBalls_SelectingSongY):zoom(chartsBalls_SelectingSongZoom) end,
+			SongChosenMessageCommand=function(self) self:stoptweening():easeoutexpo(1):y(chartsBalls_SelectingChartY):zoom(1) end,
+			SongUnchosenMessageCommand=function(self) self:stoptweening():easeoutexpo(0.5):y(chartsBalls_SelectingSongY):zoom(chartsBalls_SelectingSongZoom) end,
 			
 			Def.ActorFrame {
 				InitCommand=function(self) self:y(128) end,  
 
 				Def.Sprite {
 					Texture=THEME:GetPathG("", "DifficultyDisplay/Bar"),
-					InitCommand=function(self) self:zoomy(1.2):y(156):diffusealpha(chartsBalls_SelectingSongDiffuseAlpha) end,
+					InitCommand=function(self) self:zoomy(1.1):y(156):diffusealpha(chartsBalls_SelectingSongDiffuseAlpha) end,
 					SongChosenMessageCommand=function(self) self:stoptweening():easeoutexpo(1):diffusealpha(chartsBalls_SelectingChartDiffuseAlpha) end,
 					SongUnchosenMessageCommand=function(self) self:stoptweening():easeoutexpo(0.5):diffusealpha(chartsBalls_SelectingSongDiffuseAlpha) end,
 				},				
