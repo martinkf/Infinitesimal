@@ -116,6 +116,11 @@ end
 local usingPOIUX = LoadModule("Config.Load.lua")("ActivatePOIProjectUX", "Save/OutFoxPrefs.ini") or false
 if usingPOIUX then
 	-- levers	
+	local modIcons_X = 94
+	local modIcons_Y = 49
+	local joinAnotherPlayer_X = 0.475
+	local joinAnotherPlayer_Y = 258
+	local joinAnotherPlayer_zoom = 0.4
 	
 	-- code
 	t = Def.ActorFrame {}
@@ -136,13 +141,45 @@ if usingPOIUX then
 		LoadActor("../HudPanels"),
 	}
 
+	for pn in ivalues(GAMESTATE:GetHumanPlayers()) do
+		t[#t+1] = Def.ActorFrame {
+			Def.Actor {
+				-- If no AV is defined, do it before it causes any issues
+				OnCommand=function(self)
+					local AV = LoadModule("Config.Load.lua")("AutoVelocity", CheckIfUserOrMachineProfile(string.sub(pn,-1)-1).."/OutFoxPrefs.ini")
+					if not AV then
+						LoadModule("Config.Save.lua")("AutoVelocity", tostring(200), CheckIfUserOrMachineProfile(string.sub(pn,-1)-1).."/OutFoxPrefs.ini")
+					end
+					LoadModule("Player.SetSpeed.lua")(pn)
+				end,
+
+				-- Make sure the speed is set relative to the selected song when going to gameplay
+				OffCommand=function(self)
+					LoadModule("Player.SetSpeed.lua")(pn)
+				end
+			},
+
+			-- mod icons
+			LoadActor("../ModIcons", pn) .. {
+				InitCommand=function(self)
+					--self:xy(pn == PLAYER_2 and SCREEN_RIGHT + modIcons_X * 2 or -(modIcons_X) * 2, modIcons_Y)
+					self:xy(pn == PLAYER_2 and modIcons_X * 2 or modIcons_X * -2, modIcons_Y)
+					:easeoutexpo(1):x(pn == PLAYER_2 and SCREEN_RIGHT - modIcons_X or modIcons_X)
+				end,
+				OffCommand=function(self)
+					self:stoptweening():easeoutexpo(1):x(pn == PLAYER_2 and SCREEN_RIGHT + modIcons_X * 2 or -(modIcons_X) * 2)
+				end
+			},
+		}
+	end
+
 	if GAMESTATE:GetNumSidesJoined() < 2 then    
-		local PosX = SCREEN_CENTER_X + SCREEN_WIDTH * (GAMESTATE:IsSideJoined(PLAYER_1) and 0.45 or -0.45)
-		local PosY = ((IsUsingWideScreen() and (SCREEN_HEIGHT * 0.4) or SCREEN_HEIGHT * 0.35))-180
+		local PosX = SCREEN_CENTER_X + SCREEN_WIDTH * (GAMESTATE:IsSideJoined(PLAYER_1) and joinAnotherPlayer_X or -(joinAnotherPlayer_X))
+		local PosY = ((IsUsingWideScreen() and (SCREEN_HEIGHT * 0.4) or SCREEN_HEIGHT * 0.35))-joinAnotherPlayer_Y
 
 		t[#t+1] = Def.ActorFrame {
 			InitCommand=function(self)
-				self:xy((IsUsingWideScreen() and PosX or (PosX * 1.045)), PosY):zoom(0.7)
+				self:xy((IsUsingWideScreen() and PosX or (PosX * 1.045)), PosY):zoom(joinAnotherPlayer_zoom)
 				:playcommand('Refresh')
 			end,
 		
