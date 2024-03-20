@@ -228,7 +228,7 @@ if usingPOIUX then
 			Def.Sprite {
 				Texture=THEME:GetPathG("", "UI/PanelTop"),
 				InitCommand=function(self)
-					self:scaletofit(0, 0, 1280, 128):xy(0, topPanel_Y):valign(0):visible(Screen.String("HeaderText") == "Select Music")
+					self:scaletofit(0, 0, 1280, 128):xy(0, topPanel_Y):valign(0):visible(Screen.String("HeaderText") ~= "Select Profile")
 				end,
 			},
 

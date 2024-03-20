@@ -88,7 +88,10 @@ local usingPOIUX = LoadModule("Config.Load.lua")("ActivatePOIProjectUX", "Save/O
 if usingPOIUX then
 	-- levers	
 	BigBallGroup_X = 120
-	BigBallGroup_Y = 400
+	BigBallGroup_Y = 220+90
+	MeterText_OffsetX = -1
+	MeterText_OffsetY = -4
+	MeterText_Zoom = 0.6
 	
 	t = Def.ActorFrame {}
 	
@@ -145,7 +148,7 @@ if usingPOIUX then
 				Font="Montserrat numbers 40px",
 				Name="MeterText",
 				InitCommand=function(self)
-					self:x(-1):zoom(0.6)
+					self:xy(MeterText_OffsetX, MeterText_OffsetY):zoom(MeterText_Zoom)
 				end
 			}
 		}
