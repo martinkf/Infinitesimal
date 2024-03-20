@@ -182,7 +182,7 @@ if usingPOIUX then
 	local chartInfoScoreDisplay_Y = 463
 	local chartsBalls_SelectingSongY = 242
 	local chartsBalls_SelectingSongZoom = 1.5
-	local chartsBalls_SelectingChartY = 144
+	local chartsBalls_SelectingChartY = 74
 	local chartsBalls_SelectingSongDiffuseAlpha = 0.4
 	local chartsBalls_SelectingChartDiffuseAlpha = 0.8
 	
@@ -197,6 +197,39 @@ if usingPOIUX then
 			
 			LoadActor("SongPreview") .. {
 				InitCommand=function(self) self:y(-100) end
+			}
+		}
+	}
+	
+	-- music wheel
+	t[#t+1] = LoadActor("MusicWheel") .. { Name="MusicWheel" }
+	
+	-- ChartDisplay (the bar with possible charts)
+	t[#t+1] = Def.ActorFrame {		
+		Def.ActorFrame {
+			InitCommand=function(self)
+				self:xy(SCREEN_CENTER_X, 860)
+				:easeoutexpo(1):y(chartsBalls_SelectingSongY):zoom(chartsBalls_SelectingSongZoom)
+			end,
+			OffCommand=function(self) self:stoptweening():easeoutexpo(1):y(chartsBalls_SelectingSongY):zoom(chartsBalls_SelectingSongZoom) end,
+			SongChosenMessageCommand=function(self) self:stoptweening():easeoutexpo(1):y(chartsBalls_SelectingChartY):zoom(1) end,
+			SongUnchosenMessageCommand=function(self) self:stoptweening():easeoutexpo(0.5):y(chartsBalls_SelectingSongY):zoom(chartsBalls_SelectingSongZoom) end,
+			
+			Def.ActorFrame {
+				InitCommand=function(self) self:y(128) end,  
+
+				Def.Sprite {
+					Texture=THEME:GetPathG("", "DifficultyDisplay/Bar"),
+					InitCommand=function(self) self:zoomy(1.1):y(156):diffusealpha(chartsBalls_SelectingSongDiffuseAlpha) end,
+					SongChosenMessageCommand=function(self) self:stoptweening():easeoutexpo(1):diffusealpha(chartsBalls_SelectingChartDiffuseAlpha) end,
+					SongUnchosenMessageCommand=function(self) self:stoptweening():easeoutexpo(0.5):diffusealpha(chartsBalls_SelectingSongDiffuseAlpha) end,
+				},				
+
+				LoadActor("BigPreviewBall")..{
+					Condition = (LoadModule("Config.Load.lua")("ShowBigBall", "Save/OutFoxPrefs.ini") and GetScreenAspectRatio() >= 1.5)
+				},
+				
+				LoadActor("ChartDisplay", 12),				
 			}
 		}
 	}
@@ -224,36 +257,7 @@ if usingPOIUX then
 			LoadActor("ScoreDisplay")
 		}
 	}
-	
-	-- ChartDisplay (the bar with possible charts)
-	t[#t+1] = Def.ActorFrame {		
-		Def.ActorFrame {
-			InitCommand=function(self)
-				self:xy(SCREEN_CENTER_X, 860)
-				:easeoutexpo(1):y(chartsBalls_SelectingSongY):zoom(chartsBalls_SelectingSongZoom)
-			end,
-			OffCommand=function(self) self:stoptweening():easeoutexpo(1):y(chartsBalls_SelectingSongY):zoom(chartsBalls_SelectingSongZoom) end,
-			SongChosenMessageCommand=function(self) self:stoptweening():easeoutexpo(1):y(chartsBalls_SelectingChartY):zoom(1) end,
-			SongUnchosenMessageCommand=function(self) self:stoptweening():easeoutexpo(0.5):y(chartsBalls_SelectingSongY):zoom(chartsBalls_SelectingSongZoom) end,
-			
-			Def.ActorFrame {
-				InitCommand=function(self) self:y(128) end,  
-
-				Def.Sprite {
-					Texture=THEME:GetPathG("", "DifficultyDisplay/Bar"),
-					InitCommand=function(self) self:zoomy(1.1):y(156):diffusealpha(chartsBalls_SelectingSongDiffuseAlpha) end,
-					SongChosenMessageCommand=function(self) self:stoptweening():easeoutexpo(1):diffusealpha(chartsBalls_SelectingChartDiffuseAlpha) end,
-					SongUnchosenMessageCommand=function(self) self:stoptweening():easeoutexpo(0.5):diffusealpha(chartsBalls_SelectingSongDiffuseAlpha) end,
-				},				
-
-				LoadActor("ChartDisplay", 12),				
-			}
-		}
-	}
-	
-	-- music wheel
-	t[#t+1] = LoadActor("MusicWheel") .. { Name="MusicWheel" }
-	
+		
 	-- for each player present, do logic related to ReadyUI
 	for pn in ivalues(GAMESTATE:GetHumanPlayers()) do
 		t[#t+1] = Def.ActorFrame {

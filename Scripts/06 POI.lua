@@ -78,6 +78,7 @@ function TableOfColors_POI()
 		{"Premiere 3",color("#33bb00")}, --green
 		{"Prex 3",color("#ffff00")}, --yellow
 		{"Exceed",color("#ff9900")}, --orange
+		{"Exceed S.E",color("#ff9900")}, --orange
 		{"Exceed 2",color("#ff0000")}, --red
 		{"Zero",color("#ff00ff")}, --pink
 		{"NX",color("#1144ff")}, --blue

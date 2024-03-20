@@ -283,11 +283,11 @@ if usingPOIUX then
 	local FrameH2 = 900
 	PreviewDelay = THEME:GetMetric("ScreenSelectMusic", "SampleMusicDelay")
 	--PreviewDelay = 0.11
-	local SongInfo_SelectingSongY = -150
-	local SongInfo_SelectingChartY = -190
+	local SongInfo_SelectingSongY = -120
+	local SongInfo_SelectingChartY = -185
 	local SongInfo_SongChangedDelay = 0.5
 	local VHSText_Y = 110
-	local SmallerBGAPreview_SelectingChartY = -3
+	local SmallerBGAPreview_SelectingChartY = -80
 	
 	t = Def.ActorFrame {
 		OnCommand=function(self)

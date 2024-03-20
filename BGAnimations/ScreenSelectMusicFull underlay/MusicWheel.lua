@@ -299,7 +299,7 @@ if usingPOIUX then
 	local curvature = 65
 	local fieldOfView = 90
 	local yValue = 196
-	local EntireWheel_SelectingChartY = -460
+	local EntireWheel_SelectingChartY = -530
 	
 	t = Def.ActorFrame {
 		InitCommand=function(self)        
@@ -457,10 +457,10 @@ if usingPOIUX then
 				Name="FrameForSong",
 				Texture=THEME:GetPathG("", "MusicWheel/Res43SongFrame"),
 				SongChosenMessageCommand=function(self)				
-					self:stoptweening():easeoutexpo(1):zoomx(1.35)
+					self:stoptweening():easeoutexpo(1):zoomx(1.35):diffusealpha(0)
 				end,
 				SongUnchosenMessageCommand=function(self)				
-					self:stoptweening():easeoutexpo(0.5):zoomx(1)
+					self:stoptweening():easeoutexpo(0.5):zoomx(1):diffusealpha(1)
 				end
 			},
 
