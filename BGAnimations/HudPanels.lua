@@ -192,21 +192,24 @@ end
 local usingPOIUX = LoadModule("Config.Load.lua")("ActivatePOIProjectUX", "Save/OutFoxPrefs.ini") or false
 if usingPOIUX then
 	-- levers
-	local topPanel_Y = -37
+	local topPanel_Y = -8
+	local timerBG_Y = 31
 	local screenName_Y = 12
-	local amountLives_X = 250
-	local amountLives_Y = 22
+	local amountLivesLeft_X = -88
+	local amountLivesLeft_Y = 40
+	local amountLivesRight_X = 0 - amountLivesLeft_X
+	local amountLivesRight_Y = amountLivesLeft_Y
 	local bottomPanel_Y = 762
-	local profileNameBG_X = 570
-	local profileNameBG_Y = 668
+	local profileNameBG_X = 572
+	local profileNameBG_Y = 668+53
 	local profileNameText_X = 510
-	local profileNameText_Y = 653
+	local profileNameText_Y = 653+53
 	local profileLevelBG_X = profileNameBG_X
 	local profileLevelBG_Y = 640
-	local profileLevelText_X = 510
-	local profileLevelText_Y = 625
-	local profilePic_X = 600
-	local profilePic_Y = 637
+	local profileLevelText_X = 510-120
+	local profileLevelText_Y = profileNameText_Y
+	local profilePic_X = 600+4
+	local profilePic_Y = 637+43+4
 
 	t = Def.ActorFrame {
 		Def.ActorFrame {
@@ -220,14 +223,16 @@ if usingPOIUX then
 				self:easeoutexpo(0.5):xy(SCREEN_CENTER_X, -128)
 			end,
 
-			-- Top panel
+			
+			-- Top panel			
 			Def.Sprite {
 				Texture=THEME:GetPathG("", "UI/PanelTop"),
 				InitCommand=function(self)
-					self:scaletofit(0, 0, 1280, 128):xy(0, topPanel_Y):valign(0)
+					self:scaletofit(0, 0, 1280, 128):xy(0, topPanel_Y):valign(0):visible(Screen.String("HeaderText") == "Select Music")
 				end,
 			},
 
+			--[[
 			-- Screen name
 			Def.BitmapText {
 				Name="ScreenName",
@@ -250,25 +255,70 @@ if usingPOIUX then
 					self:xy(-WideScale(200, 200), screenName_Y+20):halign(1):zoom(0.5):diffuse(Color.Black)
 				end,
 			},
-
-			-- Amount of lives left
+			]]--
+			
+			-- timer BG
+			Def.Sprite {
+				Texture=THEME:GetPathG("", "UI/TimerBG"),
+				InitCommand=function(self) self:zoom(0.4):xy(0,timerBG_Y) end
+			},
+			
+			-- Amount of lives left			
 			Def.ActorFrame {
 				InitCommand=function(self)
-					self:xy(amountLives_X, amountLives_Y)
+					self:xy(amountLivesLeft_X, amountLivesLeft_Y):visible(Screen.String("HeaderText") == "Select Music")
 				end,
 
 				Def.Sprite {
 					Texture=THEME:GetPathG("", "UI/Button"),
 					InitCommand=function(self) self:zoom(0.65) end,
 				},
-
+				LoadFont("Common Normal")..{
+					InitCommand=function(self)
+						self:settext()
+							:xy(SCREEN_CENTER_X, SCREEN_CENTER_Y)
+							:diffuse(color("#FF0000")) -- Set text color to red
+					end
+				},
 				Def.Sprite {
 					Texture=THEME:GetPathG("", "UI/Heart"),
 					InitCommand=function(self)
 						self:x(-21):zoom(0.3)
 					end,
 				},
+				Def.BitmapText {
+					Font="Montserrat semibold 40px",
+					InitCommand=function(self)
+						self:x(-6):zoom(0.6):halign(0)
 
+						local Hearts = GAMESTATE:GetNumStagesLeft(PLAYER_1) + GAMESTATE:GetNumStagesLeft(PLAYER_2)
+						self:settext("x " .. (GAMESTATE:IsEventMode() and "∞" or Hearts))
+					end
+				},
+			},
+			-- duplicating manually as a hotfix
+			Def.ActorFrame {
+				InitCommand=function(self)
+					self:xy(amountLivesRight_X, amountLivesRight_Y):visible(Screen.String("HeaderText") == "Select Music")
+				end,
+
+				Def.Sprite {
+					Texture=THEME:GetPathG("", "UI/Button"),
+					InitCommand=function(self) self:zoom(0.65) end,
+				},
+				LoadFont("Common Normal")..{
+					InitCommand=function(self)
+						self:settext()
+							:xy(SCREEN_CENTER_X, SCREEN_CENTER_Y)
+							:diffuse(color("#FF0000")) -- Set text color to red
+					end
+				},
+				Def.Sprite {
+					Texture=THEME:GetPathG("", "UI/Heart"),
+					InitCommand=function(self)
+						self:x(-21):zoom(0.3)
+					end,
+				},
 				Def.BitmapText {
 					Font="Montserrat semibold 40px",
 					InitCommand=function(self)
@@ -281,6 +331,7 @@ if usingPOIUX then
 			}
 		},
 
+		--[[
 		-- Bottom panel
 		Def.Sprite {
 			Texture=THEME:GetPathG("", "UI/PanelBottom"),
@@ -297,6 +348,7 @@ if usingPOIUX then
 				:xy(SCREEN_CENTER_X, SCREEN_BOTTOM + 128)
 			end,
 		},
+		]]--
 	}
 
 	-- Profile info (clones for every active player)
@@ -313,7 +365,7 @@ if usingPOIUX then
 						Texture=THEME:GetPathG("", "UI/NameTag" .. ToEnumShortString(pn)),
 						InitCommand=function(self)
 							self:xy(SCREEN_CENTER_X + (pn == PLAYER_2 and profileNameBG_X or -profileNameBG_X), SCREEN_BOTTOM - profileNameBG_Y)
-							:halign(pn == PLAYER_2 and 0 or 1):valign(1):rotationz(180)							
+							:halign(pn == PLAYER_2 and 0 or 1):valign(1):rotationz(180):zoomx(2)
 						end
 					},
 					
@@ -331,6 +383,7 @@ if usingPOIUX then
 						end
 					},
 					
+					--[[
 					-- player level BGgraphic
 					Def.Sprite {
 						Texture=THEME:GetPathG("", "UI/NameTag" .. ToEnumShortString(pn)),
@@ -339,6 +392,7 @@ if usingPOIUX then
 							:halign(pn == PLAYER_2 and 0 or 1):valign(1):rotationz(180)
 						end
 					},
+					]]--
 					
 					-- player level (text)
 					Def.BitmapText {

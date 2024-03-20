@@ -299,6 +299,7 @@ if usingPOIUX then
 	local curvature = 65
 	local fieldOfView = 90
 	local yValue = 196
+	local EntireWheel_SelectingChartY = -530
 	
 	t = Def.ActorFrame {
 		InitCommand=function(self)        
@@ -320,7 +321,7 @@ if usingPOIUX then
 
 		-- These are to control the functionality of the music wheel
 		SongChosenMessageCommand=function(self)			
-			self:stoptweening():easeoutexpo(1):vanishpoint(SCREEN_CENTER_X, SCREEN_BOTTOM - 150 + 7000):y(-476):zoom(2):x(-640)
+			self:stoptweening():easeoutexpo(1):vanishpoint(SCREEN_CENTER_X, SCREEN_BOTTOM - 150 + 7000):y(EntireWheel_SelectingChartY):zoom(2):x(-640)
 			:playcommand("Busy")
 		end,
 		SongUnchosenMessageCommand=function(self)			
@@ -453,12 +454,13 @@ if usingPOIUX then
 			},
 
 			Def.Sprite {
+				Name="FrameForSong",
 				Texture=THEME:GetPathG("", "MusicWheel/Res43SongFrame"),
 				SongChosenMessageCommand=function(self)				
-					self:stoptweening():easeoutexpo(1):zoomx(1.35)
+					self:stoptweening():easeoutexpo(1):zoomx(1.35):diffusealpha(0)
 				end,
 				SongUnchosenMessageCommand=function(self)				
-					self:stoptweening():easeoutexpo(0.5):zoomx(1)
+					self:stoptweening():easeoutexpo(0.5):zoomx(1):diffusealpha(1)
 				end
 			},
 
@@ -485,7 +487,7 @@ if usingPOIUX then
 					InitCommand=function(self)
 						self:addy(73):zoom(0.4):skewx(-0.1):diffusetopedge(0.95,0.95,0.95,0.8):shadowlength(1.5)
 					end,
-					RefreshCommand=function(self,param) self:settext(Targets[i]) end
+					RefreshCommand=function(self,param) self:settext(Targets[i]):diffuse(ColorFromSongGenre_POI(Songs[Targets[i]])) end
 				},
 				
 				-- quad SongOrigin
@@ -504,29 +506,8 @@ if usingPOIUX then
 						self:addy(-73):zoom(0.4):skewx(-0.1):shadowlength(1.5)
 					end,
 					
-					RefreshCommand=function(self,param)
-						local colour = "#000000"
-						local song_origin = Songs[Targets[i]]:GetOrigin()
-						
-						if (song_origin == "The 1st DF") or (song_origin == "Premiere") or (song_origin == "Zero") or (song_origin == "Fiesta 2") then 			
-							colour = "#ff00ff" --pink
-						elseif (song_origin == "The 2nd DF") or (song_origin == "Rebirth") or (song_origin == "NX") or (song_origin == "Prime") or (song_origin == "Prime JE") then 
-							colour = "#1348ff" --blue
-						elseif (song_origin == "O.B.G The 3rd") or (song_origin == "Premiere 3") or (song_origin == "NX 2") or (song_origin == "NX 2 China") or (song_origin == "Prime 2") then 
-							colour = "#36b000" --green
-						elseif (song_origin == "O.B.G Season Evo.") or (song_origin == "Prex 3") or (song_origin == "NX Absolute") or (song_origin == "XX") then 
-							colour = "#ffff00" --yellow
-						elseif (song_origin == "Perfect") or (song_origin == "Exceed") or (song_origin == "Exceed S.E") or (song_origin == "Fiesta") or (song_origin == "M") then 
-							colour = "#ff9900" --orange
-						elseif (song_origin == "Extra") or (song_origin == "Exceed 2") or (song_origin == "Fiesta EX") or (song_origin == "Phoenix") then
-							colour = "#ff0000" --red
-						elseif (song_origin == "Pro") or (song_origin == "Pro Encore") or (song_origin == "Pro 2") or (song_origin == "Infinity") or (song_origin == "Pump Jump") then
-							colour = "#aaaaaa" --gray
-						else
-							colour = "#fffffff" --white
-						end
-						
-						self:diffuse(color(colour)):settext(song_origin)
+					RefreshCommand=function(self,param)						
+						self:diffuse(ColorFromSongOrigin_POI(Songs[Targets[i]])):settext(Songs[Targets[i]]:GetOrigin())
 					end
 				},
 				
@@ -560,23 +541,23 @@ if usingPOIUX then
 						local song_firstTag = FetchFirstTag_POI(Songs[Targets[i]])
 						local song_secondTag = FetchSecondTag_POI(Songs[Targets[i]])
 						local outputText = ""
-						local colour = "#ffffff"
+						local colour = GetColor_POI("Black")
 						
 						if song_firstTag == "SHORTCUT" then
 							outputText = "SHORT CUT"
-							colour = "#ffff00"
+							colour = GetColor_POI(song_firstTag)
 						elseif song_firstTag == "REMIX" then
 							outputText = "REMIX"
-							colour = "#0000ff"
+							colour = GetColor_POI(song_firstTag)
 						elseif song_firstTag == "FULLSONG" then
 							outputText = "FULL SONG"
-							colour = "#009900"
+							colour = GetColor_POI(song_firstTag)
 						elseif song_secondTag == "ANOTHER" then
 							outputText = "ANOTHER"
-							colour = "#ff0000"
+							colour = GetColor_POI(song_secondTag)
 						end
 						
-						self:diffuse(color(colour)):settext(outputText)
+						self:diffuse(colour):settext(outputText)
 					end
 				},
 			}

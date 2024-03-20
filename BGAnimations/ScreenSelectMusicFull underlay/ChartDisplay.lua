@@ -400,13 +400,14 @@ t[#t+1] = Def.ActorFrame {
 
 local usingPOIUX = LoadModule("Config.Load.lua")("ActivatePOIProjectUX", "Save/OutFoxPrefs.ini") or false
 if usingPOIUX then
-	-- levers
-	local chartList_Y = 156
+	-- levers	
+	local chartPersonalRecordGrade_Y = (GAMESTATE:IsPlayerEnabled(PLAYER_2) and 20 or -20)
+	local chartPersonalRecordGrade_Zoom = 0.07
 	
 	t = Def.ActorFrame {
 		OnCommand=function(self)
 			SCREENMAN:GetTopScreen():AddInputCallback(InputHandler)
-			self:playcommand("Refresh"):y(chartList_Y)
+			self:playcommand("Refresh"):y(156)
 		end,
 
 		-- Prevent the chart list from moving when transitioning
@@ -575,10 +576,14 @@ if usingPOIUX then
 
 					if Chart then
 						local ChartMeter = Chart:GetMeter()
-						if ChartMeter == 99 then ChartMeter = "??" end
+						if ChartMeter == 99 then
+							ChartMeter = "??"
+							else
+							ChartMeter = string.format("%02d", ChartMeter)
+						end
 						local ChartDescription = Chart:GetDescription()
 
-						self:GetChild("")[i]:GetChild("Icon"):visible(true):diffuse(ChartTypeToColor_POI(Chart))
+						self:GetChild("")[i]:GetChild("Icon"):visible(true):diffuse(ColorFromChart_POI(Chart))
 						self:GetChild("")[i]:GetChild("IconTrim"):visible(true)
 						self:GetChild("")[i]:GetChild("Level"):visible(true):settext(ChartMeter)
 						self:GetChild("")[i]:GetChild("HighlightP1"):visible(
@@ -668,7 +673,7 @@ if usingPOIUX then
 			Def.Sprite {
 				Name="PersonalRecord",				
 				InitCommand=function(self)
-					self:xy(FrameX + ItemW * (i - 1), (GAMESTATE:IsPlayerEnabled(PLAYER_2) and -22 or 22)):animate(false):zoom(0.09)
+					self:xy(FrameX + ItemW * (i - 1), chartPersonalRecordGrade_Y):animate(false):zoom(chartPersonalRecordGrade_Zoom)
 				end
 			},
 

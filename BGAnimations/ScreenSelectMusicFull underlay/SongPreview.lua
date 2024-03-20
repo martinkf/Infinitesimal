@@ -280,8 +280,14 @@ local usingPOIUX = LoadModule("Config.Load.lua")("ActivatePOIProjectUX", "Save/O
 if usingPOIUX then
 	-- levers
 	local FrameW2 = 1600
-	local FrameH2 = 900	
-	PreviewDelay = 0.11
+	local FrameH2 = 900
+	PreviewDelay = THEME:GetMetric("ScreenSelectMusic", "SampleMusicDelay")
+	--PreviewDelay = 0.11
+	local SongInfo_SelectingSongY = -120
+	local SongInfo_SelectingChartY = -185
+	local SongInfo_SongChangedDelay = 0.5
+	local VHSText_Y = 110
+	local SmallerBGAPreview_SelectingChartY = -80
 	
 	t = Def.ActorFrame {
 		OnCommand=function(self)
@@ -305,7 +311,7 @@ if usingPOIUX then
 				Font="VCR OSD Mono 40px",
 				Text="",
 				InitCommand=function(self)
-					self:zoom(2):xy(0,-200)
+					self:zoom(2):xy(0,VHSText_Y)
 					:shadowlength(4)					
 				end,
 				ScrollMessageCommand=function(self, params)
@@ -313,13 +319,13 @@ if usingPOIUX then
 					if direction == -1 then
 						self:stoptweening()
 						:settext("PREV")
-						:zoom(2.1)
+						:zoom(2.3)
 						:easeoutquad(0.2)
 						:zoom(2)
 					elseif direction == 1 then
 						self:stoptweening()
 						:settext("NEXT")
-						:zoom(2.1)
+						:zoom(2.3)
 						:easeoutquad(0.2)
 						:zoom(2)
 					end					
@@ -413,7 +419,7 @@ if usingPOIUX then
 			end,
 			
 			SongChosenMessageCommand=function(self)				
-				self:stoptweening():easeoutexpo(1):zoomto(FrameW2/3, FrameH2/3):y(-18):diffusealpha(1)
+				self:stoptweening():easeoutexpo(1):zoomto(FrameW2/3, FrameH2/3):y(SmallerBGAPreview_SelectingChartY):diffusealpha(1)
 			end,
 			SongUnchosenMessageCommand=function(self)				
 				self:stoptweening():easeoutexpo(0.5):zoomto(FrameW2/8, FrameH2/6.1):y(332):diffusealpha(0)
@@ -421,23 +427,23 @@ if usingPOIUX then
 		}
 	}
 	
-	-- song stats
+	-- song information (song title, artist, bpm, hearts cost)
 	t[#t+1] = Def.ActorFrame {
 		InitCommand=function(self) end,
 		CurrentSongChangedMessageCommand=function(self) self:playcommand("Refresh") end,
 
 		LoadActor("../ScreenEvaluation underlay/EvalSongInfo") .. {
 			InitCommand=function(self)
-				self:xy(0, 186)
+				self:xy(0, SongInfo_SelectingSongY)
 			end,
 			CurrentSongChangedMessageCommand=function(self)
-				self:stoptweening():diffusealpha(0):sleep(0.25):easeoutexpo(1):diffusealpha(1)
+				self:stoptweening():diffusealpha(0):sleep(SongInfo_SongChangedDelay):easeoutexpo(1):diffusealpha(1)
 			end,
 			SongChosenMessageCommand=function(self)            
-				self:stoptweening():diffusealpha(1):easeoutexpo(1):y(-220)
+				self:stoptweening():diffusealpha(1):easeoutexpo(1):y(SongInfo_SelectingChartY)
 			end,
 			SongUnchosenMessageCommand=function(self)            
-				self:stoptweening():diffusealpha(1):easeoutexpo(0.5):y(186)
+				self:stoptweening():diffusealpha(1):easeoutexpo(0.5):y(SongInfo_SelectingSongY)
 			end
 		}
 	}
