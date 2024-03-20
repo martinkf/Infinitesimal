@@ -299,6 +299,7 @@ if usingPOIUX then
 	local curvature = 65
 	local fieldOfView = 90
 	local yValue = 196
+	local EntireWheel_SelectingChartY = -460
 	
 	t = Def.ActorFrame {
 		InitCommand=function(self)        
@@ -320,7 +321,7 @@ if usingPOIUX then
 
 		-- These are to control the functionality of the music wheel
 		SongChosenMessageCommand=function(self)			
-			self:stoptweening():easeoutexpo(1):vanishpoint(SCREEN_CENTER_X, SCREEN_BOTTOM - 150 + 7000):y(-476):zoom(2):x(-640)
+			self:stoptweening():easeoutexpo(1):vanishpoint(SCREEN_CENTER_X, SCREEN_BOTTOM - 150 + 7000):y(EntireWheel_SelectingChartY):zoom(2):x(-640)
 			:playcommand("Busy")
 		end,
 		SongUnchosenMessageCommand=function(self)			

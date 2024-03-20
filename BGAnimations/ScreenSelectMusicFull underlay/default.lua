@@ -180,6 +180,10 @@ local usingPOIUX = LoadModule("Config.Load.lua")("ActivatePOIProjectUX", "Save/O
 if usingPOIUX then
 	-- levers
 	local chartInfoScoreDisplay_Y = 463
+	local chartsBalls_SelectingSongY = 400
+	local chartsBalls_SelectingChartY = 144
+	local chartsBalls_SelectingSongDiffuseAlpha = 0
+	local chartsBalls_SelectingChartDiffuseAlpha = 0
 	
 	t = Def.ActorFrame {}
 	
@@ -196,6 +200,7 @@ if usingPOIUX then
 		}
 	}
 	
+	-- chart details elements that come from below when a chart is selected (ChartInfo, ScoreDisplay)
 	t[#t+1] = Def.ActorFrame {    
 		Def.ActorFrame {
 			InitCommand=function(self)
@@ -219,27 +224,26 @@ if usingPOIUX then
 		}
 	}
 	
-	-- ChartDisplay (bar with possible charts)
+	-- ChartDisplay (the bar with possible charts)
 	t[#t+1] = Def.ActorFrame {		
 		Def.ActorFrame {
 			InitCommand=function(self)
 				self:xy(SCREEN_CENTER_X, 860)
-				:easeoutexpo(1):y(360)
+				:easeoutexpo(1):y(chartsBalls_SelectingSongY)
 			end,
-			OffCommand=function(self) self:stoptweening():easeoutexpo(1):y(360) end,
-			SongChosenMessageCommand=function(self) self:stoptweening():easeoutexpo(1):y(130) end,
-			SongUnchosenMessageCommand=function(self) self:stoptweening():easeoutexpo(0.5):y(360) end,
+			OffCommand=function(self) self:stoptweening():easeoutexpo(1):y(chartsBalls_SelectingSongY) end,
+			SongChosenMessageCommand=function(self) self:stoptweening():easeoutexpo(1):y(chartsBalls_SelectingChartY) end,
+			SongUnchosenMessageCommand=function(self) self:stoptweening():easeoutexpo(0.5):y(chartsBalls_SelectingSongY) end,
 			
 			Def.ActorFrame {
 				InitCommand=function(self) self:y(128) end,  
 
-				--floatin' charts!
-				--[[
 				Def.Sprite {
 					Texture=THEME:GetPathG("", "DifficultyDisplay/Bar"),
-					InitCommand=function(self) self:zoom(1.2):y(156) end
-				},
-				]]--
+					InitCommand=function(self) self:zoomy(1.2):y(156):diffusealpha(chartsBalls_SelectingSongDiffuseAlpha) end,
+					SongChosenMessageCommand=function(self) self:stoptweening():easeoutexpo(1):diffusealpha(chartsBalls_SelectingChartDiffuseAlpha) end,
+					SongUnchosenMessageCommand=function(self) self:stoptweening():easeoutexpo(0.5):diffusealpha(chartsBalls_SelectingSongDiffuseAlpha) end,
+				},				
 
 				LoadActor("ChartDisplay", 12),				
 			}
@@ -249,7 +253,7 @@ if usingPOIUX then
 	-- music wheel
 	t[#t+1] = LoadActor("MusicWheel") .. { Name="MusicWheel" }
 	
-	-- for each player present, do logic related to ModIcons and ReadyUI
+	-- for each player present, do logic related to ReadyUI
 	for pn in ivalues(GAMESTATE:GetHumanPlayers()) do
 		t[#t+1] = Def.ActorFrame {
 			-- ready UI
