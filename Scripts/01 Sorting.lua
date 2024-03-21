@@ -539,62 +539,23 @@ function AssembleGroupSorting_POI()
 					Songs = playlists[i]
 					}
 				)
-			elseif thisSublist == "ORIGINAL" then
+			else
+				-- creates the temporary string that contains the matched description of the sublist
+				local sublistDesc = ""
+				for _, sublist in ipairs(TableOfSublists_POI()) do if sublist[1] == thisSublist then sublistDesc = sublist[2] break end end
 				-- grabs all the songs from current playlist
 				local filteredSongs = playlists[i]
 				-- filters the playlist allowing only what this sublist allows
-				filteredSongs = SublistOfSongs_POI(filteredSongs, "ORIGINAL")
+				filteredSongs = SublistOfSongs_POI(filteredSongs, thisSublist)
 				-- if and only if the filtered result has any matches, create a subgroup with those filtered songs
 				if #filteredSongs > 0 then
 					table.insert(MasterGroupsList[i].SubGroups, #(MasterGroupsList[i].SubGroups) + 1, {
-						Name = playlistNames[i] .. "\n\n\nFilter by genre\n(Original Only)",
+						Name = playlistNames[i] .. sublistDesc,
 						Banner = THEME:GetPathG("", "Common fallback banner"),
 						Songs = filteredSongs
 						}
 					)
-				else end
-			elseif thisSublist == "KPOP" then
-				-- grabs all the songs from current playlist
-				local filteredSongs = playlists[i]
-				-- filters the playlist allowing only what this sublist allows
-				filteredSongs = SublistOfSongs_POI(filteredSongs, "KPOP")
-				-- if and only if the filtered result has any matches, create a subgroup with those filtered songs
-				if #filteredSongs > 0 then
-					table.insert(MasterGroupsList[i].SubGroups, #(MasterGroupsList[i].SubGroups) + 1, {
-						Name = playlistNames[i] .. "\n\n\nFilter by genre\n(K-Pop Only)",
-						Banner = THEME:GetPathG("", "Common fallback banner"),
-						Songs = filteredSongs
-						}
-					)
-				else end
-			elseif thisSublist == "WORLDMUSIC" then
-				-- grabs all the songs from current playlist
-				local filteredSongs = playlists[i]
-				-- filters the playlist allowing only what this sublist allows
-				filteredSongs = SublistOfSongs_POI(filteredSongs, "WORLDMUSIC")
-				-- if and only if the filtered result has any matches, create a subgroup with those filtered songs
-				if #filteredSongs > 0 then
-					table.insert(MasterGroupsList[i].SubGroups, #(MasterGroupsList[i].SubGroups) + 1, {
-						Name = playlistNames[i] .. "\n\n\nFilter by genre\n(World Music Only)",
-						Banner = THEME:GetPathG("", "Common fallback banner"),
-						Songs = filteredSongs
-						}
-					)
-				else end
-			elseif thisSublist == "SHORTCUT" then
-				-- grabs all the songs from current playlist
-				local filteredSongs = playlists[i]
-				-- filters the playlist allowing only what this sublist allows
-				filteredSongs = SublistOfSongs_POI(filteredSongs, "SHORTCUT")
-				-- if and only if the filtered result has any matches, create a subgroup with those filtered songs
-				if #filteredSongs > 0 then
-					table.insert(MasterGroupsList[i].SubGroups, #(MasterGroupsList[i].SubGroups) + 1, {
-						Name = playlistNames[i] .. "\n\n\nShort Cut Only\n(1 Heart)",
-						Banner = THEME:GetPathG("", "Common fallback banner"),
-						Songs = filteredSongs
-						}
-					)
-				else end
+				else end			
 			end
 		end		
 	end

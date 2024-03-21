@@ -56,8 +56,8 @@ end
 function TableOfPlaylists_POI()
 	return {
 		{"All Tunes","No filters","ORIGINAL","KPOP","WORLDMUSIC","SHORTCUT","ARCADE","REMIX","FULLSONG"},
-		{"The 1st DF","No filters","ORIGINAL","KPOP"},
-		--{"The 1st DF","No filters","EASY"},
+		--{"The 1st DF","No filters","ORIGINAL","KPOP"},
+		{"The 1st DF","No filters","EASY"},
 		--{"The 2nd DF","No filters","EASY"},
 		--{"The 1st DF","EASY","HARD","DOUBLE","NONSTOP REMIX"},
 		--{"The 2nd DF","EASY","HARD","CRAZY","DOUBLE","NONSTOP REMIX","NONSTOP REMIX DOUBLE"},
@@ -124,6 +124,21 @@ function TableOfColors_POI()
 		{"SHORTCUT",color("#ffff00")}, --yellow
 		{"REMIX",color("#1144ff")}, --blue
 		{"FULLSONG",color("#33bb00")}, --green
+	}
+end
+
+-- returns: an array of string pairs - the list of sublists that are possible and their associated description texts
+-- HAS HARD-CODED CONTENT -- HAS HARD-CODED CONTENT -- HAS HARD-CODED CONTENT -- HAS HARD-CODED CONTENT -- HAS HARD-CODED CONTENT -- HAS HARD-CODED CONTENT -- HAS HARD-CODED CONTENT -- HAS HARD-CODED CONTENT -- HAS HARD-CODED CONTENT
+function TableOfSublists_POI()
+	return {
+		{ "EASY", "\n\n\nEasy" },
+		{ "ORIGINAL", "\n\n\nFilter by genre\n(Original Only)" },
+		{ "KPOP", "\n\n\nFilter by genre\n(K-Pop Only)" },
+		{ "WORLDMUSIC", "\n\n\nFilter by genre\n(World Music Only)" },
+		{ "SHORTCUT", "\n\n\nShort Cut Only\n(1 Heart)" },
+		{ "ARCADE", "\n\n\nArcade Only\n(2 Hearts)" },
+		{ "REMIX", "\n\n\nRemix Only\n(3 Hearts)" },
+		{ "FULLSONG", "\n\n\nFull Songs Only\n(4 Hearts)" },			
 	}
 end
 
@@ -3915,7 +3930,7 @@ end
 
 -- takes: (1) an array of Songs, usually being all tunes from a playlist
 -- takes: (2) a string, from the list of the following:
--- "SHORTCUT" "ARCADE" "REMIX" "FULLSONG" "ORIGINAL" "KPOP" "WORLDMUSIC"
+-- "ORIGINAL" "KPOP" "WORLDMUSIC" "SHORTCUT" "ARCADE" "REMIX" "FULLSONG" "EASY"
 -- returns: an array of Songs
 -- based on: the original array of Songs used for input, but filtered out - this generates a sublist from a playlist
 function SublistOfSongs_POI(inputArrayOfSongs, inputListType)	
@@ -3926,6 +3941,7 @@ function SublistOfSongs_POI(inputArrayOfSongs, inputListType)
 		local shouldAdd = false
 		local songFirstTag = FetchFirstTag_POI(song)
 		local songGenre = song:GetGenre()
+		local listOfCharts = song:GetAllSteps()
 
 		if inputListType == "SHORTCUT" and songFirstTag == inputListType then shouldAdd = true
 		elseif inputListType == "FULLSONG" and songFirstTag == inputListType then shouldAdd = true
@@ -3934,6 +3950,22 @@ function SublistOfSongs_POI(inputArrayOfSongs, inputListType)
 		elseif inputListType == "ORIGINAL" and songGenre == inputListType then shouldAdd = true
 		elseif inputListType == "KPOP" and songGenre == inputListType then shouldAdd = true
 		elseif inputListType == "WORLDMUSIC" and songGenre == inputListType then shouldAdd = true
+		elseif inputListType == "EASY" then
+			-- code logic to create the "Easy" sublist
+			-- remember we're currently iterating each song in the playlist
+			-- all that needs to be done is evaluate the current song in this loop
+			-- and if it's allowed in the sublist this block should set shouldAdd to true
+			-- it's allowed in the sublist if there is any chart in this song with the text "NORMAL" inside of it			
+			for j, thisChart in ipairs(listOfCharts) do
+				local keyword = "NORMAL"
+				local thisChartDesc = thisChart:GetDescription()
+				if string.find(thisChartDesc, keyword) ~= nil then
+					-- this means it was found
+					shouldAdd = true
+				else
+					-- this means it was not found - continue iterating through charts
+				end
+			end
 		end
 	
 		if shouldAdd then table.insert(reorderedSongs, song) end
