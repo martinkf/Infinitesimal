@@ -545,7 +545,7 @@ function AssembleGroupSorting_POI()
 			{ "WORLDMUSIC", "\n\n\nFilter by genre\n(World Music Only)" },
 		}
 		
-		-- creates all other sublists
+		-- creates HEARTS Sublists and GENRE Sublists
 		for j = 1, #TableSublistToText do
 			-- grabs all the songs from current playlist
 			local filteredSongs = playlists[i]
@@ -561,6 +561,9 @@ function AssembleGroupSorting_POI()
 				)
 			else end
 		end
+		
+		-- creates DIFFICULTY Sublists (WIP)
+		local nameOfCurrentPlaylist = MasterGroupsList[i].Name
 	end
 		
 --[[
