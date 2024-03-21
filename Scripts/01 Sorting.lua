@@ -519,7 +519,7 @@ function AssembleGroupSorting_POI()
 			Banner = THEME:GetPathG("", "Common fallback banner"),
 			SubGroups = {}
 		}
-		playlists[i] = GetArrayOfSongsBasedOnPlaylist_POI(thisPlaylistName)
+		playlists[i] = GetArrayOfSongsFromPlaylist_POI(thisPlaylistName)
 	end
 	
 	-- creates MasterGroupsList.SubGroups for each playlist

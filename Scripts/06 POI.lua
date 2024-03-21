@@ -1,7 +1,4 @@
--- ================================================================================================================= LISTS (ALL RETURNS, NO INPUTS)
--- ================================================================================================================= RETURNS AN ARRAY OF STRINGS
--- returns: an array of strings - the ordering of all songs
--- HAS HARD-CODED CONTENT -- HAS HARD-CODED CONTENT -- HAS HARD-CODED CONTENT -- HAS HARD-CODED CONTENT -- HAS HARD-CODED CONTENT -- HAS HARD-CODED CONTENT -- HAS HARD-CODED CONTENT -- HAS HARD-CODED CONTENT -- HAS HARD-CODED CONTENT
+-- HAS HARD-CODED CONTENT
 function CustomOrderingOfSongs_POI()
 	return {
 		"101 - IGNITION STARTS","102 - HYPNOSIS","103 - FOREVER LOVE","104 - PASSION","105 - BLACK CAT","106 - POM POM POM","107 - THE RAP","108 - COME TO ME","109 - FUNKY TONIGHT","110 - WHAT DO U REALLY WANT",
@@ -41,18 +38,6 @@ function CustomOrderingOfSongs_POI()
 	}
 end
 
--- returns: an array of strings - the list of names of the possible Playlists
-function ListOfPlaylists_POI()
-	local outputNames = {}
-	for i, value in pairs(TableOfPlaylists_POI()) do
-		table.insert(outputNames, value[1])
-	end
-	return outputNames
-end
-
--- ================================================================================================================= RETURNS A TABLE OF STRINGS
--- returns: a table of strings - the list of all possible Playlists and the possible Sublists specific to each
--- HAS HARD-CODED CONTENT -- HAS HARD-CODED CONTENT -- HAS HARD-CODED CONTENT -- HAS HARD-CODED CONTENT -- HAS HARD-CODED CONTENT -- HAS HARD-CODED CONTENT -- HAS HARD-CODED CONTENT -- HAS HARD-CODED CONTENT -- HAS HARD-CODED CONTENT
 function TableOfPlaylists_POI()
 	return {
 		{"All Tunes","No filters","ORIGINAL","KPOP","WORLDMUSIC","SHORTCUT","ARCADE","REMIX","FULLSONG"},
@@ -69,9 +54,6 @@ function TableOfPlaylists_POI()
 	}
 end
 
--- ================================================================================================================= RETURNS A TABLE OF STRINGS "STRING PAIRS"
--- returns: an array of string pairs - the list of colors used by the theme
--- HAS HARD-CODED CONTENT -- HAS HARD-CODED CONTENT -- HAS HARD-CODED CONTENT -- HAS HARD-CODED CONTENT -- HAS HARD-CODED CONTENT -- HAS HARD-CODED CONTENT -- HAS HARD-CODED CONTENT -- HAS HARD-CODED CONTENT -- HAS HARD-CODED CONTENT
 function TableOfColors_POI()
 	return {
 		-- black
@@ -126,8 +108,6 @@ function TableOfColors_POI()
 	}
 end
 
--- returns: an array of string pairs - the list of sublists that are possible and their associated description texts
--- HAS HARD-CODED CONTENT -- HAS HARD-CODED CONTENT -- HAS HARD-CODED CONTENT -- HAS HARD-CODED CONTENT -- HAS HARD-CODED CONTENT -- HAS HARD-CODED CONTENT -- HAS HARD-CODED CONTENT -- HAS HARD-CODED CONTENT -- HAS HARD-CODED CONTENT
 function TableOfSublists_POI()
 	return {
 		{ "EASY", "\n\n\nEasy" },
@@ -141,9 +121,6 @@ function TableOfSublists_POI()
 	}
 end
 
--- ================================================================================================================= RETURNS AN ARRAY OF POI NESTED LISTS
--- returns: an array of POI nested lists - all lists used by playlists
--- HAS HARD-CODED CONTENT -- HAS HARD-CODED CONTENT -- HAS HARD-CODED CONTENT -- HAS HARD-CODED CONTENT -- HAS HARD-CODED CONTENT -- HAS HARD-CODED CONTENT -- HAS HARD-CODED CONTENT -- HAS HARD-CODED CONTENT -- HAS HARD-CODED CONTENT
 function ListOfPOINestedLists_POI()
 	return {
 		-- All Songs (empty POI Nested List)
@@ -3732,12 +3709,16 @@ function ListOfPOINestedLists_POI()
 end
 
 
+-- functions
 
--- ================================================================================================================= FUNCTIONS (TAKES INPUTS, REGURGITATES RETURNS)
--- ================================================================================================================= RETURNS AN INT
--- takes: a string, a playlist name
--- returns: an int
--- based on: the index of that playlist in the POI Nested List
+function ListOfPlaylists_POI()
+	local outputNames = {}
+	for i, value in pairs(TableOfPlaylists_POI()) do
+		table.insert(outputNames, value[1])
+	end
+	return outputNames
+end
+
 function ReturnIndexOfPlaylist(input_playlistName)
 	local output = 0 -- should never actually return 0 (if input is valid)
 	
@@ -3753,12 +3734,6 @@ function ReturnIndexOfPlaylist(input_playlistName)
 	return output
 end
 
-
-
--- ================================================================================================================= RETURNS A STRING (RELATED TO SONG) 
--- takes: a Song object
--- returns: a string, from the list: ARCADE, REMIX, FULLSONG, SHORTCUT
--- based on: the first keyword present in the TAGS attribute in the SSC
 function FetchFirstTag_POI(input_song)
 	local output = ""
 	
@@ -3775,9 +3750,6 @@ function FetchFirstTag_POI(input_song)
 	return output
 end
 
--- takes: a Song
--- returns: a string, from the list: ANOTHER
--- based on: the second keyword present in the TAGS attribute in the SSC
 function FetchSecondTag_POI(input_song)
 	local output = ""
 	
@@ -3798,14 +3770,6 @@ function FetchSecondTag_POI(input_song)
 	return output
 end
 
-
-
--- ================================================================================================================= RETURNS A STRING (RELATED TO CHART) 
--- takes: a Chart
--- returns: a string
--- based on: the CHART DESCRIPTION from the SSC's CHARTNAME attribute
--- example input: [ChartObject for Hypnosis_1ST-FREESTYLE]
--- example output: "FREESTYLE i"
 function FetchChartName_POI(input_Chart)
 	local output = ""
     
@@ -3816,11 +3780,6 @@ function FetchChartName_POI(input_Chart)
     return output
 end
 
--- takes: a Chart
--- returns: a string
--- based on: the CHART ORIGIN from the SSC's CHARTNAME attribute
--- example input: [ChartObject for Hypnosis_1ST-FREESTYLE]
--- example output: "The 1st DF"
 function FetchChartOrigin_POI(input_Chart)
 	local output = ""
     
@@ -3834,12 +3793,6 @@ function FetchChartOrigin_POI(input_Chart)
     return output
 end
 
-
-
--- ================================================================================================================= RETURNS A COLOR OBJECT
--- takes: a string, from a list of limited inputs (from TableOfColors_POI)
--- returns: a Color object
--- based on: hard-coded list of official colors used by the theme in various UI elements
 function GetColor_POI(inputString)
 	local outputColor = ""
 	
@@ -3861,19 +3814,10 @@ function GetColor_POI(inputString)
 	return outputColor
 end
 
--- takes: a Song
--- returns: a Color object
--- based on: the Song origin version
 function ColorFromSongOrigin_POI(input_song) return GetColor_POI(input_song:GetOrigin()) end
 
--- takes: a Song
--- returns: a Color object
--- based on: the Song genre
 function ColorFromSongGenre_POI(input_song) return GetColor_POI(input_song:GetGenre()) end
 
--- takes: a Chart
--- returns: a Color object
--- based on: the Chart stepstype
 function ColorFromChartStepstype_POI(input_chart)
 	local outputColor = ""
 	
@@ -3886,13 +3830,6 @@ function ColorFromChartStepstype_POI(input_chart)
 	return outputColor
 end
 
-
--- ================================================================================================================= RETURNS AN ARRAY OF STRINGS (RELATED TO PLAYLISTS) 
--- takes: a string, the name of a playlist
--- returns: an array of strings
--- based on: it's the list of the possible associated sublists with the input playlist
--- example input: "Extra"
--- example output: { "NORMAL", "HARD", "EXTRA EXPERT", "DOUBLE", "EXTRA EXPERT DOUBLE", "NONSTOP REMIX", "NONSTOP REMIX DOUBLE" }
 function ListOfPossibleSublists_POI(input_playlistName)
 	local outputNames = {}
 	
@@ -3912,13 +3849,6 @@ function ListOfPossibleSublists_POI(input_playlistName)
 	return outputNames
 end
 
--- takes: (1) an array of arrays (the contents of an entire playlist)
--- takes: (2) a string (a song folder path)
--- returns: an array of strings
--- based on: looks up the array of arrays and return the charts associated with the inputted song
--- example input (1): { {"Song1","Chart1-A","Chart1-B"}, {"Song2","Chart2-A","Chart2-B"}, {"Song3","Chart3-A","Chart3-B"} } 
--- example input (2): "Song2"
--- example output: {"Chart2-A", "Chart2-B"}
 function FindChartsForSongString(input_playlist, input_songAsString)
     for i, songData in ipairs(input_playlist) do
         if songData[1] == input_songAsString then
@@ -3934,36 +3864,19 @@ function FindChartsForSongString(input_playlist, input_songAsString)
     return {}
 end
 
--- takes: (1) a string, the name of a playlist
--- takes: (2) a Song object
--- returns: an array of strings
--- based on: it's the list of charts of any given song on any given playlist
--- example input: "Perfect",[SongObject for SLAM]
--- example output: { "PERF-NORMAL", "PERF-HARD", "PERF-CRAZY", "PERF-FREESTYLE", }
 function FindChartsForSong(input_playlistName, input_song)
 	local output = {}
 	
 	-- fetch the array of arrays for the entire playlist
-	local list = GetPOINestedList_POI(input_playlistName)
+	local list = GetPlaylistArray_POI(input_playlistName)
 	-- fetch the song folder path
-	local songPathString = ""
-	--todo
-	--todo
-	--todo
+	local songPathString = input_song:GetSongDir()
 	-- looks up the returnable array of strings representing the list of charts of that song in that playlist
-	--output = FindChartsForSongString(input_playlist, songPathString)
+	output = FindChartsForSongString(input_playlist, songPathString)
 	
 	return output
 end
 
-
-
--- ================================================================================================================= RETURNS AN ARRAY OF STRINGS (RELATED TO SONG) 
--- takes: an array of arrays
--- returns: an array of strings listing SongFolder names, for example: 
--- based on: iterating through the input, it lists solely the SongFolder names
--- example input: { {"Song1FromDF","Chart","Chart"}, {"Song2FromDF","Chart","Chart"}, }
--- example output: { "Song1FromDF", "Song2FromDF", }
 function GetSongDirsFromPlaylist_POI(input_playlist)
 	local outputList = {}
 	for _, innerList in ipairs(input_playlist) do
@@ -3972,12 +3885,6 @@ function GetSongDirsFromPlaylist_POI(input_playlist)
 	return outputList
 end
 
-
-
--- ================================================================================================================= RETURNS AN ARRAY OF SONG OBJECTS 
--- takes: an array of Song objects
--- returns: an array of Song objects
--- based on: the original array of Songs used for input, but ordered by the POI standard
 function ReorderSongs_POI(input_arrayOfSongs)
 	local output = input_arrayOfSongs
 	
@@ -4005,11 +3912,6 @@ function ReorderSongs_POI(input_arrayOfSongs)
 	return output
 end
 
--- takes: (1) an array of Song objects, usually being all tunes from a playlist
--- takes: (2) a string, from the list of the following:
--- "ORIGINAL" "KPOP" "WORLDMUSIC" "SHORTCUT" "ARCADE" "REMIX" "FULLSONG" "EASY"
--- returns: an array of Song objects
--- based on: the original array of Songs used for input, but filtered out - this generates a sublist from a playlist
 function SublistOfSongs_POI(input_arrayOfSongs, input_sublistName)	
 	local output = input_arrayOfSongs
 	local reorderedSongs = {}	
@@ -4053,11 +3955,6 @@ function SublistOfSongs_POI(input_arrayOfSongs, input_sublistName)
 	return output
 end
 
--- takes: (1) an array of Song objects, usually being all tunes from a playlist
--- takes: (2) a string, from the list of playlist names
--- takes: (3) a string, from the list of the following: "ORIGINAL" "KPOP" "WORLDMUSIC" "SHORTCUT" "ARCADE" "REMIX" "FULLSONG" "EASY"
--- returns: an array of Song objects
--- based on: the original array of Songs used for input, but filtered out - this generates a sublist from a playlist
 function NewSublistOfSongs_POI(inputArrayOfSongs, input_playlist, inputListType)	
 	local output = inputArrayOfSongs
 	local reorderedSongs = {}	
@@ -4085,7 +3982,12 @@ function NewSublistOfSongs_POI(inputArrayOfSongs, input_playlist, inputListType)
 			local possibleCharts = FindChartsForSong(input_playlist, song)
 			-- iterate possibleCharts in a way that leaves it with EASY songs only
 			--
+			-- todo
+			--
 			-- if and only if possibleCharts is not empty, then iterate the list of charts this song has, for any match with any of the possibleCharts elements - if found, shouldAdd and break
+			--
+			-- todo
+			--
 		end
 	
 		if shouldAdd then table.insert(reorderedSongs, song) end
@@ -4095,15 +3997,12 @@ function NewSublistOfSongs_POI(inputArrayOfSongs, input_playlist, inputListType)
 	return output
 end
 
--- takes: a string, from the possible ListOfPlaylists
--- returns: an array of Song objects
--- based on: takes all the songs in the game, remove some to leave only the ones related to a PIU version playlist
-function GetArrayOfSongsBasedOnPlaylist_POI(inputPlaylistAsString)
-	local outputSongArray = {}
+function GetArrayOfSongsFromPlaylist_POI(input_playlistName)
+	local output_songArray = {}
 	
-	if inputPlaylistAsString ~= "All Tunes" then	
+	if input_playlistName ~= "All Tunes" then	
 		-- loads up an array of strings, each containing the folder name of the songs "allowed in" this playlist
-		local stringArrayOfFolderNamesToMatch = GetSongDirsFromPlaylist_POI(GetPOINestedList_POI(inputPlaylistAsString))		
+		local stringArrayOfFolderNamesToMatch = GetSongDirsFromPlaylist_POI(GetPlaylistArray_POI(input_playlistName))		
 
 		-- Iterate through each folder name to match
 		for _, folderNameToMatch in ipairs(stringArrayOfFolderNamesToMatch) do
@@ -4115,25 +4014,17 @@ function GetArrayOfSongsBasedOnPlaylist_POI(inputPlaylistAsString)
 				-- Check if the folder name matches the current folder name to match
 				if string.find(folderName, folderNameToMatch, 1, true) then
 					-- Add the song to the filtered array
-					table.insert(outputSongArray, song)
+					table.insert(output_songArray, song)
 				end
 			end
 		end
 	else		
-		outputSongArray = ReorderSongs_POI(SONGMAN:GetAllSongs())
+		output_songArray = ReorderSongs_POI(SONGMAN:GetAllSongs())
 	end
 	
-	return outputSongArray
+	return output_songArray
 end
 
-
-
--- ================================================================================================================= RETURNS AN ARRAY OF CHART OBJECTS 
--- takes: (1) the string related to the current group name
--- takes: (2) the song that's currently being selected by the music wheel
--- takes: (3) the array of Charts of the currently selected song
--- returns: an array of Charts
--- based on: takes into consideration the CurGroupName + which Song we're talking about to look up the playlist and filter out charts
 function FilterChartFromGroup_POI(input_CurGroupName,input_CurrentSong,input_ChartArray)
 	local outputChartArray = {}		
 	outputChartArray = input_ChartArray
@@ -4153,7 +4044,7 @@ function FilterChartFromGroup_POI(input_CurGroupName,input_CurrentSong,input_Cha
 	local playlistNestedList = {{}}
 	if found then		
 		-- Pass the matched string from LocalListOfPlaylists
-        playlistNestedList = GetPOINestedList_POI(LocalListOfPlaylists[foundIndex])		
+        playlistNestedList = GetPlaylistArray_POI(LocalListOfPlaylists[foundIndex])		
 	else
 		return input_ChartArray -- handle the case where the input group name doesn't have a corresponding playlist string
 	end
@@ -4184,19 +4075,11 @@ function FilterChartFromGroup_POI(input_CurGroupName,input_CurrentSong,input_Cha
 	return outputChartArray
 end
 
-
-
--- ================================================================================================================= RETURNS AN ARRAY OF ARRAYS
--- takes: a string, from the possible ListOfPlaylists_POI
--- returns: an array of arrays
--- based on: from fetching from hard-coded list, this is the list of lists containing songs + charts inside songs
--- example input: "The 2nd DF"
--- example output: { {"Song1FromDF","Chart","Chart"}, {"Song2FromDF","Chart","Chart"}, }
-function GetPOINestedList_POI(input_playlist)
+function GetPlaylistArray_POI(input_playlistName)
     local playlistIndex = -1
     
 	-- fetches the index of the playlist in the master list
-	playlistIndex = ReturnIndexOfPlaylist(input_playlist)
+	playlistIndex = ReturnIndexOfPlaylist(input_playlistName)
     
     -- If the playlist is found, return the corresponding POI Nested List
     if playlistIndex ~= -1 then
