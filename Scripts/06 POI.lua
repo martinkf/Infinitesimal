@@ -41,35 +41,32 @@ function CustomOrderingOfSongs_POI()
 	}
 end
 
--- returns: an array of strings - the list of possible Playlists
--- HAS HARD-CODED CONTENT -- HAS HARD-CODED CONTENT -- HAS HARD-CODED CONTENT -- HAS HARD-CODED CONTENT -- HAS HARD-CODED CONTENT -- HAS HARD-CODED CONTENT -- HAS HARD-CODED CONTENT -- HAS HARD-CODED CONTENT -- HAS HARD-CODED CONTENT
+-- returns: an array of strings - the list of names of the possible Playlists
 function ListOfPlaylists_POI()
-	return {
-		"All Songs",
-		"The 1st DF",
-		"The 2nd DF",
-		"O.B.G The 3rd",
-		"O.B.G Season Evo.",
-		"Perfect",
-		"Extra",
-		"Premiere",
-		"Prex",
-	}
+	local outputNames = {}
+	for i, value in pairs(TableOfPlaylists_POI()) do
+		table.insert(outputNames, value[1])
+	end
+	return outputNames
 end
 
--- returns: a table of strings - the list of possible Playlists and their Sublists
+-- ================================================================================================================= RETURNS A TABLE OF STRINGS
+-- returns: a table of strings - the list of all possible Playlists and the possible Sublists specific to each
 -- HAS HARD-CODED CONTENT -- HAS HARD-CODED CONTENT -- HAS HARD-CODED CONTENT -- HAS HARD-CODED CONTENT -- HAS HARD-CODED CONTENT -- HAS HARD-CODED CONTENT -- HAS HARD-CODED CONTENT -- HAS HARD-CODED CONTENT -- HAS HARD-CODED CONTENT
 function TableOfPlaylists_POI()
 	return {
-		{"All Songs","ORIGINAL","KPOP","WORLDMUSIC","SHORTCUT","ARCADE","REMIX","FULLSONG"},
-		{"The 1st DF","EASY","HARD","DOUBLE","REMIX"},
-		{"The 2nd DF","EASY","HARD","CRAZY","DOUBLE","REMIX","REMIX DOUBLE"},
-		{"O.B.G The 3rd","EASY","HARD","CRAZY","DOUBLE","REMIX","REMIX DOUBLE"},
-		{"O.B.G Season Evo.","NORMAL","HARD","CRAZY","DOUBLE","REMIX","REMIX DOUBLE"},
-		{"Perfect","NORMAL","HARD","CRAZY","DOUBLE","REMIX","REMIX DOUBLE"},
-		{"Extra","NORMAL","HARD","EXTRA EXPERT","DOUBLE","EXTRA EXPERT DOUBLE","REMIX","REMIX DOUBLE"},
-		{"Premiere","NORMAL","HARD","CRAZY","DOUBLE"},
-		{"Prex","NORMAL","HARD","CRAZY","DOUBLE"},
+		{"All Tunes","No filters","ORIGINAL","KPOP","WORLDMUSIC","SHORTCUT","ARCADE","REMIX","FULLSONG"},
+		{"The 1st DF","No filters","ORIGINAL","KPOP"},
+		--{"The 1st DF","No filters","EASY"},
+		--{"The 2nd DF","No filters","EASY"},
+		--{"The 1st DF","EASY","HARD","DOUBLE","NONSTOP REMIX"},
+		--{"The 2nd DF","EASY","HARD","CRAZY","DOUBLE","NONSTOP REMIX","NONSTOP REMIX DOUBLE"},
+		--{"O.B.G The 3rd","EASY","HARD","CRAZY","DOUBLE","NONSTOP REMIX","NONSTOP REMIX DOUBLE"},
+		--{"O.B.G Season Evo.","NORMAL","HARD","CRAZY","DOUBLE","NONSTOP REMIX","NONSTOP REMIX DOUBLE"},
+		--{"Perfect","NORMAL","HARD","CRAZY","DOUBLE","NONSTOP REMIX","NONSTOP REMIX DOUBLE"},
+		--{"Extra","NORMAL","HARD","EXTRA EXPERT","DOUBLE","EXTRA EXPERT DOUBLE","NONSTOP REMIX","NONSTOP REMIX DOUBLE"},
+		--{"Premiere","NORMAL","HARD","CRAZY","DOUBLE"},
+		--{"Prex","NORMAL","HARD","CRAZY","DOUBLE"},
 	}
 end
 
@@ -3849,6 +3846,27 @@ function ColorFromChart_POI(input_chart)
 end
 
 
+-- ================================================================================================================= RETURNS AN ARRAY OF STRINGS (RELATED TO PLAYLISTS) 
+-- takes: a string, the name of a playlist
+-- returns: an array of strings - the list of the possible associated sublists
+function ListOfPossibleSublists_POI(input_playlistName)
+	local outputNames = {}
+	
+	-- Iterate over each playlist
+    for _, playlist in ipairs(TableOfPlaylists_POI()) do
+        -- Check if the first element of the playlist matches the input playlist name
+        if playlist[1] == input_playlistName then
+            -- Add all subsequent elements (excluding the first one) to the outputNames table
+            for i = 2, #playlist do
+                table.insert(outputNames, playlist[i])
+            end
+            -- No need to continue iterating if a match is found
+            break
+        end
+    end
+	
+	return outputNames
+end
 
 -- ================================================================================================================= RETURNS AN ARRAY OF STRINGS (RELATED TO SONG) 
 -- takes: a "POI Nested List"
@@ -3931,7 +3949,7 @@ end
 function GetArrayOfSongsBasedOnPlaylist_POI(inputPlaylistAsString)
 	local outputSongArray = {}
 	
-	if inputPlaylistAsString ~= "All Songs" then	
+	if inputPlaylistAsString ~= "All Tunes" then	
 		-- loads up an array of strings, each containing the folder name of the songs "allowed in" this playlist
 		local stringArrayOfFolderNamesToMatch = GetArrayOfStringsongdirFromPOINestedList_POI(GetPOINestedList_POI(inputPlaylistAsString))		
 
