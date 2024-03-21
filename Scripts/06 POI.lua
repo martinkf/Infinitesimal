@@ -56,9 +56,8 @@ end
 function TableOfPlaylists_POI()
 	return {
 		{"All Tunes","No filters","ORIGINAL","KPOP","WORLDMUSIC","SHORTCUT","ARCADE","REMIX","FULLSONG"},
-		--{"The 1st DF","No filters","ORIGINAL","KPOP"},
 		{"The 1st DF","No filters","EASY"},
-		--{"The 2nd DF","No filters","EASY"},
+		{"The 2nd DF","No filters","EASY"},
 		--{"The 1st DF","EASY","HARD","DOUBLE","NONSTOP REMIX"},
 		--{"The 2nd DF","EASY","HARD","CRAZY","DOUBLE","NONSTOP REMIX","NONSTOP REMIX DOUBLE"},
 		--{"O.B.G The 3rd","EASY","HARD","CRAZY","DOUBLE","NONSTOP REMIX","NONSTOP REMIX DOUBLE"},
@@ -70,7 +69,7 @@ function TableOfPlaylists_POI()
 	}
 end
 
--- ================================================================================================================= RETURNS AN ARRAY OF "STRING PAIRS"
+-- ================================================================================================================= RETURNS A TABLE OF STRINGS "STRING PAIRS"
 -- returns: an array of string pairs - the list of colors used by the theme
 -- HAS HARD-CODED CONTENT -- HAS HARD-CODED CONTENT -- HAS HARD-CODED CONTENT -- HAS HARD-CODED CONTENT -- HAS HARD-CODED CONTENT -- HAS HARD-CODED CONTENT -- HAS HARD-CODED CONTENT -- HAS HARD-CODED CONTENT -- HAS HARD-CODED CONTENT
 function TableOfColors_POI()
@@ -3735,15 +3734,35 @@ end
 
 
 -- ================================================================================================================= FUNCTIONS (TAKES INPUTS, REGURGITATES RETURNS)
+-- ================================================================================================================= RETURNS AN INT
+-- takes: a string, a playlist name
+-- returns: an int
+-- based on: the index of that playlist in the POI Nested List
+function ReturnIndexOfPlaylist(input_playlistName)
+	local output = 0 -- should never actually return 0 (if input is valid)
+	
+	-- fetches an array of strings - the list of names of the possible Playlists
+	local list = ListOfPlaylists_POI()
+	-- iterates through it and returns the index number when a match with the inputted playlist is found
+	for i, value in ipairs(list) do
+        if value == input_playlistName then
+            return i
+        end
+    end
+	
+	return output
+end
+
+
+
 -- ================================================================================================================= RETURNS A STRING (RELATED TO SONG) 
--- takes: a Song
--- returns: a string, from the list of the following:
--- ARCADE, REMIX, FULLSONG, SHORTCUT
+-- takes: a Song object
+-- returns: a string, from the list: ARCADE, REMIX, FULLSONG, SHORTCUT
 -- based on: the first keyword present in the TAGS attribute in the SSC
-function FetchFirstTag_POI(inputSong)
+function FetchFirstTag_POI(input_song)
 	local output = ""
 	
-	local fullTagAttribute = inputSong:GetTags()
+	local fullTagAttribute = input_song:GetTags()
 	
 	if fullTagAttribute ~= "" then
 		local words = {} -- array of strings, one for each separate word
@@ -3757,13 +3776,12 @@ function FetchFirstTag_POI(inputSong)
 end
 
 -- takes: a Song
--- returns: a string, from the list of the following:
--- ANOTHER
+-- returns: a string, from the list: ANOTHER
 -- based on: the second keyword present in the TAGS attribute in the SSC
-function FetchSecondTag_POI(inputSong)
+function FetchSecondTag_POI(input_song)
 	local output = ""
 	
-	local fullTagAttribute = inputSong:GetTags()
+	local fullTagAttribute = input_song:GetTags()
 	
 	if fullTagAttribute ~= "" then
 		local words = {} -- array of strings, one for each separate word
@@ -3783,27 +3801,35 @@ end
 
 
 -- ================================================================================================================= RETURNS A STRING (RELATED TO CHART) 
--- takes: (1) a Chart
--- takes: (2) an int, as follows:
--- 1 if you want the Chart POI Name returned, 2 if you want the Chart Origin returned
--- returns: a string, for example: ["EXTRA EXPERT"] for a Chart POI Name, or ["Extra"] for a Chart Origin
--- based on: the CHARTNAME in the SSC of that chart - it either returns the first or the second part, which are separated by parenthesis
-function FetchChartNameOrOriginFromChart_POI(inputChart, inputInt)
+-- takes: a Chart
+-- returns: a string
+-- based on: the CHART DESCRIPTION from the SSC's CHARTNAME attribute
+-- example input: [ChartObject for Hypnosis_1ST-FREESTYLE]
+-- example output: "FREESTYLE i"
+function FetchChartName_POI(input_Chart)
 	local output = ""
     
-    local ChartFullChartnameFromSSC = inputChart:GetChartName()
-    local ChartPOIName = ""
-    local ChartOrigin = ""
+    local ChartFullChartnameFromSSC = input_Chart:GetChartName()
+    local openParen = ChartFullChartnameFromSSC:find("%(")
+    output = ChartFullChartnameFromSSC:sub(1, openParen - 2)
+	
+    return output
+end
+
+-- takes: a Chart
+-- returns: a string
+-- based on: the CHART ORIGIN from the SSC's CHARTNAME attribute
+-- example input: [ChartObject for Hypnosis_1ST-FREESTYLE]
+-- example output: "The 1st DF"
+function FetchChartOrigin_POI(input_Chart)
+	local output = ""
+    
+    local ChartFullChartnameFromSSC = input_Chart:GetChartName()
+    local ChartPOIName = ""    
     local openParen = ChartFullChartnameFromSSC:find("%(")
     local closeParen = ChartFullChartnameFromSSC:find("%)")
     ChartPOIName = ChartFullChartnameFromSSC:sub(1, openParen - 2)
-    ChartOrigin = ChartFullChartnameFromSSC:sub(openParen + 1, closeParen - 1)
-    
-    if inputInt == 1 then
-        output = ChartPOIName
-    elseif inputInt == 2 then
-        output = ChartOrigin
-    end
+    output = ChartFullChartnameFromSSC:sub(openParen + 1, closeParen - 1)
     
     return output
 end
@@ -3848,10 +3874,10 @@ function ColorFromSongGenre_POI(input_song) return GetColor_POI(input_song:GetGe
 -- takes: a Chart
 -- returns: a Color object
 -- based on: the Chart stepstype
-function ColorFromChart_POI(input_chart)
+function ColorFromChartStepstype_POI(input_chart)
 	local outputColor = ""
 	
-	if FetchChartNameOrOriginFromChart_POI(input_chart, 1):sub(1, 3) == "IDK" then
+	if FetchChartName_POI(input_chart):sub(1, 3) == "IDK" then
 		outputColor = GetColor_POI("IDK")
 	else 
 		outputColor = GetColor_POI(ToEnumShortString(ToEnumShortString(input_chart:GetStepsType())))
@@ -3863,7 +3889,10 @@ end
 
 -- ================================================================================================================= RETURNS AN ARRAY OF STRINGS (RELATED TO PLAYLISTS) 
 -- takes: a string, the name of a playlist
--- returns: an array of strings - the list of the possible associated sublists
+-- returns: an array of strings
+-- based on: it's the list of the possible associated sublists with the input playlist
+-- example input: "Extra"
+-- example output: { "NORMAL", "HARD", "EXTRA EXPERT", "DOUBLE", "EXTRA EXPERT DOUBLE", "NONSTOP REMIX", "NONSTOP REMIX DOUBLE" }
 function ListOfPossibleSublists_POI(input_playlistName)
 	local outputNames = {}
 	
@@ -3883,13 +3912,61 @@ function ListOfPossibleSublists_POI(input_playlistName)
 	return outputNames
 end
 
+-- takes: (1) an array of arrays (the contents of an entire playlist)
+-- takes: (2) a string (a song folder path)
+-- returns: an array of strings
+-- based on: looks up the array of arrays and return the charts associated with the inputted song
+-- example input (1): { {"Song1","Chart1-A","Chart1-B"}, {"Song2","Chart2-A","Chart2-B"}, {"Song3","Chart3-A","Chart3-B"} } 
+-- example input (2): "Song2"
+-- example output: {"Chart2-A", "Chart2-B"}
+function FindChartsForSongString(input_playlist, input_songAsString)
+    for i, songData in ipairs(input_playlist) do
+        if songData[1] == input_songAsString then
+            -- Found the song, return its charts
+            local charts = {}
+            for j = 2, #songData do
+                table.insert(charts, songData[j])
+            end
+            return charts
+        end
+    end
+    -- Song not found, return an empty array
+    return {}
+end
+
+-- takes: (1) a string, the name of a playlist
+-- takes: (2) a Song object
+-- returns: an array of strings
+-- based on: it's the list of charts of any given song on any given playlist
+-- example input: "Perfect",[SongObject for SLAM]
+-- example output: { "PERF-NORMAL", "PERF-HARD", "PERF-CRAZY", "PERF-FREESTYLE", }
+function FindChartsForSong(input_playlistName, input_song)
+	local output = {}
+	
+	-- fetch the array of arrays for the entire playlist
+	local list = GetPOINestedList_POI(input_playlistName)
+	-- fetch the song folder path
+	local songPathString = ""
+	--todo
+	--todo
+	--todo
+	-- looks up the returnable array of strings representing the list of charts of that song in that playlist
+	--output = FindChartsForSongString(input_playlist, songPathString)
+	
+	return output
+end
+
+
+
 -- ================================================================================================================= RETURNS AN ARRAY OF STRINGS (RELATED TO SONG) 
--- takes: a "POI Nested List"
--- returns: an array of strings listing SongFolder names, for example: ["/Songs/POI-database/101 - IGNITION STARTS/","/Songs/POI-database/102 - HYPNOSIS/"]
--- based on: iterating through the input list and obtaining all song dir paths from each song inside it
-function GetArrayOfStringsongdirFromPOINestedList_POI(inputPOINestedList)
+-- takes: an array of arrays
+-- returns: an array of strings listing SongFolder names, for example: 
+-- based on: iterating through the input, it lists solely the SongFolder names
+-- example input: { {"Song1FromDF","Chart","Chart"}, {"Song2FromDF","Chart","Chart"}, }
+-- example output: { "Song1FromDF", "Song2FromDF", }
+function GetSongDirsFromPlaylist_POI(input_playlist)
 	local outputList = {}
-	for _, innerList in ipairs(inputPOINestedList) do
+	for _, innerList in ipairs(input_playlist) do
         table.insert(outputList, innerList[1])
     end
 	return outputList
@@ -3898,20 +3975,20 @@ end
 
 
 -- ================================================================================================================= RETURNS AN ARRAY OF SONG OBJECTS 
--- takes: an array of Songs
--- returns: an array of Songs
+-- takes: an array of Song objects
+-- returns: an array of Song objects
 -- based on: the original array of Songs used for input, but ordered by the POI standard
-function ReorderSongs_POI(inputArrayOfSongs)
-	local output = inputArrayOfSongs
+function ReorderSongs_POI(input_arrayOfSongs)
+	local output = input_arrayOfSongs
 	
-	if inputArrayOfSongs == {} then else
+	if input_arrayOfSongs == {} then else
 		local customOrder = CustomOrderingOfSongs_POI()
 		local reorderedSongs = {}
 		
 		-- Iterate through each ordered element
 		for _, folderNameToMatch in ipairs(customOrder) do
 			-- Iterate through the songs provided by input
-			for _, song in ipairs(inputArrayOfSongs) do
+			for _, song in ipairs(input_arrayOfSongs) do
 				-- Extract the folder name from the song's directory
 				local folderName = song:GetSongDir()
 				-- Check if the folder name matches the current folder name to match
@@ -3928,40 +4005,41 @@ function ReorderSongs_POI(inputArrayOfSongs)
 	return output
 end
 
--- takes: (1) an array of Songs, usually being all tunes from a playlist
+-- takes: (1) an array of Song objects, usually being all tunes from a playlist
 -- takes: (2) a string, from the list of the following:
 -- "ORIGINAL" "KPOP" "WORLDMUSIC" "SHORTCUT" "ARCADE" "REMIX" "FULLSONG" "EASY"
--- returns: an array of Songs
+-- returns: an array of Song objects
 -- based on: the original array of Songs used for input, but filtered out - this generates a sublist from a playlist
-function SublistOfSongs_POI(inputArrayOfSongs, inputListType)	
-	local output = inputArrayOfSongs
+function SublistOfSongs_POI(input_arrayOfSongs, input_sublistName)	
+	local output = input_arrayOfSongs
 	local reorderedSongs = {}	
 	
-	for _, song in ipairs(inputArrayOfSongs) do
+	for _, song in ipairs(input_arrayOfSongs) do
 		local shouldAdd = false
 		local songFirstTag = FetchFirstTag_POI(song)
 		local songGenre = song:GetGenre()
-		local listOfCharts = song:GetAllSteps()
 
-		if inputListType == "SHORTCUT" and songFirstTag == inputListType then shouldAdd = true
-		elseif inputListType == "FULLSONG" and songFirstTag == inputListType then shouldAdd = true
-		elseif inputListType == "REMIX" and songFirstTag == inputListType then shouldAdd = true
-		elseif inputListType == "ARCADE" and songFirstTag == inputListType then shouldAdd = true
-		elseif inputListType == "ORIGINAL" and songGenre == inputListType then shouldAdd = true
-		elseif inputListType == "KPOP" and songGenre == inputListType then shouldAdd = true
-		elseif inputListType == "WORLDMUSIC" and songGenre == inputListType then shouldAdd = true
-		elseif inputListType == "EASY" then
+		if input_sublistName == "SHORTCUT" and songFirstTag == input_sublistName then shouldAdd = true
+		elseif input_sublistName == "FULLSONG" and songFirstTag == input_sublistName then shouldAdd = true
+		elseif input_sublistName == "REMIX" and songFirstTag == input_sublistName then shouldAdd = true
+		elseif input_sublistName == "ARCADE" and songFirstTag == input_sublistName then shouldAdd = true
+		elseif input_sublistName == "ORIGINAL" and songGenre == input_sublistName then shouldAdd = true
+		elseif input_sublistName == "KPOP" and songGenre == input_sublistName then shouldAdd = true
+		elseif input_sublistName == "WORLDMUSIC" and songGenre == input_sublistName then shouldAdd = true
+		elseif input_sublistName == "EASY" then
 			-- code logic to create the "Easy" sublist
 			-- remember we're currently iterating each song in the playlist
 			-- all that needs to be done is evaluate the current song in this loop
 			-- and if it's allowed in the sublist this block should set shouldAdd to true
 			-- it's allowed in the sublist if there is any chart in this song with the text "NORMAL" inside of it			
+			local listOfCharts = song:GetAllSteps()
 			for j, thisChart in ipairs(listOfCharts) do
 				local keyword = "NORMAL"
 				local thisChartDesc = thisChart:GetDescription()
 				if string.find(thisChartDesc, keyword) ~= nil then
 					-- this means it was found
 					shouldAdd = true
+					break
 				else
 					-- this means it was not found - continue iterating through charts
 				end
@@ -3975,15 +4053,57 @@ function SublistOfSongs_POI(inputArrayOfSongs, inputListType)
 	return output
 end
 
+-- takes: (1) an array of Song objects, usually being all tunes from a playlist
+-- takes: (2) a string, from the list of playlist names
+-- takes: (3) a string, from the list of the following: "ORIGINAL" "KPOP" "WORLDMUSIC" "SHORTCUT" "ARCADE" "REMIX" "FULLSONG" "EASY"
+-- returns: an array of Song objects
+-- based on: the original array of Songs used for input, but filtered out - this generates a sublist from a playlist
+function NewSublistOfSongs_POI(inputArrayOfSongs, input_playlist, inputListType)	
+	local output = inputArrayOfSongs
+	local reorderedSongs = {}	
+	
+	for _, song in ipairs(inputArrayOfSongs) do
+		local shouldAdd = false
+		local songFirstTag = FetchFirstTag_POI(song)
+		local songGenre = song:GetGenre()	
+
+		if inputListType == "SHORTCUT" and songFirstTag == inputListType then shouldAdd = true
+		elseif inputListType == "FULLSONG" and songFirstTag == inputListType then shouldAdd = true
+		elseif inputListType == "REMIX" and songFirstTag == inputListType then shouldAdd = true
+		elseif inputListType == "ARCADE" and songFirstTag == inputListType then shouldAdd = true
+		elseif inputListType == "ORIGINAL" and songGenre == inputListType then shouldAdd = true
+		elseif inputListType == "KPOP" and songGenre == inputListType then shouldAdd = true
+		elseif inputListType == "WORLDMUSIC" and songGenre == inputListType then shouldAdd = true
+		elseif inputListType == "EASY" then
+			-- code logic to create the "Easy" sublist
+			-- remember we're currently iterating each song in the playlist
+			-- all that needs to be done is evaluate the current song in this loop
+			-- and if it's allowed in the sublist this block should set shouldAdd to true
+			-- it's allowed in the sublist if there is any chart in this song with the text "NORMAL" inside of it and that chart matches the one from the POI Nested List
+			
+			-- considering the current playlist, get an array of strings that represents the possible charts for this specific song
+			local possibleCharts = FindChartsForSong(input_playlist, song)
+			-- iterate possibleCharts in a way that leaves it with EASY songs only
+			--
+			-- if and only if possibleCharts is not empty, then iterate the list of charts this song has, for any match with any of the possibleCharts elements - if found, shouldAdd and break
+		end
+	
+		if shouldAdd then table.insert(reorderedSongs, song) end
+	end
+
+	output = reorderedSongs -- keep in mind that this could be still {}
+	return output
+end
+
 -- takes: a string, from the possible ListOfPlaylists
--- returns: an array of Songs
+-- returns: an array of Song objects
 -- based on: takes all the songs in the game, remove some to leave only the ones related to a PIU version playlist
 function GetArrayOfSongsBasedOnPlaylist_POI(inputPlaylistAsString)
 	local outputSongArray = {}
 	
 	if inputPlaylistAsString ~= "All Tunes" then	
 		-- loads up an array of strings, each containing the folder name of the songs "allowed in" this playlist
-		local stringArrayOfFolderNamesToMatch = GetArrayOfStringsongdirFromPOINestedList_POI(GetPOINestedList_POI(inputPlaylistAsString))		
+		local stringArrayOfFolderNamesToMatch = GetSongDirsFromPlaylist_POI(GetPOINestedList_POI(inputPlaylistAsString))		
 
 		-- Iterate through each folder name to match
 		for _, folderNameToMatch in ipairs(stringArrayOfFolderNamesToMatch) do
@@ -4066,20 +4186,17 @@ end
 
 
 
--- ================================================================================================================= RETURNS A POI NESTED LIST 
+-- ================================================================================================================= RETURNS AN ARRAY OF ARRAYS
 -- takes: a string, from the possible ListOfPlaylists_POI
--- returns: a "POI Nested List" - list of lists containing songs + charts inside songs
--- based on: fetching from the hard-coded list of playlists
-function GetPOINestedList_POI(inputPlaylistAsString)
+-- returns: an array of arrays
+-- based on: from fetching from hard-coded list, this is the list of lists containing songs + charts inside songs
+-- example input: "The 2nd DF"
+-- example output: { {"Song1FromDF","Chart","Chart"}, {"Song2FromDF","Chart","Chart"}, }
+function GetPOINestedList_POI(input_playlist)
     local playlistIndex = -1
     
-    -- Find the index of the inputPlaylistAsString in ListOfPlaylists_POI
-    for i, playlistName in ipairs(ListOfPlaylists_POI()) do
-        if playlistName == inputPlaylistAsString then
-            playlistIndex = i
-            break
-        end
-    end
+	-- fetches the index of the playlist in the master list
+	playlistIndex = ReturnIndexOfPlaylist(input_playlist)
     
     -- If the playlist is found, return the corresponding POI Nested List
     if playlistIndex ~= -1 then

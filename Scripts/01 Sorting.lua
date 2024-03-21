@@ -547,6 +547,7 @@ function AssembleGroupSorting_POI()
 				local filteredSongs = playlists[i]
 				-- filters the playlist allowing only what this sublist allows
 				filteredSongs = SublistOfSongs_POI(filteredSongs, thisSublist)
+				--filteredSongs = NewSublistOfSongs_POI(filteredSongs, nameOfCurrentPlaylist, thisSublist)
 				-- if and only if the filtered result has any matches, create a subgroup with those filtered songs
 				if #filteredSongs > 0 then
 					table.insert(MasterGroupsList[i].SubGroups, #(MasterGroupsList[i].SubGroups) + 1, {

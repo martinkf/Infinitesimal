@@ -114,7 +114,7 @@ if usingPOIUX then
 				else
 					ChartMeter = string.format("%02d", ChartMeter)
 				end
-				self:GetChild("BigPreviewBallContainer_"..pn):GetChild("BigPreviewBall"):diffuse(ColorFromChart_POI(Chart))
+				self:GetChild("BigPreviewBallContainer_"..pn):GetChild("BigPreviewBall"):diffuse(ColorFromChartStepstype_POI(Chart))
 				self:GetChild("BigPreviewBallContainer_"..pn):GetChild("MeterText"):settext(ChartMeter)
 				self:GetChild("BigPreviewBallContainer_"..pn):GetChild("Difficulty"):settext(FullModeChartLabel(Chart))
 			end

@@ -583,7 +583,7 @@ if usingPOIUX then
 						end
 						local ChartDescription = Chart:GetDescription()
 
-						self:GetChild("")[i]:GetChild("Icon"):visible(true):diffuse(ColorFromChart_POI(Chart))
+						self:GetChild("")[i]:GetChild("Icon"):visible(true):diffuse(ColorFromChartStepstype_POI(Chart))
 						self:GetChild("")[i]:GetChild("IconTrim"):visible(true)
 						self:GetChild("")[i]:GetChild("Level"):visible(true):settext(ChartMeter)
 						self:GetChild("")[i]:GetChild("HighlightP1"):visible(
