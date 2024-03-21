@@ -545,9 +545,11 @@ function AssembleGroupSorting_POI()
 				for _, sublist in ipairs(TableOfSublists_POI()) do if sublist[1] == thisSublist then sublistDesc = sublist[2] break end end
 				-- grabs all the songs from current playlist
 				local filteredSongs = playlists[i]
+				
 				-- filters the playlist allowing only what this sublist allows
-				filteredSongs = SublistOfSongs_POI(filteredSongs, thisSublist)
-				--filteredSongs = NewSublistOfSongs_POI(filteredSongs, nameOfCurrentPlaylist, thisSublist)
+				--filteredSongs = SublistOfSongs_POI(filteredSongs, thisSublist)				
+				filteredSongs = NewSublistOfSongs_POI(filteredSongs, nameOfCurrentPlaylist, thisSublist)
+				
 				-- if and only if the filtered result has any matches, create a subgroup with those filtered songs
 				if #filteredSongs > 0 then
 					table.insert(MasterGroupsList[i].SubGroups, #(MasterGroupsList[i].SubGroups) + 1, {

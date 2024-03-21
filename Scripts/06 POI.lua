@@ -3972,11 +3972,8 @@ function NewSublistOfSongs_POI(input_arrayOfSongs, input_playlistName, input_sub
 		elseif input_sublistName == "KPOP" and songGenre == input_sublistName then shouldAdd = true
 		elseif input_sublistName == "WORLDMUSIC" and songGenre == input_sublistName then shouldAdd = true
 		elseif input_sublistName == "EASY" then
-			-- code logic to create the "Easy" sublist
-			-- remember we're currently iterating each song in the playlist
-			-- all that needs to be done is evaluate the current song in this loop
-			-- and if it's allowed in the sublist this block should set shouldAdd to true
-			-- it's allowed in the sublist if there is any chart in this song with the text "NORMAL" inside of it and that chart matches the one from the POI Nested List
+			
+			-- THE PROBLEM IS ONE OF THE TWO FUNCTIONS BELOW!
 			
 			-- considering the current playlist, get an array of strings that represents the possible charts for this specific song
 			local possibleCharts = FindChartsForSong(input_playlistName, song)
@@ -3984,18 +3981,29 @@ function NewSublistOfSongs_POI(input_arrayOfSongs, input_playlistName, input_sub
 			--debug possibleChart for Passion should be { "1ST-NORMAL", "1ST-HARD", "1ST-FREESTYLE", "1ST-2PNORMAL", "1ST-2PHARD" }
 			--debug possibleCharts for Hatred should be { "1ST-HARD", "1ST-FREESTYLE", "1ST-2PHARD" }
 			
-			-- iterate possibleCharts in a way that leaves it with EASY songs only
-			--
-			-- todo
-			--
+			-- filter possibleCharts in a way that leaves it just with the charts with "NORMAL" in their description
+			possibleCharts = FilterChartNameArray(possibleCharts, "NORMAL")
 			--debug possibleCharts for Ignition Starts should be {}
 			--debug possibleChart for Passion should be { "1ST-NORMAL", "1ST-2PNORMAL" }
 			--debug possibleCharts for Hatred should be {}
-						
-			-- if and only if possibleCharts is not empty, then iterate the list of charts this song has, for any match with any of the possibleCharts elements - if found, shouldAdd and break
-			--
-			-- todo
-			--
+			
+			--if and only if possibleCharts have something inside of them, then it means that this song should be added
+			if #possibleCharts > 0 then 
+				shouldAdd = true
+				
+				-- old way:
+				-- (...), then iterate the list of charts this song has, for any match with any of the possibleCharts elements - if found, shouldAdd and break
+				--local listOfCharts = song:GetAllSteps()
+				--for j, thisChart in ipairs(listOfCharts) do					
+					--local thisChartDesc = thisChart:GetDescription()
+					--for k, thisPossibleChartsElement in ipairs(possibleCharts) do
+						--if string.find(thisChartDesc, thisPossibleChartsElement) then					
+							--shouldAdd = true
+							--break
+						--else end
+					--end
+				--end
+			end
 		end
 	
 		if shouldAdd then table.insert(reorderedSongs, song) end
@@ -4097,6 +4105,19 @@ function GetPlaylistArray_POI(input_playlistName)
     end
 end
 
+function FilterChartNameArray(input_chartNameArray, input_descToFilter)
+    local filteredArray = {}
+    -- Iterate over the elements of the input_chartNameArray
+    for _, chartName in ipairs(input_chartNameArray) do
+        -- Check if the chartName contains the input_descToFilter
+        if string.find(chartName, input_descToFilter) then
+            -- If it does, add it to the filteredArray
+            table.insert(filteredArray, chartName)
+        end
+    end
+    -- Return the filteredArray
+    return filteredArray
+end
 
 
 
