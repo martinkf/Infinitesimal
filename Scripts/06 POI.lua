@@ -3955,23 +3955,23 @@ function SublistOfSongs_POI(input_arrayOfSongs, input_sublistName)
 	return output
 end
 
-function NewSublistOfSongs_POI(inputArrayOfSongs, input_playlist, inputListType)	
-	local output = inputArrayOfSongs
+function NewSublistOfSongs_POI(input_arrayOfSongs, input_playlistName, input_sublistName)	
+	local output = input_arrayOfSongs
 	local reorderedSongs = {}	
 	
-	for _, song in ipairs(inputArrayOfSongs) do
+	for _, song in ipairs(input_arrayOfSongs) do
 		local shouldAdd = false
 		local songFirstTag = FetchFirstTag_POI(song)
 		local songGenre = song:GetGenre()	
 
-		if inputListType == "SHORTCUT" and songFirstTag == inputListType then shouldAdd = true
-		elseif inputListType == "FULLSONG" and songFirstTag == inputListType then shouldAdd = true
-		elseif inputListType == "REMIX" and songFirstTag == inputListType then shouldAdd = true
-		elseif inputListType == "ARCADE" and songFirstTag == inputListType then shouldAdd = true
-		elseif inputListType == "ORIGINAL" and songGenre == inputListType then shouldAdd = true
-		elseif inputListType == "KPOP" and songGenre == inputListType then shouldAdd = true
-		elseif inputListType == "WORLDMUSIC" and songGenre == inputListType then shouldAdd = true
-		elseif inputListType == "EASY" then
+		if input_sublistName == "SHORTCUT" and songFirstTag == input_sublistName then shouldAdd = true
+		elseif input_sublistName == "FULLSONG" and songFirstTag == input_sublistName then shouldAdd = true
+		elseif input_sublistName == "REMIX" and songFirstTag == input_sublistName then shouldAdd = true
+		elseif input_sublistName == "ARCADE" and songFirstTag == input_sublistName then shouldAdd = true
+		elseif input_sublistName == "ORIGINAL" and songGenre == input_sublistName then shouldAdd = true
+		elseif input_sublistName == "KPOP" and songGenre == input_sublistName then shouldAdd = true
+		elseif input_sublistName == "WORLDMUSIC" and songGenre == input_sublistName then shouldAdd = true
+		elseif input_sublistName == "EASY" then
 			-- code logic to create the "Easy" sublist
 			-- remember we're currently iterating each song in the playlist
 			-- all that needs to be done is evaluate the current song in this loop
@@ -3979,11 +3979,19 @@ function NewSublistOfSongs_POI(inputArrayOfSongs, input_playlist, inputListType)
 			-- it's allowed in the sublist if there is any chart in this song with the text "NORMAL" inside of it and that chart matches the one from the POI Nested List
 			
 			-- considering the current playlist, get an array of strings that represents the possible charts for this specific song
-			local possibleCharts = FindChartsForSong(input_playlist, song)
+			local possibleCharts = FindChartsForSong(input_playlistName, song)
+			--debug possibleCharts for Ignition Starts should be { "1ST-HARD", "1ST-FREESTYLE", "1ST-2PHARD" }
+			--debug possibleChart for Passion should be { "1ST-NORMAL", "1ST-HARD", "1ST-FREESTYLE", "1ST-2PNORMAL", "1ST-2PHARD" }
+			--debug possibleCharts for Hatred should be { "1ST-HARD", "1ST-FREESTYLE", "1ST-2PHARD" }
+			
 			-- iterate possibleCharts in a way that leaves it with EASY songs only
 			--
 			-- todo
 			--
+			--debug possibleCharts for Ignition Starts should be {}
+			--debug possibleChart for Passion should be { "1ST-NORMAL", "1ST-2PNORMAL" }
+			--debug possibleCharts for Hatred should be {}
+						
 			-- if and only if possibleCharts is not empty, then iterate the list of charts this song has, for any match with any of the possibleCharts elements - if found, shouldAdd and break
 			--
 			-- todo
