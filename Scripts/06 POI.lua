@@ -41,8 +41,11 @@ end
 function TableOfPlaylists_POI()
 	return {
 		{"All Tunes","No filters","ORIGINAL","KPOP","WORLDMUSIC","SHORTCUT","ARCADE","REMIX","FULLSONG"},
-		{"The 1st DF","No filters","EASY"},
-		{"The 2nd DF","No filters","EASY"},
+		{"The 1st DF","EASY","HARD","DOUBLE"},
+		{"The 2nd DF","EASY","HARD","DOUBLE"},
+		{"O.B.G Season Evo.","NORMAL"},
+		
+		-- after all are done, replace with
 		--{"The 1st DF","EASY","HARD","DOUBLE","NONSTOP REMIX"},
 		--{"The 2nd DF","EASY","HARD","CRAZY","DOUBLE","NONSTOP REMIX","NONSTOP REMIX DOUBLE"},
 		--{"O.B.G The 3rd","EASY","HARD","CRAZY","DOUBLE","NONSTOP REMIX","NONSTOP REMIX DOUBLE"},
@@ -111,6 +114,9 @@ end
 function TableOfSublists_POI()
 	return {
 		{ "EASY", "\n\n\nEasy" },
+		{ "NORMAL", "\n\n\nNormal" },
+		{ "HARD", "\n\n\nHard" },
+		{ "DOUBLE", "\n\n\nDouble" },
 		{ "ORIGINAL", "\n\n\nFilter by genre\n(Original Only)" },
 		{ "KPOP", "\n\n\nFilter by genre\n(K-Pop Only)" },
 		{ "WORLDMUSIC", "\n\n\nFilter by genre\n(World Music Only)" },
@@ -3709,6 +3715,9 @@ function ListOfPOINestedLists_POI()
 end
 
 
+
+
+
 -- functions
 
 function ListOfPlaylists_POI()
@@ -3912,52 +3921,9 @@ function ReorderSongs_POI(input_arrayOfSongs)
 	return output
 end
 
-function SublistOfSongs_POI(input_arrayOfSongs, input_sublistName)	
+function SublistOfSongs_POI(input_arrayOfSongs, input_playlistName, input_sublistName)	
 	local output = input_arrayOfSongs
-	local reorderedSongs = {}	
-	
-	for _, song in ipairs(input_arrayOfSongs) do
-		local shouldAdd = false
-		local songFirstTag = FetchFirstTag_POI(song)
-		local songGenre = song:GetGenre()
-
-		if input_sublistName == "SHORTCUT" and songFirstTag == input_sublistName then shouldAdd = true
-		elseif input_sublistName == "FULLSONG" and songFirstTag == input_sublistName then shouldAdd = true
-		elseif input_sublistName == "REMIX" and songFirstTag == input_sublistName then shouldAdd = true
-		elseif input_sublistName == "ARCADE" and songFirstTag == input_sublistName then shouldAdd = true
-		elseif input_sublistName == "ORIGINAL" and songGenre == input_sublistName then shouldAdd = true
-		elseif input_sublistName == "KPOP" and songGenre == input_sublistName then shouldAdd = true
-		elseif input_sublistName == "WORLDMUSIC" and songGenre == input_sublistName then shouldAdd = true
-		elseif input_sublistName == "EASY" then
-			-- code logic to create the "Easy" sublist
-			-- remember we're currently iterating each song in the playlist
-			-- all that needs to be done is evaluate the current song in this loop
-			-- and if it's allowed in the sublist this block should set shouldAdd to true
-			-- it's allowed in the sublist if there is any chart in this song with the text "NORMAL" inside of it			
-			local listOfCharts = song:GetAllSteps()
-			for j, thisChart in ipairs(listOfCharts) do
-				local keyword = "NORMAL"
-				local thisChartDesc = thisChart:GetDescription()
-				if string.find(thisChartDesc, keyword) ~= nil then
-					-- this means it was found
-					shouldAdd = true
-					break
-				else
-					-- this means it was not found - continue iterating through charts
-				end
-			end
-		end
-	
-		if shouldAdd then table.insert(reorderedSongs, song) end
-	end
-
-	output = reorderedSongs -- keep in mind that this could be still {}
-	return output
-end
-
-function NewSublistOfSongs_POI(input_arrayOfSongs, input_playlistName, input_sublistName)	
-	local output = input_arrayOfSongs
-	local reorderedSongs = {}	
+	local filteredSongs = {}
 	
 	for _, song in ipairs(input_arrayOfSongs) do
 		local shouldAdd = false
@@ -3971,45 +3937,17 @@ function NewSublistOfSongs_POI(input_arrayOfSongs, input_playlistName, input_sub
 		elseif input_sublistName == "ORIGINAL" and songGenre == input_sublistName then shouldAdd = true
 		elseif input_sublistName == "KPOP" and songGenre == input_sublistName then shouldAdd = true
 		elseif input_sublistName == "WORLDMUSIC" and songGenre == input_sublistName then shouldAdd = true
-		elseif input_sublistName == "EASY" then
-			
-			-- THE PROBLEM IS ONE OF THE TWO FUNCTIONS BELOW!
-			
-			-- considering the current playlist, get an array of strings that represents the possible charts for this specific song
-			local possibleCharts = FindChartsForSong(input_playlistName, song)
-			--debug possibleCharts for Ignition Starts should be { "1ST-HARD", "1ST-FREESTYLE", "1ST-2PHARD" }
-			--debug possibleChart for Passion should be { "1ST-NORMAL", "1ST-HARD", "1ST-FREESTYLE", "1ST-2PNORMAL", "1ST-2PHARD" }
-			--debug possibleCharts for Hatred should be { "1ST-HARD", "1ST-FREESTYLE", "1ST-2PHARD" }
-			
-			-- filter possibleCharts in a way that leaves it just with the charts with "NORMAL" in their description
-			possibleCharts = FilterChartNameArray(possibleCharts, "NORMAL")
-			--debug possibleCharts for Ignition Starts should be {}
-			--debug possibleChart for Passion should be { "1ST-NORMAL", "1ST-2PNORMAL" }
-			--debug possibleCharts for Hatred should be {}
-			
-			--if and only if possibleCharts have something inside of them, then it means that this song should be added
-			if #possibleCharts > 0 then 
-				shouldAdd = true
-				
-				-- old way:
-				-- (...), then iterate the list of charts this song has, for any match with any of the possibleCharts elements - if found, shouldAdd and break
-				--local listOfCharts = song:GetAllSteps()
-				--for j, thisChart in ipairs(listOfCharts) do					
-					--local thisChartDesc = thisChart:GetDescription()
-					--for k, thisPossibleChartsElement in ipairs(possibleCharts) do
-						--if string.find(thisChartDesc, thisPossibleChartsElement) then					
-							--shouldAdd = true
-							--break
-						--else end
-					--end
-				--end
-			end
+		elseif input_sublistName == "EASY" or input_sublistName == "NORMAL" or input_sublistName == "HARD" or input_sublistName == "DOUBLE" then
+			--let's grab a struct that, depending on the input_playlistName and input_sublistName, returns an array of arrays, which represents the relationship between a song's SongDir and a boolean value
+			--this serves as the "Allowed List" for the playlist
+			--check current song against the Allowed List to see if it should be included or not
+			shouldAdd = CheckAllowedList(GetAllowedList(input_playlistName, input_sublistName),song)
 		end
 	
-		if shouldAdd then table.insert(reorderedSongs, song) end
+		if shouldAdd then table.insert(filteredSongs, song) end
 	end
 
-	output = reorderedSongs -- keep in mind that this could be still {}
+	output = filteredSongs -- keep in mind that this could be still {}
 	return output
 end
 
@@ -4119,7 +4057,47 @@ function FilterChartNameArray(input_chartNameArray, input_descToFilter)
     return filteredArray
 end
 
+function GetAllowedList(input_playlistName, input_sublistName)
+	local output = {}
+	
+	local playlistArray = GetPlaylistArray_POI(input_playlistName)	
+	
+	for _, song in ipairs(playlistArray) do		
+		local numberOfCharts = #song-1
+		local thisSongDir = song[1]
+		
+        local songIsAllowed = false
+				
+		for j = 1, numberOfCharts do
+			local chartDesc = song[j+1]
+			if input_sublistName == "EASY" or input_sublistName == "NORMAL" then
+				if string.find(chartDesc, "NORMAL") and not string.find(thisSongDir, "REMIX") then songIsAllowed = true break end
+			elseif input_sublistName == "HARD" then
+				if string.find(chartDesc, "HARD") and not string.find(thisSongDir, "REMIX") then songIsAllowed = true break end
+			elseif input_sublistName == "DOUBLE" then
+				if string.find(chartDesc, "FREESTYLE") and not string.find(thisSongDir, "REMIX") then songIsAllowed = true break end
+			end			
+		end
+		
+        table.insert(output, {thisSongDir, songIsAllowed})
+    end
+	
+	return output	
+end
 
+function CheckAllowedList(input_allowedList,input_song)
+	local output = false
+	local songDirAsString = input_song:GetSongDir()
+	
+	for _, entry in ipairs(input_allowedList) do
+        if entry[1] == songDirAsString then
+            output = entry[2]
+            break
+        end
+    end
+	
+	return output
+end
 
 
 
