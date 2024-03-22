@@ -61,8 +61,9 @@ function TableOfColors_POI()
 	return {
 		-- black
 		{"Black",color("#ffffff")},
-		-- IDK songs
-		{"IDK",color("#333333")}, -- gray
+		-- IDK or Placeholder charts
+		{"IDK",color("#333333")}, -- dark gray
+		{"Placeholder",color("#888888")}, -- medium gray
 		-- chart stepstype
 		{"Single",color("#ff8811")}, -- orange
 		{"Halfdouble",color("#ccff00")}, -- lime green
@@ -3832,6 +3833,8 @@ function ColorFromChartStepstype_POI(input_chart)
 	
 	if FetchChartName_POI(input_chart):sub(1, 3) == "IDK" then
 		outputColor = GetColor_POI("IDK")
+	elseif input_chart:GetAuthorCredit() == "Placeholder" then
+		outputColor = GetColor_POI("Placeholder")
 	else 
 		outputColor = GetColor_POI(ToEnumShortString(ToEnumShortString(input_chart:GetStepsType())))
 	end
