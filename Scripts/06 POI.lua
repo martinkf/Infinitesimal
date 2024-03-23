@@ -41,19 +41,17 @@ end
 function TableOfPlaylists_POI()
 	return {
 		{"All Tunes","No filters","ORIGINAL","KPOP","WORLDMUSIC","SHORTCUT","ARCADE","REMIX","FULLSONG"},
-		{"The 1st DF","EASY","HARD","DOUBLE"},
-		{"The 2nd DF","EASY","HARD","DOUBLE"},
-		{"O.B.G Season Evo.","NORMAL"},
-		
-		-- after all are done, replace with
-		--{"The 1st DF","EASY","HARD","DOUBLE","NONSTOP REMIX"},
-		--{"The 2nd DF","EASY","HARD","CRAZY","DOUBLE","NONSTOP REMIX","NONSTOP REMIX DOUBLE"},
-		--{"O.B.G The 3rd","EASY","HARD","CRAZY","DOUBLE","NONSTOP REMIX","NONSTOP REMIX DOUBLE"},
-		--{"O.B.G Season Evo.","NORMAL","HARD","CRAZY","DOUBLE","NONSTOP REMIX","NONSTOP REMIX DOUBLE"},
-		--{"Perfect","NORMAL","HARD","CRAZY","DOUBLE","NONSTOP REMIX","NONSTOP REMIX DOUBLE"},
-		--{"Extra","NORMAL","HARD","EXTRA EXPERT","DOUBLE","EXTRA EXPERT DOUBLE","NONSTOP REMIX","NONSTOP REMIX DOUBLE"},
-		--{"Premiere","NORMAL","HARD","CRAZY","DOUBLE"},
-		--{"Prex","NORMAL","HARD","CRAZY","DOUBLE"},
+		{"The 1st DF","EASY","HARD","DOUBLE","NONSTOP REMIX"},
+		{"The 2nd DF","EASY","HARD","DOUBLE","NONSTOP REMIX","NONSTOP REMIX DOUBLE"},
+		{"O.B.G The 3rd","EASY","HARD","CRAZY","DOUBLE","NONSTOP REMIX","NONSTOP REMIX DOUBLE"},
+		{"O.B.G Season Evo.","NORMAL","HARD","CRAZY","DOUBLE","NONSTOP REMIX","NONSTOP REMIX DOUBLE"},
+		{"Perfect","NORMAL","HARD","CRAZY","DOUBLE","NONSTOP REMIX","NONSTOP REMIX DOUBLE"},
+		{"Extra","NORMAL","HARD","EXTRA EXPERT","DOUBLE","EXTRA EXPERT DOUBLE","NONSTOP REMIX","NONSTOP REMIX DOUBLE"},
+		{"Premiere","NORMAL","HARD","CRAZY","DOUBLE"},
+		{"Prex","NORMAL","HARD","CRAZY","DOUBLE"},
+		{"Rebirth","EASY","HARD","CRAZY","HALF-DOUBLE","FULL-DOUBLE","DIVISION"},
+		{"Premiere 2","EASY","HARD","CRAZY","HALF-DOUBLE","FULL-DOUBLE","DIVISION"},
+		{"Prex 2","NORMAL","HARD","CRAZY","DOUBLE"},
 	}
 end
 
@@ -66,7 +64,7 @@ function TableOfColors_POI()
 		{"Placeholder",color("#888888")}, -- medium gray
 		-- chart stepstype
 		{"Single",color("#ff8811")}, -- orange
-		{"Halfdouble",color("#ccff00")}, -- lime green
+		{"Halfdouble",color("#d9ff00")}, -- limeish yellowish green
 		{"Double",color("#119922")}, -- forest green
 		-- song origins
 		{"The 1st DF",color("#ff00ff")}, --pink
@@ -114,17 +112,26 @@ end
 
 function TableOfSublists_POI()
 	return {
+		{ "No filters", "\n\n\nAll songs" },
 		{ "EASY", "\n\n\nEasy" },
 		{ "NORMAL", "\n\n\nNormal" },
 		{ "HARD", "\n\n\nHard" },
+		{ "CRAZY", "\n\n\nCrazy" },
+		{ "EXTRA EXPERT", "\n\n\neXtra eXpert" },
 		{ "DOUBLE", "\n\n\nDouble" },
-		{ "ORIGINAL", "\n\n\nFilter by genre\n(Original Only)" },
-		{ "KPOP", "\n\n\nFilter by genre\n(K-Pop Only)" },
-		{ "WORLDMUSIC", "\n\n\nFilter by genre\n(World Music Only)" },
-		{ "SHORTCUT", "\n\n\nShort Cut Only\n(1 Heart)" },
-		{ "ARCADE", "\n\n\nArcade Only\n(2 Hearts)" },
-		{ "REMIX", "\n\n\nRemix Only\n(3 Hearts)" },
-		{ "FULLSONG", "\n\n\nFull Songs Only\n(4 Hearts)" },			
+		{ "HALF-DOUBLE", "\n\n\nHalf-Double" },
+		{ "FULL-DOUBLE", "\n\n\nFull-Double" },
+		{ "EXTRA EXPERT DOUBLE", "\n\n\neXtra eXpert Double" },
+		{ "NONSTOP REMIX", "\n\n\nNon-stop Remix" },
+		{ "NONSTOP REMIX DOUBLE", "\n\n\nNon-stop Remix Double" },
+		{ "DIVISION", "\n\n\nDivision charts" },
+		{ "ORIGINAL", "\n\n\nGenre (Original Only)" },
+		{ "KPOP", "\n\n\nGenre (K-Pop Only)" },
+		{ "WORLDMUSIC", "\n\n\nGenre (World Music Only)" },
+		{ "SHORTCUT", "\n\n\n1 Heart (Short Cut Only)" },
+		{ "ARCADE", "\n\n\n2 Hearts (Arcade Only)" },
+		{ "REMIX", "\n\n\n3 Hearts (Remix Only)" },
+		{ "FULLSONG", "\n\n\n4 Hearts (Full Songs Only)" },			
 	}
 end
 
@@ -3712,6 +3719,1771 @@ function ListOfPOINestedLists_POI()
 				"1ST-2PNORMAL",
 			},
 		},
+		-- Rebirth
+		{
+			{
+				"/Songs/POI-database/735 - VOOK/",
+				"REB-NORMAL",
+				"REB-HARD",
+				"REB-CRAZY",
+				"REB-HALFDOUBLE",
+				"REB-FREESTYLE",
+				--"PREX3-NIGHTMARE",
+				"REB-DIVGROOVE",
+			},
+			{
+				"/Songs/POI-database/736 - CSIKOS POST/",
+				"REB-NORMAL",
+				"REB-HARD",
+				"REB-CRAZY",
+				"REB-HALFDOUBLE",
+				"REB-FREESTYLE",
+				--"PREX3-NIGHTMARE",
+				"REB-DIVNORMAL",
+				"REB-DIVWILD",
+			},
+			{
+				"/Songs/POI-database/701 - DR. M/",
+				"REB-NORMAL",
+				"REB-HARD",
+				"REB-CRAZY",
+				"REB-HALFDOUBLE",
+				"REB-FREESTYLE",
+				--"PREX3-NIGHTMARE",
+				"REB-DIVGROOVE",
+				"REB-DIVWILD",
+			},
+			{
+				"/Songs/POI-database/702 - EMPEROR/",
+				"REB-NORMAL",
+				"REB-HARD",
+				"REB-CRAZY",
+				"REB-HALFDOUBLE",
+				"REB-FREESTYLE",
+			},
+			{
+				"/Songs/POI-database/703 - GET YOUR GROOVE ON/",
+				"REB-NORMAL",
+				"REB-HARD",
+				"REB-CRAZY",
+				"REB-HALFDOUBLE",
+				"REB-FREESTYLE",
+			},
+			{
+				"/Songs/POI-database/704 - LOVE IS A DANGER ZONE/",
+				"REB-NORMAL",
+				"REB-HARD",
+				"REB-CRAZY",
+				--"EXC2-CRAZY",
+				"REB-HALFDOUBLE",
+				"REB-FREESTYLE",
+				--"EXC2-NIGHTMARE",
+				"REB-DIVWILD",
+			},
+			{
+				"/Songs/POI-database/705 - MARIA/",
+				"REB-NORMAL",
+				"REB-HARD",
+				"REB-CRAZY",
+				"REB-HALFDOUBLE",
+				"REB-FREESTYLE",
+			},
+			{
+				"/Songs/POI-database/706 - MISSION POSSIBLE/",
+				"REB-NORMAL",
+				"REB-HARD",
+				"REB-CRAZY",
+				"REB-HALFDOUBLE",
+				"REB-FREESTYLE",
+			},
+			{
+				"/Songs/POI-database/707 - MY WAY/",
+				"REB-NORMAL",
+				"REB-HARD",
+				"REB-CRAZY",
+				"REB-HALFDOUBLE",
+				"REB-FREESTYLE",
+				--"EXC2-NIGHTMARE",
+			},
+			{
+				"/Songs/POI-database/708 - POINT BREAK/",
+				"REB-NORMAL",
+				"REB-HARD",
+				--"IDK-CRAZY",
+				--"IDK-HALFDOUBLE",
+				"REB-FREESTYLE",
+				"REB-CRAZY",
+				"REB-HALFDOUBLE",
+			},
+			{
+				"/Songs/POI-database/709 - STREET SHOW DOWN/",
+				"REB-NORMAL",
+				"REB-HARD",
+				"REB-CRAZY",
+				"REB-HALFDOUBLE",
+				"REB-FREESTYLE",
+				--"EXC2-NIGHTMARE",
+			},
+			{
+				"/Songs/POI-database/710 - TOP CITY/",
+				"REB-NORMAL",
+				"REB-HARD",
+				"REB-CRAZY",
+				"REB-HALFDOUBLE",
+				"REB-FREESTYLE",
+				"REB-DIVNORMAL",
+				"REB-DIVWILD",
+			},
+			{
+				"/Songs/POI-database/711 - WINTER/",
+				"REB-NORMAL",
+				"REB-HARD",
+				"REB-CRAZY",
+				"REB-HALFDOUBLE",
+				"REB-FREESTYLE",
+				--"PREX3-NIGHTMARE",
+				"REB-DIVGROOVE",
+				"REB-DIVWILD",
+			},
+			{
+				"/Songs/POI-database/712 - WILL O' THE WISP/",
+				"REB-NORMAL",
+				"REB-HARD",
+				"REB-CRAZY",
+				"REB-HALFDOUBLE",
+				"REB-FREESTYLE",
+				--"PREX3-NIGHTMARE",
+				"REB-DIVGROOVE",
+				"REB-DIVWILD1",
+				"REB-DIVWILD2",
+				"REB-DIVWILD3",
+			},
+			{
+				"/Songs/POI-database/713 - TILL THE END OF TIME/",
+				"REB-NORMAL",
+				"REB-HARD",
+				"REB-CRAZY",
+				"REB-HALFDOUBLE",
+				"REB-FREESTYLE",
+				"REB-DIVGROOVE",
+			},
+			{
+				"/Songs/POI-database/714 - OY OY OY/",
+				"REB-NORMAL",
+				"REB-HARD",
+				"REB-CRAZY",
+				"REB-HALFDOUBLE",
+				"REB-FREESTYLE",
+			},
+			{
+				"/Songs/POI-database/715 - WE WILL MEET AGAIN/",
+				"REB-NORMAL",
+				"REB-HARD",
+				"REB-CRAZY",
+				"REB-HALFDOUBLE",
+				"REB-FREESTYLE",
+			},
+			{
+				"/Songs/POI-database/716 - MISS'S STORY/",
+				"REB-NORMAL",
+				"REB-HARD",
+				"REB-CRAZY",
+				"REB-HALFDOUBLE",
+				"REB-FREESTYLE",
+			},
+			{
+				"/Songs/POI-database/717 - SET ME UP/",
+				"REB-NORMAL",
+				"REB-HARD",
+				"REB-CRAZY",
+				"REB-HALFDOUBLE",
+				"REB-FREESTYLE",
+				"REB-DIVNORMAL",
+				"REB-DIVWILD",
+			},
+			{
+				"/Songs/POI-database/718 - DANCE WITH ME/",
+				"REB-NORMAL",
+				"REB-HARD",
+				"REB-CRAZY",
+				"REB-HALFDOUBLE",
+				"REB-FREESTYLE",
+				"REB-DIVNORMAL",
+			},
+			{
+				"/Songs/POI-database/719 - GO AWAY/",
+				"REB-NORMAL",
+				"REB-HARD",
+				"REB-CRAZY",
+				"REB-HALFDOUBLE",
+				"REB-FREESTYLE",
+				--"PREX3-HARD",
+				--"PREX3-FREESTYLE",
+			},
+			{
+				"/Songs/POI-database/726 - RUNAWAY/",
+				"REB-NORMAL",
+				"REB-HARD",
+				"REB-CRAZY",
+				"REB-HALFDOUBLE",
+				"REB-FREESTYLE",
+				"REB-DIVGROOVE",
+			},
+			{
+				"/Songs/POI-database/720 - I LOVE YOU/",
+				"REB-NORMAL",
+				"REB-HARD",
+				"REB-CRAZY",
+				"REB-HALFDOUBLE",
+				"REB-FREESTYLE",
+				"REB-DIVNORMAL",
+				"REB-DIVGROOVE",
+			},
+			{
+				"/Songs/POI-database/721 - GOTTA BE KIDDING!/",
+				"REB-NORMAL",
+				"REB-HARD",
+				"REB-CRAZY",
+				"REB-HALFDOUBLE",
+				"REB-FREESTYLE",
+				"REB-DIVNORMAL",
+				"REB-DIVWILD",
+			},
+			{
+				"/Songs/POI-database/722 - ZZANGA/",
+				"REB-NORMAL",
+				"REB-HARD",
+				"REB-CRAZY",
+				"REB-HALFDOUBLE",
+				"REB-FREESTYLE",
+			},
+			{
+				"/Songs/POI-database/729 - Y/",
+				"REB-NORMAL",
+				"REB-HARD",
+				"REB-CRAZY",
+				"REB-HALFDOUBLE",
+				"REB-FREESTYLE",
+			},
+			{
+				"/Songs/POI-database/723 - A PRISON WITHOUT BARS/",
+				"REB-NORMAL",
+				"REB-HARD",
+				"REB-CRAZY",
+				"REB-HALFDOUBLE",
+				"REB-FREESTYLE",
+				"REB-DIVCOOP",
+			},
+			{
+				"/Songs/POI-database/727 - SWING BABY/",
+				"REB-NORMAL",
+				"REB-HARD",
+				"REB-CRAZY",
+				"REB-HALFDOUBLE",
+				"REB-FREESTYLE",
+			},
+			{
+				"/Songs/POI-database/724 - A WHISTLE/",
+				"REB-NORMAL",
+				"REB-HARD",
+				"REB-CRAZY",
+				"REB-HALFDOUBLE",
+				"REB-FREESTYLE",
+			},
+			{
+				"/Songs/POI-database/725 - GENTLEMAN QUALITY/",
+				"REB-NORMAL",
+				"REB-HARD",
+				"REB-CRAZY",
+				"REB-HALFDOUBLE",
+				"REB-FREESTYLE",
+				"REB-DIVNORMAL",
+				"REB-DIVWILD",
+			},
+			{
+				"/Songs/POI-database/728 - TEMPTATION/",
+				"REB-NORMAL",
+				"REB-HARD",
+				"REB-CRAZY",
+				"REB-HALFDOUBLE",
+				"REB-FREESTYLE",
+			},
+			{
+				"/Songs/POI-database/730 - PERFECT/",
+				"REB-NORMAL",
+				"REB-HARD",
+				"REB-CRAZY",
+				"REB-HALFDOUBLE",
+				"REB-FREESTYLE",
+				--"PREX3-NIGHTMARE",
+				"REB-DIVGROOVE",
+				"REB-DIVWILD",
+				--"PREX3-NORMAL",
+				--"PREX3-HARD",
+				--"PREX3-CRAZY",
+				--"PREX3-FREESTYLE",
+			},
+			{
+				"/Songs/POI-database/731 - LET'S BOOGIE/",
+				"REB-NORMAL",
+				"REB-HARD",
+				"REB-CRAZY",
+				"REB-HALFDOUBLE",
+				"REB-FREESTYLE",
+				"REB-DIVGROOVE",
+				"REB-DIVWILD",
+			},
+			{
+				"/Songs/POI-database/732 - MY BEST DAY IS GONE/",
+				"REB-NORMAL",
+				"REB-HARD",
+				"REB-CRAZY",
+				"REB-HALFDOUBLE",
+				"REB-FREESTYLE",
+				"REB-DIVNORMAL",
+				"REB-DIVGROOVE",
+			},
+			{
+				"/Songs/POI-database/733 - THE WAVES/",
+				"REB-NORMAL",
+				"REB-HARD",
+				"REB-CRAZY",
+				"REB-HALFDOUBLE",
+				"REB-FREESTYLE",
+				"REB-DIVGROOVE",
+				"REB-DIVWILD",
+			},
+			{
+				"/Songs/POI-database/734 - ALWAYS/",
+				"REB-NORMAL",
+				"REB-HARD",
+				"REB-CRAZY",
+				"REB-HALFDOUBLE",
+				"REB-FREESTYLE",
+				"REB-DIVWILD",
+			},
+		},
+		-- Premiere 2
+		{
+			{
+				"/Songs/POI-database/735 - VOOK/",
+				"REB-NORMAL",
+				"REB-HARD",
+				"REB-CRAZY",
+				"REB-HALFDOUBLE",
+				"REB-FREESTYLE",
+				--"PREX3-NIGHTMARE",
+				"REB-DIVGROOVE",
+			},
+			{
+				"/Songs/POI-database/736 - CSIKOS POST/",
+				"REB-NORMAL",
+				"REB-HARD",
+				"REB-CRAZY",
+				"REB-HALFDOUBLE",
+				"REB-FREESTYLE",
+				--"PREX3-NIGHTMARE",
+				"REB-DIVNORMAL",
+				"REB-DIVWILD",
+			},
+			{
+				"/Songs/POI-database/701 - DR. M/",
+				"REB-NORMAL",
+				"REB-HARD",
+				"REB-CRAZY",
+				"REB-HALFDOUBLE",
+				"REB-FREESTYLE",
+				--"PREX3-NIGHTMARE",
+				"REB-DIVGROOVE",
+				"REB-DIVWILD",
+			},
+			{
+				"/Songs/POI-database/702 - EMPEROR/",
+				"REB-NORMAL",
+				"REB-HARD",
+				"REB-CRAZY",
+				"REB-HALFDOUBLE",
+				"REB-FREESTYLE",
+			},
+			{
+				"/Songs/POI-database/703 - GET YOUR GROOVE ON/",
+				"REB-NORMAL",
+				"REB-HARD",
+				"REB-CRAZY",
+				"REB-HALFDOUBLE",
+				"REB-FREESTYLE",
+			},
+			{
+				"/Songs/POI-database/704 - LOVE IS A DANGER ZONE/",
+				"REB-NORMAL",
+				"REB-HARD",
+				"REB-CRAZY",
+				--"EXC2-CRAZY",
+				"REB-HALFDOUBLE",
+				"REB-FREESTYLE",
+				--"EXC2-NIGHTMARE",
+				"REB-DIVWILD",
+			},
+			{
+				"/Songs/POI-database/705 - MARIA/",
+				"REB-NORMAL",
+				"REB-HARD",
+				"REB-CRAZY",
+				"REB-HALFDOUBLE",
+				"REB-FREESTYLE",
+			},
+			{
+				"/Songs/POI-database/706 - MISSION POSSIBLE/",
+				"REB-NORMAL",
+				"REB-HARD",
+				"REB-CRAZY",
+				"REB-HALFDOUBLE",
+				"REB-FREESTYLE",
+			},
+			{
+				"/Songs/POI-database/707 - MY WAY/",
+				"REB-NORMAL",
+				"REB-HARD",
+				"REB-CRAZY",
+				"REB-HALFDOUBLE",
+				"REB-FREESTYLE",
+				--"EXC2-NIGHTMARE",
+			},
+			{
+				"/Songs/POI-database/708 - POINT BREAK/",
+				"REB-NORMAL",
+				"REB-HARD",
+				--"IDK-CRAZY",
+				--"IDK-HALFDOUBLE",
+				"REB-FREESTYLE",
+				"REB-CRAZY",
+				"REB-HALFDOUBLE",
+			},
+			{
+				"/Songs/POI-database/709 - STREET SHOW DOWN/",
+				"REB-NORMAL",
+				"REB-HARD",
+				"REB-CRAZY",
+				"REB-HALFDOUBLE",
+				"REB-FREESTYLE",
+				--"EXC2-NIGHTMARE",
+			},
+			{
+				"/Songs/POI-database/710 - TOP CITY/",
+				"REB-NORMAL",
+				"REB-HARD",
+				"REB-CRAZY",
+				"REB-HALFDOUBLE",
+				"REB-FREESTYLE",
+				"REB-DIVNORMAL",
+				"REB-DIVWILD",
+			},
+			{
+				"/Songs/POI-database/711 - WINTER/",
+				"REB-NORMAL",
+				"REB-HARD",
+				"REB-CRAZY",
+				"REB-HALFDOUBLE",
+				"REB-FREESTYLE",
+				--"PREX3-NIGHTMARE",
+				"REB-DIVGROOVE",
+				"REB-DIVWILD",
+			},
+			{
+				"/Songs/POI-database/712 - WILL O' THE WISP/",
+				"REB-NORMAL",
+				"REB-HARD",
+				"REB-CRAZY",
+				"REB-HALFDOUBLE",
+				"REB-FREESTYLE",
+				--"PREX3-NIGHTMARE",
+				"REB-DIVGROOVE",
+				"REB-DIVWILD1",
+				"REB-DIVWILD2",
+				"REB-DIVWILD3",
+			},
+			{
+				"/Songs/POI-database/713 - TILL THE END OF TIME/",
+				"REB-NORMAL",
+				"REB-HARD",
+				"REB-CRAZY",
+				"REB-HALFDOUBLE",
+				"REB-FREESTYLE",
+				"REB-DIVGROOVE",
+			},
+			{
+				"/Songs/POI-database/714 - OY OY OY/",
+				"REB-NORMAL",
+				"REB-HARD",
+				"REB-CRAZY",
+				"REB-HALFDOUBLE",
+				"REB-FREESTYLE",
+			},
+			{
+				"/Songs/POI-database/715 - WE WILL MEET AGAIN/",
+				"REB-NORMAL",
+				"REB-HARD",
+				"REB-CRAZY",
+				"REB-HALFDOUBLE",
+				"REB-FREESTYLE",
+			},
+			{
+				"/Songs/POI-database/716 - MISS'S STORY/",
+				"REB-NORMAL",
+				"REB-HARD",
+				"REB-CRAZY",
+				"REB-HALFDOUBLE",
+				"REB-FREESTYLE",
+			},
+			{
+				"/Songs/POI-database/717 - SET ME UP/",
+				"REB-NORMAL",
+				"REB-HARD",
+				"REB-CRAZY",
+				"REB-HALFDOUBLE",
+				"REB-FREESTYLE",
+				"REB-DIVNORMAL",
+				"REB-DIVWILD",
+			},
+			{
+				"/Songs/POI-database/718 - DANCE WITH ME/",
+				"REB-NORMAL",
+				"REB-HARD",
+				"REB-CRAZY",
+				"REB-HALFDOUBLE",
+				"REB-FREESTYLE",
+				"REB-DIVNORMAL",
+			},
+			{
+				"/Songs/POI-database/719 - GO AWAY/",
+				"REB-NORMAL",
+				"REB-HARD",
+				"REB-CRAZY",
+				"REB-HALFDOUBLE",
+				"REB-FREESTYLE",
+				--"PREX3-HARD",
+				--"PREX3-FREESTYLE",
+			},
+			{
+				"/Songs/POI-database/726 - RUNAWAY/",
+				"REB-NORMAL",
+				"REB-HARD",
+				"REB-CRAZY",
+				"REB-HALFDOUBLE",
+				"REB-FREESTYLE",
+				"REB-DIVGROOVE",
+			},
+			{
+				"/Songs/POI-database/720 - I LOVE YOU/",
+				"REB-NORMAL",
+				"REB-HARD",
+				"REB-CRAZY",
+				"REB-HALFDOUBLE",
+				"REB-FREESTYLE",
+				"REB-DIVNORMAL",
+				"REB-DIVGROOVE",
+			},
+			{
+				"/Songs/POI-database/721 - GOTTA BE KIDDING!/",
+				"REB-NORMAL",
+				"REB-HARD",
+				"REB-CRAZY",
+				"REB-HALFDOUBLE",
+				"REB-FREESTYLE",
+				"REB-DIVNORMAL",
+				"REB-DIVWILD",
+			},
+			{
+				"/Songs/POI-database/722 - ZZANGA/",
+				"REB-NORMAL",
+				"REB-HARD",
+				"REB-CRAZY",
+				"REB-HALFDOUBLE",
+				"REB-FREESTYLE",
+			},
+			{
+				"/Songs/POI-database/729 - Y/",
+				"REB-NORMAL",
+				"REB-HARD",
+				"REB-CRAZY",
+				"REB-HALFDOUBLE",
+				"REB-FREESTYLE",
+			},
+			{
+				"/Songs/POI-database/723 - A PRISON WITHOUT BARS/",
+				"REB-NORMAL",
+				"REB-HARD",
+				"REB-CRAZY",
+				"REB-HALFDOUBLE",
+				"REB-FREESTYLE",
+				"REB-DIVCOOP",
+			},
+			{
+				"/Songs/POI-database/727 - SWING BABY/",
+				"REB-NORMAL",
+				"REB-HARD",
+				"REB-CRAZY",
+				"REB-HALFDOUBLE",
+				"REB-FREESTYLE",				
+			},
+			{
+				"/Songs/POI-database/724 - A WHISTLE/",
+				"REB-NORMAL",
+				"REB-HARD",
+				"REB-CRAZY",
+				"REB-HALFDOUBLE",
+				"REB-FREESTYLE",
+			},
+			{
+				"/Songs/POI-database/725 - GENTLEMAN QUALITY/",
+				"REB-NORMAL",
+				"REB-HARD",
+				"REB-CRAZY",
+				"REB-HALFDOUBLE",
+				"REB-FREESTYLE",
+				"REB-DIVNORMAL",
+				"REB-DIVWILD",
+			},
+			{
+				"/Songs/POI-database/728 - TEMPTATION/",
+				"REB-NORMAL",
+				"REB-HARD",
+				"REB-CRAZY",
+				"REB-HALFDOUBLE",
+				"REB-FREESTYLE",
+			},
+			{
+				"/Songs/POI-database/730 - PERFECT/",
+				"REB-NORMAL",
+				"REB-HARD",
+				"REB-CRAZY",
+				"REB-HALFDOUBLE",
+				"REB-FREESTYLE",
+				--"PREX3-NIGHTMARE",
+				"REB-DIVGROOVE",
+				"REB-DIVWILD",
+				--"PREX3-NORMAL",
+				--"PREX3-HARD",
+				--"PREX3-CRAZY",
+				--"PREX3-FREESTYLE",
+			},
+			{
+				"/Songs/POI-database/731 - LET'S BOOGIE/",
+				"REB-NORMAL",
+				"REB-HARD",
+				"REB-CRAZY",
+				"REB-HALFDOUBLE",
+				"REB-FREESTYLE",
+				"REB-DIVGROOVE",
+				"REB-DIVWILD",
+			},
+			{
+				"/Songs/POI-database/732 - MY BEST DAY IS GONE/",
+				"REB-NORMAL",
+				"REB-HARD",
+				"REB-CRAZY",
+				"REB-HALFDOUBLE",
+				"REB-FREESTYLE",
+				"REB-DIVNORMAL",
+				"REB-DIVGROOVE",
+			},
+			{
+				"/Songs/POI-database/733 - THE WAVES/",
+				"REB-NORMAL",
+				"REB-HARD",
+				"REB-CRAZY",
+				"REB-HALFDOUBLE",
+				"REB-FREESTYLE",
+				"REB-DIVGROOVE",
+				"REB-DIVWILD",
+			},
+			{
+				"/Songs/POI-database/734 - ALWAYS/",
+				"REB-NORMAL",
+				"REB-HARD",
+				"REB-CRAZY",
+				"REB-HALFDOUBLE",
+				"REB-FREESTYLE",
+				"REB-DIVWILD",
+			},
+			{
+				"/Songs/POI-database/501 - PUMP JUMP/",
+				"PERF-NORMAL",
+				"PERF-HARD",
+				"PERF-CRAZY",
+				"PERF-FREESTYLE",
+			},
+			{
+				"/Songs/POI-database/502 - N/",
+				"PERF-NORMAL",
+				"PERF-HARD",
+				"PERF-CRAZY",
+				"PERF-FREESTYLE",
+				--"IDK-HARD",
+				--"IDK-FREESTYLE",
+			},
+			{
+				"/Songs/POI-database/503 - ROLLING CHRISTMAS/",
+				"PERF-NORMAL",
+				"PERF-HARD",
+				"PERF-CRAZY",
+				"PERF-FREESTYLE",
+			},
+			{
+				"/Songs/POI-database/504 - ALL I WANT FOR X-MAS/",
+				"PERF-NORMAL",
+				"PERF-HARD",
+				"PERF-CRAZY",
+				"PERF-FREESTYLE",
+			},
+			{
+				"/Songs/POI-database/505 - BEETHOVEN VIRUS/",
+				"PERF-NORMAL",
+				"PERF-HARD",
+				"PERF-CRAZY",
+				"PERF-FREESTYLE",
+				--"PREX3-NIGHTMARE",
+			},
+			{
+				"/Songs/POI-database/507 - COME BACK TO ME/",				
+				"PERF-NORMAL",
+				"PERF-HARD",				
+				"PERF-CRAZY",				
+				"PERF-FREESTYLE",
+				--"PREX3-NORMAL",
+				--"PREX3-HARD",
+				--"PREX3-CRAZY",
+				--"PREX3-FREESTYLE",
+				--"PREX3-NIGHTMARE",
+			},
+			{
+				"/Songs/POI-database/508 - AS I TOLD YOU/",
+				"PERF-NORMAL",				
+				"PERF-HARD",				
+				"PERF-CRAZY",				
+				"PERF-FREESTYLE",
+				--"PREX3-NORMAL",
+				--"PREX3-HARD",
+				--"PREX3-CRAZY",
+				--"PREX3-FREESTYLE",
+				--"PREX3-NIGHTMARE",
+			},
+			{
+				"/Songs/POI-database/515 - BONACCIA/",
+				"PERF-NORMAL",
+				"PERF-HARD",				
+				"PERF-CRAZY",
+				"PERF-FREESTYLE",
+			},
+			{
+				"/Songs/POI-database/516 - SLAM/",
+				"PERF-NORMAL",
+				"PERF-HARD",
+				"PERF-CRAZY",
+				"PERF-FREESTYLE",
+				--"EXTRA-XXDOUBLE",
+				--"EXC1-NIGHTMARE",
+			},
+			{
+				"/Songs/POI-database/517 - SPACE FANTASY/",
+				"PERF-NORMAL",
+				"PERF-HARD",
+				"PERF-CRAZY",
+				"PERF-FREESTYLE",
+			},
+			{
+				"/Songs/POI-database/401 - OH! ROSA/",
+				"OBGSE-NORMAL",
+				"OBGSE-HARD",
+				"OBGSE-CRAZY",
+				"OBGSE-FREESTYLE",
+			},
+			{
+				"/Songs/POI-database/402 - FIRST LOVE/",
+				"OBGSE-NORMAL",
+				"OBGSE-HARD",
+				"OBGSE-CRAZY",
+				"OBGSE-FREESTYLE",
+			},
+			{
+				"/Songs/POI-database/403 - BETRAYER/",
+				"OBGSE-NORMAL",
+				"OBGSE-HARD",
+				"OBGSE-CRAZY",
+				"OBGSE-FREESTYLE",
+			},
+			{
+				"/Songs/POI-database/404 - SOLITARY/",
+				"OBGSE-NORMAL",
+				"OBGSE-HARD",
+				"OBGSE-CRAZY",
+				"OBGSE-FREESTYLE",
+				--"EXC2-NIGHTMARE",
+			},
+			{
+				"/Songs/POI-database/405 - MR. LARPUS/",
+				"OBGSE-NORMAL",
+				"OBGSE-HARD",
+				"OBGSE-CRAZY",
+				"OBGSE-FREESTYLE",
+				--"PREX3-NIGHTMARE",
+			},
+			{
+				"/Songs/POI-database/406 - SAD SALSA/",
+				"OBGSE-NORMAL",
+				"OBGSE-HARD",
+				"OBGSE-CRAZY",
+				"OBGSE-FREESTYLE",
+			},
+			{
+				"/Songs/POI-database/407 - SUMMER OF LOVE/",
+				"OBGSE-NORMAL",
+				"OBGSE-HARD",
+				"OBGSE-CRAZY",
+				"OBGSE-FREESTYLE",
+			},
+			{
+				"/Songs/POI-database/409 - MAN & WOMAN/",
+				"OBGSE-NORMAL",
+				"OBGSE-HARD",
+				"OBGSE-CRAZY",
+				"OBGSE-FREESTYLE",
+			},
+			{
+				"/Songs/POI-database/410 - FIRST LOVE/",
+				"OBGSE-NORMAL",
+				"OBGSE-HARD",
+				"OBGSE-CRAZY",
+				"OBGSE-FREESTYLE",
+			},
+			{
+				"/Songs/POI-database/411 - A TRAP/",
+				"OBGSE-NORMAL",
+				"OBGSE-HARD",
+				"OBGSE-CRAZY",
+				"OBGSE-FREESTYLE",
+				--"EXC2-CRAZY",
+				--"EXC2-FREESTYLE",				
+				--"EXC2-NIGHTMARE",
+			},
+			{
+				"/Songs/POI-database/412 - DISCO BUS/",
+				"OBGSE-NORMAL",
+				"OBGSE-HARD",
+				"OBGSE-CRAZY",
+			},
+			{
+				"/Songs/POI-database/413 - RUN!/",
+				"OBGSE-NORMAL",
+				"OBGSE-HARD",
+				"OBGSE-CRAZY",
+				"OBGSE-FREESTYLE",
+				--"IDK-NORMAL",
+				--"IDK-HARD",
+				--"IDK-CRAZY",
+				--"IDK-FREESTYLE",
+				--"EXC2-NIGHTMARE",
+			},
+			{
+				"/Songs/POI-database/414 - RUN TO YOU/",
+				"OBGSE-NORMAL",
+				"OBGSE-HARD",
+				"OBGSE-CRAZY",				
+				"OBGSE-FREESTYLE",
+				--"IDKKKKK",
+			},
+			{
+				"/Songs/POI-database/301 - FINAL AUDITION 2/",
+				"3RD-HARD",
+				"3RD-CRAZY",
+				"3RD-FREESTYLE",				
+				--"EXC1-NIGHTMARE",
+			},
+			{
+				"/Songs/POI-database/302 - NAISSANCE/",
+				"3RD-HARD",
+				"3RD-CRAZY",
+				"3RD-FREESTYLE",				
+			},
+			{
+				"/Songs/POI-database/303 - TURKEY MARCH/",
+				"3RD-HARD",
+				"3RD-CRAZY",
+				"3RD-FREESTYLE",				
+				--"EXC1-NIGHTMARE",
+			},
+			{
+				"/Songs/POI-database/304 - WITH MY LOVER/",
+				"3RD-NORMAL",				
+			},
+			{
+				"/Songs/POI-database/305 - AN INTERESTING VIEW/",
+				"3RD-HARD",
+				"3RD-CRAZY",				
+			},
+			{
+				"/Songs/POI-database/306 - NIGHTMARE/",
+				"3RD-NORMAL",
+				"3RD-HARD",
+				"3RD-FREESTYLE",				
+			},
+			{
+				"/Songs/POI-database/307 - CLOSE YOUR EYES/",
+				"3RD-NORMAL",
+				"3RD-HARD",
+				"3RD-FREESTYLE",				
+			},
+			{
+				"/Songs/POI-database/308 - FREE STYLE/",
+				"3RD-NORMAL",
+				"3RD-FREESTYLE",				
+			},
+			{
+				"/Songs/POI-database/309 - MIDNIGHT BLUE/",
+				"3RD-HARD",
+				"3RD-FREESTYLE",				
+			},
+			{
+				"/Songs/POI-database/310 - SHE LIKES PIZZA/",
+				"3RD-HARD",
+				"3RD-CRAZY",
+				"3RD-FREESTYLE",				
+				--"PREX3-NIGHTMARE",
+			},
+			{
+				"/Songs/POI-database/311 - PUMPING UP/",
+				"3RD-HARD",				
+			},
+			{
+				"/Songs/POI-database/312 - DON'T BOTHER ME/",
+				"3RD-NORMAL",
+				--"EXTRA-HARD",
+				"3RD-FREESTYLE",
+				--"PREX3-CRAZY",
+			},
+			{
+				"/Songs/POI-database/313 - LOVE SONG/",
+				"3RD-NORMAL",
+				"3RD-HARD",
+				"3RD-FREESTYLE",
+				--"EXC2-CRAZY",				
+				--"EXC2-NIGHTMARE",
+			},
+			{
+				"/Songs/POI-database/316 - SEPARATION WITH HER/",
+				"3RD-HARD",
+				"PERF-CRAZY",
+				"3RD-FREESTYLE",				
+			},
+			{
+				"/Songs/POI-database/317 - PUYO PUYO/",
+				"3RD-NORMAL",
+				"3RD-FREESTYLE",				
+			},
+			{
+				"/Songs/POI-database/318 - WE ARE/",
+				"3RD-HARD",				
+				"3RD-FREESTYLE",
+				--"PREX3-CRAZY",
+			},
+			{
+				"/Songs/POI-database/319 - TIME TO SAY GOODBYE/",
+				"3RD-NORMAL",
+				"3RD-HARD",
+				"3RD-CRAZY",
+			},
+			{
+				"/Songs/POI-database/320 - TELL ME/",
+				"3RD-HARD",
+			},
+			{
+				"/Songs/POI-database/321 - OK OK (BEAUTY AND THE BEAST)/",
+				"3RD-NORMAL",
+				"3RD-FREESTYLE",
+			},
+			{
+				"/Songs/POI-database/201 - CREAMY SKINNY/",
+				"2ND-NORMAL",
+				"2ND-FREESTYLE",
+			},
+			{
+				"/Songs/POI-database/202 - HATE/",
+				"2ND-NORMAL",
+				"2ND-HARD",
+				"2ND-FREESTYLE",
+			},
+			{
+				"/Songs/POI-database/203 - KOUL/",
+				"2ND-HARD",				
+				"2ND-FREESTYLE",
+				--"PREX3-CRAZY",
+			},
+			{
+				"/Songs/POI-database/204 - FINAL AUDITION/",
+				"PERF-NORMAL",
+				"2ND-HARD",
+				"2ND-FREESTYLE",
+				--"PREX3-CRAZY",
+				--"PREX3-FREESTYLE",				
+				--"PREX3-NIGHTMARE",
+			},
+			{
+				"/Songs/POI-database/205 - EXTRAVAGANZA/",
+				"2ND-HARD",
+				--"3RD-HARD",
+				"3RD-CRAZY",
+				"2ND-FREESTYLE",
+				--"3RD-FREESTYLE",
+				--"PREX3-NIGHTMARE",
+				--"IDKKKKK",
+			},
+			{
+				"/Songs/POI-database/206 - REWIND/",
+				"2ND-NORMAL",
+			},
+			{
+				"/Songs/POI-database/212 - COM'BACK/",
+				"2ND-HARD",
+				--"PREX3-CRAZY",
+			},
+			{
+				"/Songs/POI-database/213 - MOBIUS STRIP/",
+				"2ND-HARD",
+				"2ND-FREESTYLE",
+			},
+			{
+				"/Songs/POI-database/214 - FEVER/",
+				"2ND-NORMAL",
+				"2ND-HARD",
+				"2ND-FREESTYLE",
+			},
+			{
+				"/Songs/POI-database/215 - CURIOSITY/",
+				"2ND-NORMAL",
+				"2ND-HARD",
+				"2ND-FREESTYLE",
+			},
+			{
+				"/Songs/POI-database/216 - LOVE/",
+				"2ND-HARD",
+			},
+			{	"/Songs/POI-database/104 - PASSION/",
+				"1ST-NORMAL",
+				"1ST-HARD",
+				"1ST-FREESTYLE",
+			},
+			{	"/Songs/POI-database/105 - BLACK CAT/",
+				"1ST-HARD",
+				"1ST-FREESTYLE",
+			},
+			{	"/Songs/POI-database/106 - POM POM POM/",
+				"1ST-NORMAL",
+				"1ST-HARD",
+				"1ST-FREESTYLE",
+			},
+			{	"/Songs/POI-database/107 - THE RAP/",
+				"1ST-NORMAL",
+			},
+			{	"/Songs/POI-database/108 - COME TO ME/",				
+				"1ST-NORMAL",
+				"1ST-HARD",
+				"1ST-FREESTYLE",
+				--"EXC2-NORMAL",
+				--"EXC2-HARD",
+				--"EXC2-CRAZY",
+				--"EXC2-FREESTYLE",				
+				--"EXC2-NIGHTMARE",
+			},
+			{	"/Songs/POI-database/109 - FUNKY TONIGHT/",
+				"1ST-HARD",
+				"1ST-FREESTYLE",
+			},
+			{	"/Songs/POI-database/110 - WHAT DO U REALLY WANT/",
+				"1ST-NORMAL",
+			},
+			{	"/Songs/POI-database/111 - HATRED/",
+				"1ST-HARD",
+				"1ST-FREESTYLE",
+				--"EXC2-NORMAL",
+				--"EXC2-CRAZY",
+				--"EXC2-FREESTYLE",
+				--"EXC2-NIGHTMARE",
+			},
+			{	"/Songs/POI-database/112 - ANOTHER TRUTH/",
+				"1ST-NORMAL",
+				"1ST-HARD",
+				--"3RD-HARD",
+				--"2ND-FREESTYLE",
+				"3RD-FREESTYLE",
+				--"PREX3-NIGHTMARE",
+			},
+			{	"/Songs/POI-database/113 - I WANT U/",
+				"1ST-NORMAL",
+				"1ST-FREESTYLE",
+			},
+			{	"/Songs/POI-database/114 - I DON'T KNOW ANYTHING/",
+				"1ST-NORMAL",
+				"1ST-FREESTYLE",
+			},
+			{	"/Songs/POI-database/115 - NO PARTICULAR REASON/",
+				"1ST-NORMAL",
+				"1ST-FREESTYLE",
+			},
+		},
+		-- Prex 2
+		{
+			{
+				"/Songs/POI-database/922 - FINAL AUDITION EPISODE 1/",
+				"EXTRA-HARD",
+				"EXTRA-XXPERT",
+				"EXTRA-FREESTYLE",
+				--"EXTRA-XXDOUBLE",				
+				--"EXC1-NIGHTMARE",
+			},
+			{
+				"/Songs/POI-database/911 - CHICKEN WING/",
+				"EXTRA-XXPERT",
+				"EXTRA-XXDOUBLE",
+			},
+			{
+				"/Songs/POI-database/912 - HOLIDAY/",
+				"EXTRA-XXPERT",
+				"EXTRA-XXDOUBLE",
+			},
+			{
+				"/Songs/POI-database/913 - RADEZKY CAN CAN/",
+				"EXTRA-XXPERT",
+				"EXTRA-XXDOUBLE",
+			},
+			{
+				"/Songs/POI-database/901 - FLOWER OF NIGHT/",
+				"EXTRA-NORMAL",
+				"EXTRA-HARD",
+				"EXTRA-FREESTYLE",
+			},
+			{
+				"/Songs/POI-database/903 - MOVE YOUR HEAD/",
+				"EXTRA-NORMAL",
+				"EXTRA-HARD",
+				"EXTRA-FREESTYLE",
+			},
+			{
+				"/Songs/POI-database/904 - TRASH MAN/",
+				"EXTRA-XXPERT",
+				--"EXTRA-XXDOUBLE",
+			},
+			{
+				"/Songs/POI-database/919 - LAZENCA, SAVE US/",
+				"EXTRA-NORMAL",
+				"EXTRA-HARD",
+				"EXTRA-FREESTYLE",
+			},
+			{
+				"/Songs/POI-database/905 - FUNKY JOCKEY/",
+				"EXTRA-NORMAL",
+				"EXTRA-HARD",
+				"EXTRA-FREESTYLE",
+			},
+			{
+				"/Songs/POI-database/906 - STARIAN/",
+				"EXTRA-HARD",
+				"EXTRA-FREESTYLE",
+				--"PREX3-CRAZY",
+				--"IDK-NORMAL",				
+			},
+			{
+				"/Songs/POI-database/907 - BIG MONEY/",
+				"EXTRA-NORMAL",
+				"EXTRA-HARD",
+				"EXTRA-FREESTYLE",
+			},
+			{
+				"/Songs/POI-database/908 - WAYO WAYO/",
+				"EXTRA-NORMAL",
+				"EXTRA-HARD",
+				"EXTRA-FREESTYLE",
+			},
+			{
+				"/Songs/POI-database/909 - MISTAKE/",
+				"EXTRA-NORMAL",
+				"EXTRA-HARD",
+				"EXTRA-FREESTYLE",
+			},
+			{
+				"/Songs/POI-database/910 - THE RAP ACT 3/",
+				"EXTRA-NORMAL",
+				"EXTRA-HARD",				
+				"EXTRA-FREESTYLE",
+				--"EXC2-CRAZY",
+				--"EXC2-NIGHTMARE",
+			},
+			{
+				"/Songs/POI-database/914 - WISH YOU COULD FIND/",
+				"EXTRA-NORMAL",
+				"EXTRA-HARD",
+				"EXTRA-FREESTYLE",
+			},
+			{
+				"/Songs/POI-database/915 - LONER/",
+				"EXTRA-HARD",
+				"EXTRA-XXPERT",
+				"EXTRA-FREESTYLE",
+				--"EXTRA-XXDOUBLE",
+			},
+			{
+				"/Songs/POI-database/916 - MONKEY MAGIC/",
+				"EXTRA-NORMAL",
+				"EXTRA-HARD",
+				"EXTRA-XXPERT",
+				"EXTRA-FREESTYLE",
+				--"EXTRA-XXDOUBLE",
+			},
+			{
+				"/Songs/POI-database/917 - OUT OF THE RING/",
+				"EXTRA-NORMAL",
+				"EXTRA-HARD",
+				"EXTRA-FREESTYLE",
+			},
+			{
+				"/Songs/POI-database/921 - PIERROT/",
+				"EXTRA-NORMAL",
+				"EXTRA-HARD",
+				"EXTRA-FREESTYLE",
+				--"PREX3-NORMAL",				
+				--"PREX3-HARD",
+				--"PREX3-CRAZY",
+				--"PREX3-FREESTYLE",				
+				--"PREX3-NIGHTMARE",				
+				--"EXC2-NORMAL",
+				--"EXC2-HARD",
+			},
+			{
+				"/Songs/POI-database/918 - BLIND FAITH/",
+				"EXTRA-NORMAL",
+				"EXTRA-HARD",
+				"EXTRA-FREESTYLE",
+			},
+			{
+				"/Songs/POI-database/920 - FERRY BOAT/",
+				"EXTRA-NORMAL",
+				"EXTRA-HARD",
+				"EXTRA-FREESTYLE",
+			},
+			{
+				"/Songs/POI-database/735 - VOOK/",
+				"REB-NORMAL",
+				"REB-HARD",
+				"REB-CRAZY",
+				--"REB-HALFDOUBLE",
+				"REB-FREESTYLE",
+				--"PREX3-NIGHTMARE",				
+			},
+			{
+				"/Songs/POI-database/736 - CSIKOS POST/",
+				"REB-NORMAL",
+				"REB-HARD",
+				"REB-CRAZY",
+				--"REB-HALFDOUBLE",
+				"REB-FREESTYLE",
+				--"PREX3-NIGHTMARE",
+			},
+			{
+				"/Songs/POI-database/701 - DR. M/",
+				"REB-NORMAL",
+				"REB-HARD",
+				"REB-CRAZY",
+				--"REB-HALFDOUBLE",
+				"REB-FREESTYLE",
+				--"PREX3-NIGHTMARE",
+			},
+			{
+				"/Songs/POI-database/702 - EMPEROR/",
+				"REB-NORMAL",
+				"REB-HARD",
+				"REB-CRAZY",
+				--"REB-HALFDOUBLE",
+				"REB-FREESTYLE",
+			},
+			{
+				"/Songs/POI-database/703 - GET YOUR GROOVE ON/",
+				"REB-NORMAL",
+				"REB-HARD",
+				"REB-CRAZY",
+				--"REB-HALFDOUBLE",
+				"REB-FREESTYLE",
+			},
+			{
+				"/Songs/POI-database/704 - LOVE IS A DANGER ZONE/",
+				"REB-NORMAL",
+				"REB-HARD",
+				"REB-CRAZY",
+				--"EXC2-CRAZY",
+				--"REB-HALFDOUBLE",
+				"REB-FREESTYLE",
+				--"EXC2-NIGHTMARE",
+			},
+			{
+				"/Songs/POI-database/705 - MARIA/",
+				"REB-NORMAL",
+				"REB-HARD",
+				"REB-CRAZY",
+				--"REB-HALFDOUBLE",
+				"REB-FREESTYLE",
+			},
+			{
+				"/Songs/POI-database/706 - MISSION POSSIBLE/",
+				"REB-NORMAL",
+				"REB-HARD",
+				"REB-CRAZY",
+				--"REB-HALFDOUBLE",
+				"REB-FREESTYLE",
+			},
+			{
+				"/Songs/POI-database/707 - MY WAY/",
+				"REB-NORMAL",
+				"REB-HARD",
+				"REB-CRAZY",
+				--"REB-HALFDOUBLE",
+				"REB-FREESTYLE",
+				--"EXC2-NIGHTMARE",
+			},
+			{
+				"/Songs/POI-database/708 - POINT BREAK/",
+				"REB-NORMAL",
+				"REB-HARD",
+				"REB-CRAZY",
+				--"REB-HALFDOUBLE",
+				"REB-FREESTYLE",				
+				--"IDK-CRAZY",
+				--"IDK-HALFDOUBLE",
+			},
+			{
+				"/Songs/POI-database/709 - STREET SHOW DOWN/",
+				"REB-NORMAL",
+				"REB-HARD",
+				"REB-CRAZY",
+				--"REB-HALFDOUBLE",
+				"REB-FREESTYLE",
+				--"EXC2-NIGHTMARE",
+			},
+			{
+				"/Songs/POI-database/710 - TOP CITY/",
+				"REB-NORMAL",
+				"REB-HARD",
+				"REB-CRAZY",
+				--"REB-HALFDOUBLE",
+				"REB-FREESTYLE",
+			},
+			{
+				"/Songs/POI-database/711 - WINTER/",
+				"REB-NORMAL",
+				"REB-HARD",
+				"REB-CRAZY",
+				--"REB-HALFDOUBLE",
+				"REB-FREESTYLE",
+				--"PREX3-NIGHTMARE",
+			},
+			{
+				"/Songs/POI-database/712 - WILL O' THE WISP/",
+				"REB-NORMAL",
+				"REB-HARD",
+				"REB-CRAZY",
+				--"REB-HALFDOUBLE",
+				"REB-FREESTYLE",
+				--"PREX3-NIGHTMARE",
+			},
+			{
+				"/Songs/POI-database/713 - TILL THE END OF TIME/",
+				"REB-NORMAL",
+				"REB-HARD",
+				"REB-CRAZY",
+				--"REB-HALFDOUBLE",
+				"REB-FREESTYLE",
+			},
+			{
+				"/Songs/POI-database/714 - OY OY OY/",
+				"REB-NORMAL",
+				"REB-HARD",
+				"REB-CRAZY",
+				--"REB-HALFDOUBLE",
+				"REB-FREESTYLE",
+			},
+			{
+				"/Songs/POI-database/715 - WE WILL MEET AGAIN/",
+				"REB-NORMAL",
+				"REB-HARD",
+				"REB-CRAZY",
+				--"REB-HALFDOUBLE",
+				"REB-FREESTYLE",
+			},
+			{
+				"/Songs/POI-database/716 - MISS'S STORY/",
+				"REB-NORMAL",
+				"REB-HARD",
+				"REB-CRAZY",
+				--"REB-HALFDOUBLE",
+				"REB-FREESTYLE",
+			},
+			{
+				"/Songs/POI-database/717 - SET ME UP/",
+				"REB-NORMAL",
+				"REB-HARD",
+				"REB-CRAZY",
+				--"REB-HALFDOUBLE",
+				"REB-FREESTYLE",
+			},
+			{
+				"/Songs/POI-database/718 - DANCE WITH ME/",
+				"REB-NORMAL",
+				"REB-HARD",
+				"REB-CRAZY",
+				--"REB-HALFDOUBLE",
+				"REB-FREESTYLE",
+			},
+			{
+				"/Songs/POI-database/719 - GO AWAY/",
+				"REB-NORMAL",
+				"REB-HARD",
+				"REB-CRAZY",
+				--"REB-HALFDOUBLE",
+				"REB-FREESTYLE",
+				--"PREX3-HARD",
+				--"PREX3-FREESTYLE",
+			},
+			{
+				"/Songs/POI-database/726 - RUNAWAY/",
+				"REB-NORMAL",
+				"REB-HARD",
+				"REB-CRAZY",
+				--"REB-HALFDOUBLE",
+				"REB-FREESTYLE",
+			},
+			{
+				"/Songs/POI-database/720 - I LOVE YOU/",
+				"REB-NORMAL",
+				"REB-HARD",
+				"REB-CRAZY",
+				--"REB-HALFDOUBLE",
+				"REB-FREESTYLE",
+			},
+			{
+				"/Songs/POI-database/721 - GOTTA BE KIDDING!/",
+				"REB-NORMAL",
+				"REB-HARD",
+				"REB-CRAZY",
+				--"REB-HALFDOUBLE",
+				"REB-FREESTYLE",
+			},
+			{
+				"/Songs/POI-database/722 - ZZANGA/",
+				"REB-NORMAL",
+				"REB-HARD",
+				"REB-CRAZY",
+				--"REB-HALFDOUBLE",
+				"REB-FREESTYLE",
+			},
+			{
+				"/Songs/POI-database/729 - Y/",
+				"REB-NORMAL",
+				"REB-HARD",
+				"REB-CRAZY",
+				--"REB-HALFDOUBLE",
+				"REB-FREESTYLE",
+			},
+			{
+				"/Songs/POI-database/723 - A PRISON WITHOUT BARS/",
+				"REB-NORMAL",
+				"REB-HARD",
+				"REB-CRAZY",
+				--"REB-HALFDOUBLE",
+				"REB-FREESTYLE",
+			},
+			{
+				"/Songs/POI-database/727 - SWING BABY/",
+				"REB-NORMAL",
+				"REB-HARD",
+				"REB-CRAZY",
+				--"REB-HALFDOUBLE",
+				"REB-FREESTYLE",				
+			},
+			{
+				"/Songs/POI-database/724 - A WHISTLE/",
+				"REB-NORMAL",
+				"REB-HARD",
+				"REB-CRAZY",
+				--"REB-HALFDOUBLE",
+				"REB-FREESTYLE",
+			},
+			{
+				"/Songs/POI-database/725 - GENTLEMAN QUALITY/",
+				"REB-NORMAL",
+				"REB-HARD",
+				"REB-CRAZY",
+				--"REB-HALFDOUBLE",
+				"REB-FREESTYLE",
+			},
+			{
+				"/Songs/POI-database/728 - TEMPTATION/",
+				"REB-NORMAL",
+				"REB-HARD",
+				"REB-CRAZY",
+				--"REB-HALFDOUBLE",
+				"REB-FREESTYLE",
+			},
+			{
+				"/Songs/POI-database/730 - PERFECT/",
+				"REB-NORMAL",
+				"REB-HARD",
+				"REB-CRAZY",
+				--"REB-HALFDOUBLE",
+				"REB-FREESTYLE",				
+				--"PREX3-NORMAL",
+				--"PREX3-HARD",
+				--"PREX3-CRAZY",
+				--"PREX3-FREESTYLE",
+				--"PREX3-NIGHTMARE",
+			},
+			{
+				"/Songs/POI-database/731 - LET'S BOOGIE/",
+				"REB-NORMAL",
+				"REB-HARD",
+				"REB-CRAZY",
+				--"REB-HALFDOUBLE",
+				"REB-FREESTYLE",
+			},
+			{
+				"/Songs/POI-database/732 - MY BEST DAY IS GONE/",
+				"REB-NORMAL",
+				"REB-HARD",
+				"REB-CRAZY",
+				--"REB-HALFDOUBLE",
+				"REB-FREESTYLE",
+			},
+			{
+				"/Songs/POI-database/733 - THE WAVES/",
+				"REB-NORMAL",
+				"REB-HARD",
+				"REB-CRAZY",
+				--"REB-HALFDOUBLE",
+				"REB-FREESTYLE",
+			},
+			{
+				"/Songs/POI-database/734 - ALWAYS/",
+				"REB-NORMAL",
+				"REB-HARD",
+				"REB-CRAZY",
+				--"REB-HALFDOUBLE",
+				"REB-FREESTYLE",
+			},
+			{
+				"/Songs/POI-database/505 - BEETHOVEN VIRUS/",
+				"PERF-NORMAL",
+				"PERF-HARD",
+				"PERF-CRAZY",
+				"PERF-FREESTYLE",
+				--"PREX3-NIGHTMARE",
+			},
+			{
+				"/Songs/POI-database/506 - I WILL ACCEPT YOU/",
+				"PERF-NORMAL",
+				"PERF-HARD",
+				"PERF-FREESTYLE",
+			},
+			{
+				"/Songs/POI-database/509 - I KNOW/",
+				"PERF-NORMAL",
+				"PERF-HARD",
+				"PERF-CRAZY",
+				"PERF-FREESTYLE",
+			},
+			{
+				"/Songs/POI-database/510 - MY FANTASY/",				
+				"PERF-NORMAL",
+				"PERF-HARD",
+				"PERF-CRAZY",
+				"PERF-FREESTYLE",
+			},
+			{
+				"/Songs/POI-database/511 - UNFORGETTABLE MEMORY/",
+				"PERF-NORMAL",
+				"PERF-HARD",
+				"PERF-CRAZY",
+				"PERF-FREESTYLE",
+				--"EXTRA-XXDOUBLE",
+			},
+			{
+				"/Songs/POI-database/512 - HAYUGA/",
+				"PERF-NORMAL",
+				"PERF-HARD",
+				"PERF-CRAZY",				
+				"PERF-FREESTYLE",
+			},
+			{
+				"/Songs/POI-database/513 - CERTAIN VICTORY/",
+				"PERF-NORMAL",
+				"PERF-HARD",
+				"PERF-CRAZY",
+				"PERF-FREESTYLE",
+			},
+			{
+				"/Songs/POI-database/514 - ULTRAMANIA/",
+				"PERF-NORMAL",
+				"PERF-HARD",
+				"PERF-CRAZY",
+				"PERF-FREESTYLE",
+			},
+			{
+				"/Songs/POI-database/515 - BONACCIA/",
+				"PERF-NORMAL",
+				"PERF-HARD",				
+				"PERF-CRAZY",
+				"PERF-FREESTYLE",
+			},
+			{
+				"/Songs/POI-database/516 - SLAM/",
+				"PERF-NORMAL",
+				"PERF-HARD",
+				"PERF-CRAZY",
+				"PERF-FREESTYLE",
+				--"EXTRA-XXDOUBLE",
+				--"EXC1-NIGHTMARE",
+			},
+			{
+				"/Songs/POI-database/402 - FIRST LOVE/",
+				"OBGSE-NORMAL",
+				"OBGSE-HARD",
+				"OBGSE-CRAZY",
+				"OBGSE-FREESTYLE",
+			},
+			{
+				"/Songs/POI-database/403 - BETRAYER/",
+				"OBGSE-NORMAL",
+				"OBGSE-HARD",
+				"OBGSE-CRAZY",
+				"OBGSE-FREESTYLE",
+			},
+			{
+				"/Songs/POI-database/404 - SOLITARY/",
+				"OBGSE-NORMAL",
+				"OBGSE-HARD",
+				"OBGSE-CRAZY",
+				"OBGSE-FREESTYLE",
+				--"EXC2-NIGHTMARE",
+			},
+			{
+				"/Songs/POI-database/405 - MR. LARPUS/",
+				"OBGSE-NORMAL",
+				"OBGSE-HARD",
+				"OBGSE-CRAZY",
+				"OBGSE-FREESTYLE",
+				--"PREX3-NIGHTMARE",
+			},
+			{
+				"/Songs/POI-database/410 - FIRST LOVE/",
+				"OBGSE-NORMAL",
+				"OBGSE-HARD",
+				"OBGSE-CRAZY",
+				"OBGSE-FREESTYLE",
+			},
+			{
+				"/Songs/POI-database/414 - RUN TO YOU/",
+				"OBGSE-NORMAL",
+				"OBGSE-HARD",
+				"OBGSE-CRAZY",				
+				"OBGSE-FREESTYLE",
+				--"IDKKKKK",
+			},
+			{
+				"/Songs/POI-database/303 - TURKEY MARCH/",
+				"3RD-HARD",
+				"3RD-CRAZY",
+				"3RD-FREESTYLE",
+				--"EXC1-NIGHTMARE",
+			},
+			{
+				"/Songs/POI-database/310 - SHE LIKES PIZZA/",
+				"3RD-HARD",
+				"3RD-CRAZY",
+				"3RD-FREESTYLE",
+				--"PREX3-NIGHTMARE",
+			},
+			{
+				"/Songs/POI-database/312 - DON'T BOTHER ME/",
+				"3RD-NORMAL",
+				"EXTRA-HARD",
+				"3RD-FREESTYLE",
+				--"PREX3-CRAZY",
+			},
+			{
+				"/Songs/POI-database/315 - TO THE TOP/",
+				"3RD-NORMAL",
+				"3RD-HARD",
+			},
+			{
+				"/Songs/POI-database/318 - WE ARE/",
+				"3RD-HARD",				
+				"3RD-FREESTYLE",
+				--"PREX3-CRAZY",
+			},
+			{
+				"/Songs/POI-database/320 - TELL ME/",
+				"3RD-HARD",
+			},
+			{
+				"/Songs/POI-database/203 - KOUL/",
+				"2ND-HARD",				
+				"2ND-FREESTYLE",
+				--"PREX3-CRAZY",
+			},
+			{
+				"/Songs/POI-database/207 - I-YAH/",
+				"2ND-HARD",
+				"2ND-FREESTYLE",
+			},
+			{
+				"/Songs/POI-database/208 - FIGHTING SPIRITS/",
+				"2ND-NORMAL",
+				"2ND-FREESTYLE",
+			},
+			{
+				"/Songs/POI-database/212 - COM'BACK/",
+				"2ND-HARD",
+				--"PREX3-CRAZY",
+			},
+			{
+				"/Songs/POI-database/214 - FEVER/",
+				"2ND-NORMAL",
+				"2ND-HARD",
+				"2ND-FREESTYLE",
+			},
+			{	"/Songs/POI-database/103 - FOREVER LOVE/",
+				"1ST-NORMAL",
+			},
+			{	"/Songs/POI-database/104 - PASSION/",
+				"1ST-NORMAL",
+				"1ST-HARD",
+				"1ST-FREESTYLE",
+			},
+			{	"/Songs/POI-database/109 - FUNKY TONIGHT/",
+				"1ST-HARD",
+				"1ST-FREESTYLE",
+			},
+			{	"/Songs/POI-database/112 - ANOTHER TRUTH/",
+				"1ST-NORMAL",
+				"1ST-HARD",
+				--"3RD-HARD",
+				--"2ND-FREESTYLE",
+				"3RD-FREESTYLE",
+				--"PREX3-NIGHTMARE",
+			},
+			{	"/Songs/POI-database/113 - I WANT U/",
+				"1ST-NORMAL",
+				"1ST-FREESTYLE",
+			},
+		},
+		-- Premiere 3
+		{
+		},
 	}
 end
 
@@ -3862,7 +5634,7 @@ function ListOfPossibleSublists_POI(input_playlistName)
 end
 
 function FindChartsForSongString(input_playlist, input_songAsString)
-    for i, songData in ipairs(input_playlist) do
+	for i, songData in ipairs(input_playlist) do
         if songData[1] == input_songAsString then
             -- Found the song, return its charts
             local charts = {}
@@ -3880,11 +5652,13 @@ function FindChartsForSong(input_playlistName, input_song)
 	local output = {}
 	
 	-- fetch the array of arrays for the entire playlist
-	local list = GetPlaylistArray_POI(input_playlistName)
+	local list = GetPlaylistArray_POI(input_playlistName)	
+	
 	-- fetch the song folder path
 	local songPathString = input_song:GetSongDir()
-	-- looks up the returnable array of strings representing the list of charts of that song in that playlist
-	output = FindChartsForSongString(input_playlist, songPathString)
+		
+	-- looks up the returnable array of strings representing the list of charts of that song in that playlist	
+	output = FindChartsForSongString(list, songPathString)
 	
 	return output
 end
@@ -3940,7 +5714,12 @@ function SublistOfSongs_POI(input_arrayOfSongs, input_playlistName, input_sublis
 		elseif input_sublistName == "ORIGINAL" and songGenre == input_sublistName then shouldAdd = true
 		elseif input_sublistName == "KPOP" and songGenre == input_sublistName then shouldAdd = true
 		elseif input_sublistName == "WORLDMUSIC" and songGenre == input_sublistName then shouldAdd = true
-		elseif input_sublistName == "EASY" or input_sublistName == "NORMAL" or input_sublistName == "HARD" or input_sublistName == "DOUBLE" then
+		elseif input_sublistName == "EASY" or input_sublistName == "NORMAL" 
+		or input_sublistName == "HARD" or input_sublistName == "DOUBLE" 
+		or input_sublistName == "FULL-DOUBLE" or input_sublistName == "NONSTOP REMIX" 
+		or input_sublistName == "NONSTOP REMIX DOUBLE" or input_sublistName == "CRAZY" 
+		or input_sublistName == "HALF-DOUBLE" or input_sublistName == "EXTRA EXPERT" 
+		or input_sublistName == "EXTRA EXPERT DOUBLE" or input_sublistName == "DIVISION" then
 			--let's grab a struct that, depending on the input_playlistName and input_sublistName, returns an array of arrays, which represents the relationship between a song's SongDir and a boolean value
 			--this serves as the "Allowed List" for the playlist
 			--check current song against the Allowed List to see if it should be included or not
@@ -3982,51 +5761,29 @@ function GetArrayOfSongsFromPlaylist_POI(input_playlistName)
 	return output_songArray
 end
 
-function FilterChartFromGroup_POI(input_CurGroupName,input_CurrentSong,input_ChartArray)
-	local outputChartArray = {}		
-	outputChartArray = input_ChartArray
+function FilterChartFromSublist_POI(input_CurGroupName,input_CurrentSong,input_ChartArray)
+	local outputChartArray = input_ChartArray
 	
-	local LocalListOfPlaylists = ListOfPlaylists_POI()
+	-- looks at input_CurGroupName and declares the current playlistName and sublistName
+	local playlistName = FetchPlaylistAndSublistFromGroup(input_CurGroupName)[1]
+	local sublistName = FetchPlaylistAndSublistFromGroup(input_CurGroupName)[2]
 	
-	local found = false
-	local foundIndex = nil
-	for i, playlist in ipairs(LocalListOfPlaylists) do
-		if string.find(input_CurGroupName, playlist, 1, true) then			
-            found = true
-			foundIndex = i
-            break -- break if found to avoid unnecessary iterations
-        end
+	if playlistName ~= "All Tunes" then -- no filtering for All Tunes duh
+		-- looks at the playlistName and the input_CurrentSong and returns an array of strings representing the allowed charts for the entire song		
+		local allowedCharts = FindChartsForSong(playlistName, input_CurrentSong)
+				
+		-- takes the allowedCharts (which currently contains the list of all charts for that song in that playlist) and filters out based on the current sublist
+		--SCREENMAN:SystemMessage(#allowedCharts) > correct		
+		allowedCharts = FilterChartNameArray_POI(allowedCharts, sublistName)
+		-- allowedCharts is now an array of strings, representing just the charts allowed for this song, considering the playlist and the sublist
+		
+		-- takes the input_ChartArray and filters out any charts not present in the allowedCharts array of strings
+		outputChartArray = FilterChartsBySublist_POI(input_ChartArray, allowedCharts)
 	end
 	
-	local playlistNestedList = {{}}
-	if found then		
-		-- Pass the matched string from LocalListOfPlaylists
-        playlistNestedList = GetPlaylistArray_POI(LocalListOfPlaylists[foundIndex])		
-	else
-		return input_ChartArray -- handle the case where the input group name doesn't have a corresponding playlist string
-	end
-
-	local currentSongDir = input_CurrentSong:GetSongDir()		
-	-- Find the sublist corresponding to the current song
-	local allowedDescriptions = {}
-	for _, sublist in ipairs(playlistNestedList) do
-		if sublist[1] == currentSongDir then
-			-- Collect allowed descriptions
-			allowedDescriptions = {unpack(sublist, 2)}
-			break
-		end
-	end		
-	
-	-- Remove charts whose descriptions are not in the allowed list
-	for i = #outputChartArray, 1, -1 do
-		local description = outputChartArray[i]:GetDescription()
-		if not table.find(allowedDescriptions, description) then
-			table.remove(outputChartArray, i)
-		end
-	end
-	
-	if #outputChartArray == 0 then -- what happens if no chart can be found for song
-		return {} -- this will return an empty ChartArray, and ChartDisplay.lua will repopulate it with all possible charts for this song "to avoid other crashes" in their words
+	-- checks if outputChartArray was left empty
+	if #outputChartArray == 0 then
+		return {} -- this will make the function return an empty ChartArray, and ChartDisplay.lua will repopulate it with all possible charts for this song "to avoid other crashes" in their words
 	end
 	
 	return outputChartArray
@@ -4042,22 +5799,59 @@ function GetPlaylistArray_POI(input_playlistName)
     if playlistIndex ~= -1 then
         return ListOfPOINestedLists_POI()[playlistIndex]
     else
-        return {{}} -- Return an empty list if the playlist is not found
+        return {} -- Return an empty list if the playlist is not found
     end
 end
 
-function FilterChartNameArray(input_chartNameArray, input_descToFilter)
+function FilterChartNameArray_POI(input_chartNameArray, input_sublistName)	
     local filteredArray = {}
+	
+	local stringToMatch = ""
+	local keywordsToMatch = {}
+	if input_sublistName == "EASY" or input_sublistName == "NORMAL" then
+		table.insert(keywordsToMatch,"NORMAL")
+	elseif input_sublistName == "HARD" then
+		table.insert(keywordsToMatch,"HARD")
+	elseif input_sublistName == "CRAZY" or input_sublistName == "EXTRA EXPERT" then
+		table.insert(keywordsToMatch,"CRAZY")
+		table.insert(keywordsToMatch,"XXPERT")
+	elseif input_sublistName == "DOUBLE" or input_sublistName == "FULL-DOUBLE" then
+		table.insert(keywordsToMatch,"FREESTYLE")
+	elseif input_sublistName == "NIGHTMARE" then
+		table.insert(keywordsToMatch,"NIGHTMARE")
+		table.insert(keywordsToMatch,"XXDOUBLE")
+	elseif input_sublistName == "EXTRA EXPERT DOUBLE" then
+		table.insert(keywordsToMatch,"XXDOUBLE")
+	elseif input_sublistName == "NONSTOP REMIX" then
+		table.insert(keywordsToMatch,"HARD")
+		table.insert(keywordsToMatch,"CRAZY")
+	elseif input_sublistName == "NONSTOP REMIX DOUBLE" then
+		table.insert(keywordsToMatch,"FREESTYLE")
+		table.insert(keywordsToMatch,"NIGHTMARE")
+	elseif input_sublistName == "HALF-DOUBLE" then
+		table.insert(keywordsToMatch,"HALFDOUBLE")
+	elseif input_sublistName == "DIVISION" then
+		table.insert(keywordsToMatch,"DIV")
+	end
+	
     -- Iterate over the elements of the input_chartNameArray
     for _, chartName in ipairs(input_chartNameArray) do
-        -- Check if the chartName contains the input_descToFilter
-        if string.find(chartName, input_descToFilter) then
-            -- If it does, add it to the filteredArray
+        -- Check if the chartName contains any keyword from the keywordsToMatch array
+        local matchFound = false
+        for _, keyword in ipairs(keywordsToMatch) do
+            if string.find(chartName, keyword) ~= nil then
+                matchFound = true
+                break
+            end
+        end
+        
+        -- If any match is found, add the chartName to the filteredArray
+        if matchFound then
             table.insert(filteredArray, chartName)
         end
-    end
-    -- Return the filteredArray
-    return filteredArray
+    end	
+    
+    return filteredArray	
 end
 
 function GetAllowedList(input_playlistName, input_sublistName)
@@ -4077,9 +5871,25 @@ function GetAllowedList(input_playlistName, input_sublistName)
 				if string.find(chartDesc, "NORMAL") and not string.find(thisSongDir, "REMIX") then songIsAllowed = true break end
 			elseif input_sublistName == "HARD" then
 				if string.find(chartDesc, "HARD") and not string.find(thisSongDir, "REMIX") then songIsAllowed = true break end
-			elseif input_sublistName == "DOUBLE" then
+			elseif input_sublistName == "CRAZY" or input_sublistName == "EXTRA EXPERT" then
+				if string.find(chartDesc, "CRAZY") and not string.find(thisSongDir, "REMIX") then songIsAllowed = true break end
+				if string.find(chartDesc, "XXPERT") and not string.find(thisSongDir, "REMIX") then songIsAllowed = true break end
+			elseif input_sublistName == "DOUBLE" or input_sublistName == "FULL-DOUBLE" then
 				if string.find(chartDesc, "FREESTYLE") and not string.find(thisSongDir, "REMIX") then songIsAllowed = true break end
-			end			
+			elseif input_sublistName == "EXTRA EXPERT DOUBLE" then
+				if string.find(chartDesc, "XXDOUBLE") and not string.find(thisSongDir, "REMIX") then songIsAllowed = true break end
+			elseif input_sublistName == "NONSTOP REMIX" then
+				if string.find(chartDesc, "NORMAL") and string.find(thisSongDir, "REMIX") then songIsAllowed = true break end
+				if string.find(chartDesc, "HARD") and string.find(thisSongDir, "REMIX") then songIsAllowed = true break end
+				if string.find(chartDesc, "CRAZY") and string.find(thisSongDir, "REMIX") then songIsAllowed = true break end
+			elseif input_sublistName == "NONSTOP REMIX DOUBLE" then
+				if string.find(chartDesc, "FREESTYLE") and string.find(thisSongDir, "REMIX") then songIsAllowed = true break end
+				if string.find(chartDesc, "NIGHTMARE") and string.find(thisSongDir, "REMIX") then songIsAllowed = true break end
+			elseif input_sublistName == "HALF-DOUBLE" then
+				if string.find(chartDesc, "HALFDOUBLE") then songIsAllowed = true break end
+			elseif input_sublistName == "DIVISION" then
+				if string.find(chartDesc, "DIV") then songIsAllowed = true break end
+			end
 		end
 		
         table.insert(output, {thisSongDir, songIsAllowed})
@@ -4102,12 +5912,44 @@ function CheckAllowedList(input_allowedList,input_song)
 	return output
 end
 
+function FetchPlaylistAndSublistFromGroup(input_CurGroupName)
+	local output = {}
+	local delimiter = "\n\n\n"
+	
+	local sublistName = ""
+	local playlistName, sublistDesc = input_CurGroupName:match("([^"..delimiter.."]+)"..delimiter.."([^"..delimiter.."]+)")
+	
+	if playlistName and sublistDesc then
+        output[1] = playlistName
+		
+		local fullDescription = delimiter .. sublistDesc		
+		for i, thisSublistPair in ipairs(TableOfSublists_POI()) do
+			if thisSublistPair[2] == fullDescription then
+				sublistName = thisSublistPair[1]
+			end
+		end
+        output[2] = sublistName		
+    end
+	
+	return output
+end
 
+function FilterChartsBySublist_POI(input_ChartArray, input_allowedCharts)
+	local output_ChartArray = {}
 
+    for _, chart in ipairs(input_ChartArray) do
+        local description = chart:GetDescription()
+        
+        for _, allowedChart in ipairs(input_allowedCharts) do
+            if description == allowedChart then
+                table.insert(output_ChartArray, chart)
+                break  -- No need to continue checking if the chart has been added
+            end
+        end
+    end
 
-
-
-
+    return output_ChartArray
+end
 
 
 
