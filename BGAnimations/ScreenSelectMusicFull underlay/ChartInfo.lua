@@ -189,20 +189,20 @@ end
 
 local usingPOIUX = LoadModule("Config.Load.lua")("ActivatePOIProjectUX", "Save/OutFoxPrefs.ini") or false
 if usingPOIUX then
-	-- levers
-	displacement_X = 240
-	chartDesc_Y = -134
-	chartOrigin_Y = chartDesc_Y + 24
-	chartArtist_Y = chartDesc_Y - 24
+	-- levers	
+	wholeGroup_Y = 90
+	chartDesc_X = 120
+	chartDesc_Y = 0
+	chartOrigin_X = chartDesc_X
+	chartOrigin_Y = 20
+	chartArtist_X = chartDesc_X
+	chartArtist_Y = 36
 
 	t = Def.ActorFrame {}
 
 	for pn in ivalues(GAMESTATE:GetHumanPlayers()) do
-		-- This will help us position each element to each player's side
-		local PlayerX = pn == PLAYER_2 and 339 or 0
-
 		t[#t+1] = Def.ActorFrame {
-			InitCommand=function(self) self:queuecommand("Refresh") end,
+			InitCommand=function(self) self:y(wholeGroup_Y):queuecommand("Refresh") end,
 			
 			SongChosenMessageCommand=function(self) SongIsChosen = true self:playcommand("Refresh") end,
 			SongUnchosenMessageCommand=function(self) SongIsChosen = false end,
@@ -212,8 +212,8 @@ if usingPOIUX then
 				if GAMESTATE:GetCurrentSong() and GAMESTATE:GetCurrentSteps(pn) then                
 					local Chart = GAMESTATE:GetCurrentSteps(pn)					
 					
-					local ChartPOIName = FetchChartNameOrOriginFromChart_POI(Chart, 1)
-					local ChartOrigin = FetchChartNameOrOriginFromChart_POI(Chart, 2)
+					local ChartPOIName = FetchChartName_POI(Chart)
+					local ChartOrigin = FetchChartOrigin_POI(Chart)
 					
 					local ChartAuthorText = Chart:GetAuthorCredit()
 					local displayedArtist = ""
@@ -241,8 +241,8 @@ if usingPOIUX then
 				Font="Montserrat semibold 20px",
 				Name="ChartName",
 				InitCommand=function(self)
-					self:x((displacement_X+14) * (pn == PLAYER_2 and 1 or -1)):y(chartDesc_Y):zoom(1.5)
-					:halign(pn == PLAYER_2 and 0 or 1):maxwidth(234):shadowlength(3)
+					self:x(chartDesc_X * (pn == PLAYER_2 and 1 or -1)):y(chartDesc_Y):zoom(1)
+					:halign(pn == PLAYER_2 and 0.5 or 0.5):maxwidth(234):shadowlength(1)
 				end
 			},
 			
@@ -250,8 +250,8 @@ if usingPOIUX then
 				Font="Montserrat normal 20px",
 				Name="ChartOrigin",
 				InitCommand=function(self)
-					self:x(displacement_X * (pn == PLAYER_2 and 1 or -1)):y(chartOrigin_Y):zoom(0.7)
-					:halign(pn == PLAYER_2 and 0 or 1):maxwidth(172)
+					self:x(chartOrigin_X * (pn == PLAYER_2 and 1 or -1)):y(chartOrigin_Y):zoom(0.7)
+					:halign(pn == PLAYER_2 and 0.5 or 0.5):maxwidth(172)
 					:shadowlength(2)
 					:skewx(-0.2)
 				end
@@ -261,8 +261,8 @@ if usingPOIUX then
 				Font="Montserrat normal 20px",
 				Name="ChartAuthor",
 				InitCommand=function(self)
-					self:x(displacement_X * (pn == PLAYER_2 and 1 or -1)):y(chartArtist_Y):zoom(0.7)
-					:halign(pn == PLAYER_2 and 0 or 1):maxwidth(172)
+					self:x(chartArtist_X * (pn == PLAYER_2 and 1 or -1)):y(chartArtist_Y):zoom(0.7)
+					:halign(pn == PLAYER_2 and 0.5 or 0.5):maxwidth(172)
 					:shadowlength(2)
 					:skewx(-0.2)
 				end

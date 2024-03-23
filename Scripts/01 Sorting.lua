@@ -507,25 +507,70 @@ function AssembleGroupSorting_POI()
         Warn("SONGMAN or GAMESTATE were not ready! Aborting!")
         return
     end
-	MasterGroupsList = {}
-    GroupsList = {}
-    
-	--
+	
+	MasterGroupsList = {}    	
 	local playlists = {}
 	local playlistNames = ListOfPlaylists_POI()
 	
-	-- populates MasterGroupLists with all Playlists
+	-- populates MasterGroupList with all Playlists, and add its songs to a local playlist called "playlists"
 	for i, thisPlaylistName in ipairs(playlistNames) do		
 		MasterGroupsList[i] = {
 			Name = thisPlaylistName,
 			Banner = THEME:GetPathG("", "Common fallback banner"),
 			SubGroups = {}
 		}
-		playlists[i] = GetArrayOfSongsBasedOnPlaylist_POI(thisPlaylistName)
+		playlists[i] = GetArrayOfSongsFromPlaylist_POI(thisPlaylistName)
 	end
 	
 	-- creates MasterGroupsList.SubGroups for each playlist
 	for i = 1, #MasterGroupsList do
+		-- grabs name of the playlist we're currently working on
+		local nameOfCurrentPlaylist = MasterGroupsList[i].Name
+		
+		-- grabs list of the possible sublists for this playlist
+		local listOfSublists = ListOfPossibleSublists_POI(nameOfCurrentPlaylist)
+		
+		-- for each of the possible sublists, create them
+		for j, thisSublist in ipairs(listOfSublists) do
+			if thisSublist == "No filters" then
+				table.insert(MasterGroupsList[i].SubGroups, #(MasterGroupsList[i].SubGroups) + 1, {
+					Name = playlistNames[i] .. "\n\n\nAll songs",
+					Banner = THEME:GetPathG("", "Common fallback banner"),
+					Songs = playlists[i]
+					}
+				)
+			else
+				-- creates the temporary string that contains the matched description of the sublist
+				local sublistDesc = ""
+				for _, sublist in ipairs(TableOfSublists_POI()) do if sublist[1] == thisSublist then sublistDesc = sublist[2] break end end
+				-- grabs all the songs from current playlist
+				local filteredSongs = playlists[i]
+				
+				-- filters the playlist allowing only what this sublist allows
+				filteredSongs = SublistOfSongs_POI(filteredSongs, nameOfCurrentPlaylist, thisSublist)
+				
+				-- if and only if the filtered result has any matches, create a subgroup with those filtered songs
+				if #filteredSongs > 0 then
+					table.insert(MasterGroupsList[i].SubGroups, #(MasterGroupsList[i].SubGroups) + 1, {
+						Name = playlistNames[i] .. sublistDesc,
+						Banner = THEME:GetPathG("", "Common fallback banner"),
+						Songs = filteredSongs
+						}
+					)
+				else end			
+			end
+		end		
+	end
+		
+		
+		
+		
+		
+		
+		
+		--[[
+		
+		
 		-- "All Tunes" sublist		
 		table.insert(MasterGroupsList[i].SubGroups, 1, {
 			Name = playlistNames[i] .. "\n\n\nAll Tunes",
@@ -536,16 +581,16 @@ function AssembleGroupSorting_POI()
 		
 		local TableSublistToText = {
 			-- first element is the input into SublistOfSongs_POI | second element is the displayed text in GroupSelect
-			{ "SHORTCUT", "\n\n\nShort Cut Only\n(1 Heart)" },
-			{ "ARCADE", "\n\n\nArcade Only\n(2 Hearts)" },
-			{ "REMIX", "\n\n\nRemix Only\n(3 Hearts)" },
-			{ "FULLSONG", "\n\n\nFull Songs Only\n(4 Hearts)" },
 			{ "ORIGINAL", "\n\n\nFilter by genre\n(Original Only)" },
 			{ "KPOP", "\n\n\nFilter by genre\n(K-Pop Only)" },
 			{ "WORLDMUSIC", "\n\n\nFilter by genre\n(World Music Only)" },
+			{ "SHORTCUT", "\n\n\nShort Cut Only\n(1 Heart)" },
+			{ "ARCADE", "\n\n\nArcade Only\n(2 Hearts)" },
+			{ "REMIX", "\n\n\nRemix Only\n(3 Hearts)" },
+			{ "FULLSONG", "\n\n\nFull Songs Only\n(4 Hearts)" },			
 		}
 		
-		-- creates all other sublists
+		-- creates HEARTS Sublists and GENRE Sublists
 		for j = 1, #TableSublistToText do
 			-- grabs all the songs from current playlist
 			local filteredSongs = playlists[i]
@@ -561,9 +606,10 @@ function AssembleGroupSorting_POI()
 				)
 			else end
 		end
-	end
 		
---[[
+	
+		
+
 
 	
 	-- ================================================================================================== CUSTOM GROUPS ==================================================================================================        

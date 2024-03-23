@@ -161,10 +161,9 @@ if usingPOIUX then
 
 			-- mod icons
 			LoadActor("../ModIcons", pn) .. {
-				InitCommand=function(self)
-					--self:xy(pn == PLAYER_2 and SCREEN_RIGHT + modIcons_X * 2 or -(modIcons_X) * 2, modIcons_Y)
+				InitCommand=function(self)					
 					self:xy(pn == PLAYER_2 and modIcons_X * 2 or modIcons_X * -2, modIcons_Y)
-					:easeoutexpo(1):x(pn == PLAYER_2 and SCREEN_RIGHT - modIcons_X or modIcons_X)
+					:easeoutexpo(0.5):x(pn == PLAYER_2 and SCREEN_RIGHT - modIcons_X or modIcons_X)
 				end,
 				OffCommand=function(self)
 					self:stoptweening():easeoutexpo(1):x(pn == PLAYER_2 and SCREEN_RIGHT + modIcons_X * 2 or -(modIcons_X) * 2)

@@ -492,8 +492,9 @@ if usingPOIUX then
 					end
 				end
 
+				-- this is where I set up my interference rigging module!
 				-- uses external FilterChartFromGroup POI function to filter out any unwanted chart, based on CurGroupName				
-				ChartArray = FilterChartFromGroup_POI(CurGroupName,CurrentSong,ChartArray)
+				ChartArray = FilterChartFromSublist_POI(CurGroupName,CurrentSong,ChartArray)
 				
 				-- If no charts are left, load all of them again in an attempt to avoid other crashes
 				if #ChartArray == 0 then ChartArray = SongUtil.GetPlayableSteps(CurrentSong) end
@@ -583,7 +584,7 @@ if usingPOIUX then
 						end
 						local ChartDescription = Chart:GetDescription()
 
-						self:GetChild("")[i]:GetChild("Icon"):visible(true):diffuse(ColorFromChart_POI(Chart))
+						self:GetChild("")[i]:GetChild("Icon"):visible(true):diffuse(ColorFromChartStepstype_POI(Chart))
 						self:GetChild("")[i]:GetChild("IconTrim"):visible(true)
 						self:GetChild("")[i]:GetChild("Level"):visible(true):settext(ChartMeter)
 						self:GetChild("")[i]:GetChild("HighlightP1"):visible(
