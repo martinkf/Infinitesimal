@@ -312,7 +312,7 @@ if usingPOIUX then
 				-- press center step graphic
 				LoadActor(THEME:GetPathG("", "PressCenterStep")) .. {				
 					InitCommand=function(self)
-						self:zoom(0.35):y(-14)
+						self:zoom(0.3):y(46):x(0 + (pn == PLAYER_2 and 24 or -24))
 					end
 				},
 				

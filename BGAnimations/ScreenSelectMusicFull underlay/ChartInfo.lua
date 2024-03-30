@@ -190,8 +190,8 @@ end
 local usingPOIUX = LoadModule("Config.Load.lua")("ActivatePOIProjectUX", "Save/OutFoxPrefs.ini") or false
 if usingPOIUX then
 	-- levers	
-	wholeGroup_Y = 90
-	chartDesc_X = 120
+	wholeGroup_Y = 126
+	chartDesc_X = 150
 	chartDesc_Y = 0
 	chartOrigin_X = chartDesc_X
 	chartOrigin_Y = 20
