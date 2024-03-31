@@ -508,6 +508,63 @@ function AssembleGroupSorting_POI()
         return
     end
 	
+	MasterGroupsList = {}
+	
+	-- temporary - all songs	
+    MasterGroupsList[#MasterGroupsList + 1] = {
+        Name = "Temp (everything)",
+        Banner = THEME:GetPathG("", "Common fallback banner"),
+        SubGroups = {
+            {   
+                Name = "All Tunes",
+                Banner = THEME:GetPathG("", "Common fallback banner"),
+                Songs = SONGMAN:GetAllSongs()
+            }
+        }
+    }
+	
+	-- populates the rest of MasterGroupList with all playlists
+	local playlistNames = GetPlaylistNames_NEWPOI()
+	for i, thisPlaylistName in ipairs(playlistNames) do		
+		MasterGroupsList[#MasterGroupsList + 1] = {
+			Name = thisPlaylistName,
+			Banner = THEME:GetPathG("", "Common fallback banner"),
+			SubGroups = {}
+		}		
+	end
+	
+	-- for each playlist hard-coded into POI,
+	for i = 2, #MasterGroupsList do
+		-- grabs name of the playlist we're currently working on
+		local nameOfCurrentPlaylist = MasterGroupsList[i].Name
+		-- grabs number of sublists this playlist possess
+		local numberOfSublists = #GetPlaylistData_NEWPOI(nameOfCurrentPlaylist)
+		-- for each sublist obtained related to that playlist, which were hard-coded into POI,
+		for j = 1, numberOfSublists do
+			-- grabs name of this sublist
+			local nameOfCurrentSublist = GetPlaylistData_NEWPOI(nameOfCurrentPlaylist)[j][1]
+			-- grabs sublist description
+			local descriptionOfCurrentSublist = GetPlaylistData_NEWPOI(nameOfCurrentPlaylist)[j][2]
+			-- grab an array of strings which is the list of songs allowed in
+			local listOfAllowedSongsAsString = GetSongDirsFromSublist_NEWPOI(nameOfCurrentPlaylist, nameOfCurrentSublist)
+			-- creates an array of Song objects that match the list of songs allowed in
+			local arrayOfAllowedSongs = CreateSongArrayBasedOnList_NEWPOI(listOfAllowedSongsAsString)
+			-- if and only if there are more than 0 allowed songs, create a subgroup with them
+			if #arrayOfAllowedSongs > 0 then
+				table.insert(MasterGroupsList[i].SubGroups, #(MasterGroupsList[i].SubGroups) + 1, {
+					Name = nameOfCurrentPlaylist .. descriptionOfCurrentSublist,
+					Banner = THEME:GetPathG("", "Common fallback banner"),
+					Songs = arrayOfAllowedSongs
+					}
+				)
+			else end
+		end
+	end
+	
+	
+	
+	
+	--[[
 	MasterGroupsList = {}    	
 	local playlists = {}
 	local playlistNames = ListOfPlaylists_POI()
@@ -563,7 +620,7 @@ function AssembleGroupSorting_POI()
 	end
 		
 		
-		
+	]]--	
 		
 		
 		
