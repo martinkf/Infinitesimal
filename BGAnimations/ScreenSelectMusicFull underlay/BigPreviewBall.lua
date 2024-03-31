@@ -87,8 +87,8 @@ end
 local usingPOIUX = LoadModule("Config.Load.lua")("ActivatePOIProjectUX", "Save/OutFoxPrefs.ini") or false
 if usingPOIUX then
 	-- levers	
-	BigBallGroup_X = 120
-	BigBallGroup_Y = 220+90
+	BigBallGroup_X = 150
+	BigBallGroup_Y = 350
 	MeterText_OffsetX = -1
 	MeterText_OffsetY = -4
 	MeterText_Zoom = 0.6
