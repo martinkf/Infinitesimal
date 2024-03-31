@@ -62,8 +62,8 @@ function TableOfPlaylists_POI()
 		{"Premiere 3","NORMAL","HARD","CRAZY","HALF-DOUBLE","FULL-DOUBLE"},
 		{"Prex 3","NORMAL","HARD","CRAZY","HALF-DOUBLE","FREESTYLE","NIGHTMARE"},
 		-- gen iv
-		{"Exceed","ORIGINAL","KPOP","WORLDMUSIC"},
-		{"Exceed 2","ORIGINAL","KPOP","WORLDMUSIC","REMIX","FULLSONG"},
+		{"Exceed","No filters"},
+		{"Exceed 2","No filters"},
 	}
 end
 
