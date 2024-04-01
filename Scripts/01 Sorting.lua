@@ -510,7 +510,8 @@ function AssembleGroupSorting_POI()
 	
 	MasterGroupsList = {}
 	
-	-- temporary - all songs	
+	--[[
+	-- ================================================================================================== EVERYTHING ==================================================================================================    
     MasterGroupsList[#MasterGroupsList + 1] = {
         Name = "Temp (everything)",
         Banner = THEME:GetPathG("", "Common fallback banner"),
@@ -522,9 +523,45 @@ function AssembleGroupSorting_POI()
             }
         }
     }
+	]]--
 	
-	-- populates the rest of MasterGroupList with all playlists
-	local playlistNames = GetPlaylistNames_NEWPOI()
+	-- ================================================================================================== FOLDERS ==================================================================================================    
+    local SongGroups = {}
+    MasterGroupsList[#MasterGroupsList + 1] = {
+        Name = "Folders (temp)",
+        Banner = THEME:GetPathG("", "Common fallback banner"),
+        SubGroups = {}
+    }
+
+	-- Iterate through the song groups and check if they have AT LEAST one song with valid charts.
+	-- If so, add them to the group.
+	for GroupName in ivalues(SONGMAN:GetSongGroupNames()) do
+		for Song in ivalues(SONGMAN:GetSongsInGroup(GroupName)) do
+			local Steps = Song:GetAllSteps()
+			if #Steps > 0 then
+				SongGroups[#SongGroups + 1] = GroupName
+				break
+			end
+		end
+	end
+    table.sort(SongGroups)
+    
+	for i, v in ipairs(SongGroups) do
+		if SongGroups[i] ~= "OffsetControl" then
+			MasterGroupsList[#MasterGroupsList].SubGroups[#MasterGroupsList[#MasterGroupsList].SubGroups + 1] = {
+				Name = SongGroups[i],
+				Banner = SONGMAN:GetSongGroupBannerPath(SongGroups[i]),
+				Songs = SONGMAN:GetSongsInGroup(SongGroups[i])
+			}
+		end
+	end
+    
+    -- If nothing is available, remove the main entry completely
+    if #MasterGroupsList[#MasterGroupsList].SubGroups == 0 then table.remove(MasterGroupsList) end
+	
+	-- ================================================================================================== POI PLAYLISTS ==================================================================================================
+	local numberOfMastergroupsBeforeAdding = #MasterGroupsList
+	local playlistNames = GetPlaylistNames_POI()
 	for i, thisPlaylistName in ipairs(playlistNames) do		
 		MasterGroupsList[#MasterGroupsList + 1] = {
 			Name = thisPlaylistName,
@@ -534,21 +571,21 @@ function AssembleGroupSorting_POI()
 	end
 	
 	-- for each playlist hard-coded into POI,
-	for i = 2, #MasterGroupsList do
+	for i = numberOfMastergroupsBeforeAdding + 1, #MasterGroupsList do
 		-- grabs name of the playlist we're currently working on
 		local nameOfCurrentPlaylist = MasterGroupsList[i].Name
 		-- grabs number of sublists this playlist possess
-		local numberOfSublists = #GetPlaylistData_NEWPOI(nameOfCurrentPlaylist)
+		local numberOfSublists = #GetPlaylistData_POI(nameOfCurrentPlaylist)
 		-- for each sublist obtained related to that playlist, which were hard-coded into POI,
 		for j = 1, numberOfSublists do
 			-- grabs name of this sublist
-			local nameOfCurrentSublist = GetPlaylistData_NEWPOI(nameOfCurrentPlaylist)[j][1]
+			local nameOfCurrentSublist = GetPlaylistData_POI(nameOfCurrentPlaylist)[j][1]
 			-- grabs sublist description
-			local descriptionOfCurrentSublist = GetPlaylistData_NEWPOI(nameOfCurrentPlaylist)[j][2]
+			local descriptionOfCurrentSublist = GetPlaylistData_POI(nameOfCurrentPlaylist)[j][2]
 			-- grab an array of strings which is the list of songs allowed in
-			local listOfAllowedSongsAsString = GetSongDirsFromSublist_NEWPOI(nameOfCurrentPlaylist, nameOfCurrentSublist)
+			local listOfAllowedSongsAsString = GetSongDirsFromSublist_POI(nameOfCurrentPlaylist, nameOfCurrentSublist)
 			-- creates an array of Song objects that match the list of songs allowed in
-			local arrayOfAllowedSongs = CreateSongArrayBasedOnList_NEWPOI(listOfAllowedSongsAsString)
+			local arrayOfAllowedSongs = CreateSongArrayBasedOnList_POI(listOfAllowedSongsAsString)
 			-- if and only if there are more than 0 allowed songs, create a subgroup with them
 			if #arrayOfAllowedSongs > 0 then
 				table.insert(MasterGroupsList[i].SubGroups, #(MasterGroupsList[i].SubGroups) + 1, {

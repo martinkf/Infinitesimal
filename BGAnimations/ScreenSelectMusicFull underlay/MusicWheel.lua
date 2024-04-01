@@ -387,7 +387,7 @@ if usingPOIUX then
 	-- The Wheel: originally made by Luizsan
 	for i = 1, WheelSize do
 
-		t[#t+1] = Def.ActorFrame{
+		t[#t+1] = Def.ActorFrame {
 			OnCommand=function(self)
 				-- Load banner
 				UpdateBanner(self:GetChild("Banner"), Songs[Targets[i]])
@@ -405,7 +405,7 @@ if usingPOIUX then
 				-- Set initial position, Direction = 0 means it won't tween
 				self:playcommand("Scroll", {Direction = 0})
 			end,
-
+			
 			ScrollMessageCommand=function(self,param)
 				self:stoptweening()
 
@@ -435,6 +435,7 @@ if usingPOIUX then
 				self:rotationy((SCREEN_CENTER_X - xpos - displace) * -WheelRotation)
 				self:z(-math.abs(SCREEN_CENTER_X - xpos - displace) * 0.25)
 				self:GetChild(""):GetChild("Index"):playcommand("Refresh")
+				self:GetChild("FrameForSong"):playcommand("Refresh")
 				self:GetChild(""):GetChild("OriginLabel"):playcommand("Refresh")
 				self:GetChild(""):GetChild("CategoryQuad"):playcommand("Refresh")
 				self:GetChild(""):GetChild("CategoryLabel"):playcommand("Refresh")
@@ -452,16 +453,19 @@ if usingPOIUX then
 					self:stoptweening():easeoutexpo(0.5):diffusealpha(1)
 				end
 			},
-
+			
 			Def.Sprite {
 				Name="FrameForSong",
 				Texture=THEME:GetPathG("", "MusicWheel/Res43SongFrame"),
-				SongChosenMessageCommand=function(self)				
+				SongChosenMessageCommand=function(self)
 					self:stoptweening():easeoutexpo(1):zoomx(1.35):diffusealpha(0)
 				end,
-				SongUnchosenMessageCommand=function(self)				
+				SongUnchosenMessageCommand=function(self)
 					self:stoptweening():easeoutexpo(0.5):zoomx(1):diffusealpha(1)
-				end
+				end,
+				RefreshCommand=function(self, param)
+					self:diffuse(ColorFromSongGenre_POI(Songs[Targets[i]]))
+				end,
 			},
 
 			Def.ActorFrame {

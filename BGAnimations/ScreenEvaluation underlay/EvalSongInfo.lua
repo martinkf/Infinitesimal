@@ -136,11 +136,17 @@ if usingPOIUX then
 								
 				local FirstTag = ""
 				FirstTag = FetchFirstTag_POI(Song)
-				-- this needs work (add Hearts pic, calculate Cost of the song, etc)
+				local HeartsCost = ""
+				if FirstTag == "SHORTCUT" then HeartsCost = 1 
+				elseif FirstTag == "ARCADE" then HeartsCost = 2 
+				elseif FirstTag == "REMIX" then HeartsCost = 3 
+				elseif FirstTag == "FULLSONG" then HeartsCost = 4  
+				end
+				HeartsCost = "x " .. HeartsCost
 				
 				self:GetChild("Title"):settext(TitleText)
 				self:GetChild("Artist"):settext(AuthorText)
-				self:GetChild("Length"):settext(FirstTag)
+				self:GetChild("Length"):settext(HeartsCost)
 				self:GetChild("BPM"):settext(BPMDisplay .. " BPM")
 			else
 				self:GetChild("Title"):settext("")
@@ -167,11 +173,17 @@ if usingPOIUX then
 								
 				local FirstTag = ""
 				FirstTag = FetchFirstTag_POI(Song)
-				-- this needs work (add Hearts pic, calculate Cost of the song, etc)
+				local HeartsCost = ""
+				if FirstTag == "SHORTCUT" then HeartsCost = 1 
+				elseif FirstTag == "ARCADE" then HeartsCost = 2 
+				elseif FirstTag == "REMIX" then HeartsCost = 3 
+				elseif FirstTag == "FULLSONG" then HeartsCost = 4  
+				end
+				HeartsCost = "x " .. HeartsCost
 
 				self:GetChild("Title"):settext(TitleText)
 				self:GetChild("Artist"):settext(AuthorText)
-				self:GetChild("Length"):settext(FirstTag)
+				self:GetChild("Length"):settext(HeartsCost)
 				self:GetChild("BPM"):settext(BPMDisplay .. " BPM")
 			else
 				self:GetChild("Title"):settext("")
@@ -205,7 +217,20 @@ if usingPOIUX then
 				:y(16)
 			end
 		},
-
+		
+		Def.Sprite {
+			Texture=THEME:GetPathG("", "UI/Heart"),
+			InitCommand=function(self)
+				self:xy(FrameW / 2 - 80, 10):zoom(0.3):diffuse(Color.Black)
+			end,
+		},
+		Def.Sprite {
+			Texture=THEME:GetPathG("", "UI/Heart"),
+			InitCommand=function(self)
+				self:xy(FrameW / 2 - 82, 9):zoom(0.3)
+			end,
+		},
+				
 		Def.BitmapText {
 			Font="Montserrat normal 20px",
 			Name="Length",
