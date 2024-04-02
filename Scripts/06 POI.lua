@@ -3,6 +3,7 @@ function Database_POI()
 	return {
 		{
 			"The 1st DF",
+			"01-the1stdf",
 			{	"EASY",
 				"\n\n\nEasy",
 				{ "/Songs/POI-database/103 - FOREVER LOVE/", "1ST-NORMAL" },
@@ -52,6 +53,7 @@ function Database_POI()
 		},
 		{
 			"The 2nd DF",
+			"02-the2nddf",
 			{	"EASY",
 				"\n\n\nEasy",
 				{ "/Songs/POI-database/210 - LOVE/", "2ND-NORMAL" },
@@ -128,6 +130,7 @@ function Database_POI()
 		},
 		{
 			"O.B.G The 3rd",
+			"03-obgthe3rd",
 			{	"EASY",
 				"\n\n\nEasy",
 				{ "/Songs/POI-database/312 - DON'T BOTHER ME/", "3RD-NORMAL" },
@@ -221,6 +224,7 @@ function Database_POI()
 		},
 		{
 			"O.B.G Season Evo.",
+			"04-obgse",
 			{	"NORMAL",
 				"\n\n\nNormal",
 				{ "/Songs/POI-database/405 - MR. LARPUS/", "OBGSE-NORMAL" },
@@ -372,6 +376,7 @@ function Database_POI()
 		},
 		{
 			"Perfect",
+			"05-perfect",
 			{	"NORMAL",
 				"\n\n\nNormal",
 				{ "/Songs/POI-database/509 - I KNOW/", "PERF-NORMAL" },
@@ -669,6 +674,7 @@ function Database_POI()
 		},
 		{
 			"Extra",
+			"06-extra",
 			{	"NORMAL",
 				"\n\n\nNormal",
 				{ "/Songs/POI-database/909 - MISTAKE/", "EXTRA-NORMAL" },
@@ -878,6 +884,7 @@ function Database_POI()
 		},
 		{
 			"Premiere",
+			"07-premiere",
 			{	"NORMAL",
 				"\n\n\nNormal",
 				{ "/Songs/POI-database/601 - OOPS I DID IT AGAIN/", "PRM1-NORMAL" },
@@ -1165,6 +1172,7 @@ function Database_POI()
 		},
 		{
 			"Prex",
+			"08-prex",
 			{	"NORMAL",
 				"\n\n\nNormal",
 				{ "/Songs/POI-database/914 - WISH YOU COULD FIND/", "EXTRA-NORMAL" },
@@ -1804,6 +1812,7 @@ function Database_POI()
 		},
 		{
 			"Rebirth",
+			"09-rebirth",
 			{	"EASY",
 				"\n\n\nEasy",
 				{ "/Songs/POI-database/720 - I LOVE YOU/", "REB-NORMAL" },
@@ -2002,6 +2011,7 @@ function Database_POI()
 		},
 		{
 			"Premiere 2",
+			"10-premiere2",
 			{	"EASY",
 				"\n\n\nEasy",
 				{ "/Songs/POI-database/720 - I LOVE YOU/", "REB-NORMAL" },
@@ -2385,6 +2395,7 @@ function Database_POI()
 		},
 		{
 			"Prex 2",
+			"11-prex2",
 			{	"NORMAL",
 				"\n\n\nNormal",
 				{ "/Songs/POI-database/914 - WISH YOU COULD FIND/", "EXTRA-NORMAL" },
@@ -2700,6 +2711,7 @@ function Database_POI()
 		},
 		{
 			"Premiere 3",
+			"12-premiere3",
 			{	"NORMAL",
 				"\n\n\nNormal",
 				{ "/Songs/POI-database/808 - DJ NIGHTMARE/", "PRM3-NORMAL" },
@@ -2964,6 +2976,7 @@ function Database_POI()
 		},
 		{
 			"Prex 3",
+			"13-prex3",
 			{	"NORMAL",
 				"\n\n\nNormal",
 				{ "/Songs/POI-database/828 - MASTER OF PUPPETS/", "PREX3-NORMAL" },
@@ -3330,6 +3343,7 @@ function Database_POI()
 		},
 		{
 			"Exceed",
+			"14-exceed",
 			{	"BANYA CHANNEL",
 				"\n\n\nBanYa Channel",
 				{ "/Songs/POI-database/A06 - X-TREAM/", "EXC1-NORMAL", "EXC1-HARD", "EXC1-CRAZY", "EXC1-FREESTYLE", "EXC1-NIGHTMARE" },
@@ -3455,6 +3469,7 @@ function Database_POI()
 		},
 		{
 			"Exceed 2",
+			"15-exceed2",
 			{	"BANYA CHANNEL",
 				"\n\n\nBanYa Channel",
 				{ "/Songs/POI-database/B19 - CANON-D/", "EXC2-NORMAL", "EXC2-HARD", "EXC2-CRAZY", "EXC2-FREESTYLE", "EXC2-NIGHTMARE",},
@@ -3684,7 +3699,7 @@ function GetPlaylistData_POI(input_playlistName)
     for _, thisPlaylistData in ipairs(Database_POI()) do
         if thisPlaylistData[1] == input_playlistName then
             -- Return the rest of the table related to the specified playlist name
-            return { table.unpack(thisPlaylistData, 2) }
+            return { table.unpack(thisPlaylistData, 3) }
         end
     end
     -- If the specified playlist name is not found, return nil
@@ -3694,7 +3709,7 @@ end
 function GetSongDirsFromSublist_POI(input_playlistName, input_sublistName)
     for _, playlist in ipairs(Database_POI()) do
         if playlist[1] == input_playlistName then
-            for i = 2, #playlist do
+            for i = 3, #playlist do
                 if playlist[i][1] == input_sublistName then
                     local result = {}
                     for j = 2, #playlist[i] do
