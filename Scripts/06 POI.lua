@@ -3,7 +3,7 @@ function Database_POI()
 	return {
 		{
 			"The 1st DF",
-			"01-the1stdf",
+			"Playlists/01-the1stdf.png",
 			{	"EASY",
 				"\n\n\nEasy",
 				{ "/Songs/POI-database/103 - FOREVER LOVE/", "1ST-NORMAL" },
@@ -53,7 +53,7 @@ function Database_POI()
 		},
 		{
 			"The 2nd DF",
-			"02-the2nddf",
+			"Playlists/02-the2nddf.png",
 			{	"EASY",
 				"\n\n\nEasy",
 				{ "/Songs/POI-database/210 - LOVE/", "2ND-NORMAL" },
@@ -130,7 +130,7 @@ function Database_POI()
 		},
 		{
 			"O.B.G The 3rd",
-			"03-obgthe3rd",
+			"Playlists/03-obgthe3rd.png",
 			{	"EASY",
 				"\n\n\nEasy",
 				{ "/Songs/POI-database/312 - DON'T BOTHER ME/", "3RD-NORMAL" },
@@ -224,7 +224,7 @@ function Database_POI()
 		},
 		{
 			"O.B.G Season Evo.",
-			"04-obgse",
+			"Playlists/04-obgse.png",
 			{	"NORMAL",
 				"\n\n\nNormal",
 				{ "/Songs/POI-database/405 - MR. LARPUS/", "OBGSE-NORMAL" },
@@ -376,7 +376,7 @@ function Database_POI()
 		},
 		{
 			"Perfect",
-			"05-perfect",
+			"Playlists/05-perfect.png",
 			{	"NORMAL",
 				"\n\n\nNormal",
 				{ "/Songs/POI-database/509 - I KNOW/", "PERF-NORMAL" },
@@ -674,7 +674,7 @@ function Database_POI()
 		},
 		{
 			"Extra",
-			"06-extra",
+			"Playlists/06-extra.png",
 			{	"NORMAL",
 				"\n\n\nNormal",
 				{ "/Songs/POI-database/909 - MISTAKE/", "EXTRA-NORMAL" },
@@ -884,7 +884,7 @@ function Database_POI()
 		},
 		{
 			"Premiere",
-			"07-premiere",
+			"Playlists/07-premiere.png",
 			{	"NORMAL",
 				"\n\n\nNormal",
 				{ "/Songs/POI-database/601 - OOPS I DID IT AGAIN/", "PRM1-NORMAL" },
@@ -1172,7 +1172,7 @@ function Database_POI()
 		},
 		{
 			"Prex",
-			"08-prex",
+			"Playlists/08-prex.png",
 			{	"NORMAL",
 				"\n\n\nNormal",
 				{ "/Songs/POI-database/914 - WISH YOU COULD FIND/", "EXTRA-NORMAL" },
@@ -1812,7 +1812,7 @@ function Database_POI()
 		},
 		{
 			"Rebirth",
-			"09-rebirth",
+			"Playlists/09-rebirth.png",
 			{	"EASY",
 				"\n\n\nEasy",
 				{ "/Songs/POI-database/720 - I LOVE YOU/", "REB-NORMAL" },
@@ -2011,7 +2011,7 @@ function Database_POI()
 		},
 		{
 			"Premiere 2",
-			"10-premiere2",
+			"Playlists/10-premiere2.png",
 			{	"EASY",
 				"\n\n\nEasy",
 				{ "/Songs/POI-database/720 - I LOVE YOU/", "REB-NORMAL" },
@@ -2395,7 +2395,7 @@ function Database_POI()
 		},
 		{
 			"Prex 2",
-			"11-prex2",
+			"Playlists/11-prex2.png",
 			{	"NORMAL",
 				"\n\n\nNormal",
 				{ "/Songs/POI-database/914 - WISH YOU COULD FIND/", "EXTRA-NORMAL" },
@@ -2711,7 +2711,7 @@ function Database_POI()
 		},
 		{
 			"Premiere 3",
-			"12-premiere3",
+			"Playlists/12-premiere3.png",
 			{	"NORMAL",
 				"\n\n\nNormal",
 				{ "/Songs/POI-database/808 - DJ NIGHTMARE/", "PRM3-NORMAL" },
@@ -2976,7 +2976,7 @@ function Database_POI()
 		},
 		{
 			"Prex 3",
-			"13-prex3",
+			"Playlists/13-prex3.png",
 			{	"NORMAL",
 				"\n\n\nNormal",
 				{ "/Songs/POI-database/828 - MASTER OF PUPPETS/", "PREX3-NORMAL" },
@@ -3343,7 +3343,7 @@ function Database_POI()
 		},
 		{
 			"Exceed",
-			"14-exceed",
+			"Playlists/14-exceed.png",
 			{	"BANYA CHANNEL",
 				"\n\n\nBanYa Channel",
 				{ "/Songs/POI-database/A06 - X-TREAM/", "EXC1-NORMAL", "EXC1-HARD", "EXC1-CRAZY", "EXC1-FREESTYLE", "EXC1-NIGHTMARE" },
@@ -3469,7 +3469,7 @@ function Database_POI()
 		},
 		{
 			"Exceed 2",
-			"15-exceed2",
+			"Playlists/15-exceed2.png",
 			{	"BANYA CHANNEL",
 				"\n\n\nBanYa Channel",
 				{ "/Songs/POI-database/B19 - CANON-D/", "EXC2-NORMAL", "EXC2-HARD", "EXC2-CRAZY", "EXC2-FREESTYLE", "EXC2-NIGHTMARE",},
@@ -3952,4 +3952,25 @@ function ColorFromChartStepstype_POI(input_chart)
 	end
 	
 	return outputColor
+end
+
+function GetPlaylistBanner_POI(input_playlistName)
+	local output = ""
+	
+	local found = false
+	local foundIndex = nil
+	for i, playlistData in ipairs(Database_POI()) do
+		if playlistData[1] == input_playlistName then
+            found = true
+			foundIndex = i
+            break -- break if found to avoid unnecessary iterations
+        end
+	end
+	if found then
+        output = Database_POI()[foundIndex][2]
+	else
+		return "Common fallback banner" -- handle the case where the input string doesn't have a corresponding playlist
+	end
+	
+	return output
 end

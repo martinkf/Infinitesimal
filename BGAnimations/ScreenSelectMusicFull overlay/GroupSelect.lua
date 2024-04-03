@@ -538,12 +538,17 @@ t[#t+1] = Def.ActorFrame {
 local usingPOIUX = LoadModule("Config.Load.lua")("ActivatePOIProjectUX", "Save/OutFoxPrefs.ini") or false
 if usingPOIUX then
 	-- levers
-	local PlaylistLabel_Y = SCREEN_CENTER_Y - 160
-	local PlaylistWheel_Y = SCREEN_CENTER_Y - 120
+	local PlaylistLabel_Y = SCREEN_CENTER_Y - 220
+	local PlaylistWheel_Y = SCREEN_CENTER_Y - 98
 	local SublistLabel_Y = SCREEN_CENTER_Y + 30
 	local SublistWheel_Y = SCREEN_CENTER_Y + 110
-	MainWheelSpacing = 300
+	MainWheelSpacing = 460
 	
+	function UpdatePlaylistBanner(self, Banner)
+		if Banner == "" then Banner = THEME:GetPathG("Common fallback", "banner") end
+		--self:Load(Banner):scaletofit(-WheelItem.Width / 1.1, -WheelItem.Height / 1.1, WheelItem.Width / 1.1, WheelItem.Height / 1.1)
+		self:Load(Banner):zoom(0.19)
+	end
 	
 	t = Def.ActorFrame {
 		InitCommand=function(self)
@@ -622,6 +627,10 @@ if usingPOIUX then
 				
 				-- Set initial position, Direction = 0 means it won't tween
 				self:playcommand("ScrollMain", {Direction = 0})
+				
+				-- updates playlist banner pic				
+				self:GetChild("PlaylistBanner"):visible(true)
+				UpdatePlaylistBanner(self:GetChild("PlaylistBanner"), GroupsList[MainTargets[i]].Banner)
 			end,
 
 			ScrollMainMessageCommand=function(self, params)
@@ -664,6 +673,17 @@ if usingPOIUX then
 				RefreshCommand=function(self)
 					self:finishtweening():easeoutexpo(0.4):diffusealpha(IsFocusedMain and 1 or 0.2)
 				end,
+			},
+			
+			Def.Banner {
+				Name="PlaylistBanner",
+			},
+			
+			Def.Sprite {
+				Texture=THEME:GetPathG("", "MusicWheel/GroupFrame"),
+				InitCommand=function(self)
+					self:zoom(1.75)
+				end
 			},
 			
 			Def.BitmapText {

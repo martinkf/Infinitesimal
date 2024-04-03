@@ -523,7 +523,7 @@ function AssembleGroupSorting_POI()
             }
         }
     }
-	]]--
+	
 	
 	-- ================================================================================================== FOLDERS ==================================================================================================    
     local SongGroups = {}
@@ -559,13 +559,17 @@ function AssembleGroupSorting_POI()
     -- If nothing is available, remove the main entry completely
     if #MasterGroupsList[#MasterGroupsList].SubGroups == 0 then table.remove(MasterGroupsList) end
 	
+	]]--
 	-- ================================================================================================== POI PLAYLISTS ==================================================================================================
 	local numberOfMastergroupsBeforeAdding = #MasterGroupsList
 	local playlistNames = GetPlaylistNames_POI()
-	for i, thisPlaylistName in ipairs(playlistNames) do		
+	for i, thisPlaylistName in ipairs(playlistNames) do
+		--local thisPlaylistBanner = "Playlists/01-the1stdf.png"
+		local thisPlaylistBanner = GetPlaylistBanner_POI(thisPlaylistName)
+		local bannerPath = THEME:GetPathG("", thisPlaylistBanner)
 		MasterGroupsList[#MasterGroupsList + 1] = {
 			Name = thisPlaylistName,
-			Banner = THEME:GetPathG("", "Common fallback banner"),
+			Banner = bannerPath,
 			SubGroups = {}
 		}		
 	end
