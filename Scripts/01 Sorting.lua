@@ -564,7 +564,6 @@ function AssembleGroupSorting_POI()
 	local numberOfMastergroupsBeforeAdding = #MasterGroupsList
 	local playlistNames = GetPlaylistNames_POI()
 	for i, thisPlaylistName in ipairs(playlistNames) do
-		--local thisPlaylistBanner = "Playlists/01-the1stdf.png"
 		local thisPlaylistBanner = GetPlaylistBanner_POI(thisPlaylistName)
 		local bannerPath = THEME:GetPathG("", thisPlaylistBanner)
 		MasterGroupsList[#MasterGroupsList + 1] = {
@@ -592,9 +591,11 @@ function AssembleGroupSorting_POI()
 			local arrayOfAllowedSongs = CreateSongArrayBasedOnList_POI(listOfAllowedSongsAsString)
 			-- if and only if there are more than 0 allowed songs, create a subgroup with them
 			if #arrayOfAllowedSongs > 0 then
+				local thisSublistBanner = GetSublistBanner_POI(nameOfCurrentPlaylist, nameOfCurrentSublist)				
+				local bannerPath = THEME:GetPathG("", thisSublistBanner)
 				table.insert(MasterGroupsList[i].SubGroups, #(MasterGroupsList[i].SubGroups) + 1, {
 					Name = nameOfCurrentPlaylist .. descriptionOfCurrentSublist,
-					Banner = THEME:GetPathG("", "Common fallback banner"),
+					Banner = bannerPath,
 					Songs = arrayOfAllowedSongs
 					}
 				)
