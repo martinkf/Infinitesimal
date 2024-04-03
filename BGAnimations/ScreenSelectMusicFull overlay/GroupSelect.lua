@@ -540,12 +540,12 @@ if usingPOIUX then
 	-- levers	
 	local PlaylistWheel_Y = SCREEN_CENTER_Y - 70
 	local SublistWheel_Y = SCREEN_CENTER_Y + 170
-	local SublistLabel_Y = SublistWheel_Y - 100
 	MainWheelSpacing = 460
+	WheelRotation = 0
+	local curvature = 0
 	
 	function UpdatePlaylistBanner(self, Banner)
-		if Banner == "" then Banner = THEME:GetPathG("Common fallback", "banner") end
-		--self:Load(Banner):scaletofit(-WheelItem.Width / 1.1, -WheelItem.Height / 1.1, WheelItem.Width / 1.1, WheelItem.Height / 1.1)
+		if Banner == "" then Banner = THEME:GetPathG("Common fallback", "banner") end		
 		self:Load(Banner):zoom(0.19)
 	end
 	
@@ -660,30 +660,27 @@ if usingPOIUX then
 				self:xy(xpos + displace, PlaylistWheel_Y)
 			end,
 			
-			Def.Quad {
-				InitCommand=function(self)
-					self:zoomto(MainWheelSpacing, 24)
-					:diffuse(color("#1d1d1d")):diffusebottomedge(color("#7b7b7b"))
-					:y(-136)
-				end,
-				
-				OnCommand=function(self) self:playcommand("Refresh") end,
-				RefreshHighlightMessageCommand=function(self) self:playcommand("Refresh") end,
-				
-				RefreshCommand=function(self)
-					self:finishtweening():easeoutexpo(0.4):diffusealpha(IsFocusedMain and 1 or 0.2)
-				end,
-			},
-			
 			Def.Banner {
 				Name="PlaylistBanner",
+				OnCommand=function(self) self:playcommand("Refresh") end,
+				RefreshHighlightMessageCommand=function(self) self:playcommand("Refresh") end,
+			
+				RefreshCommand=function(self)
+				self:finishtweening():easeoutexpo(0.4):diffusealpha((IsFocusedMain or i == MainWheelCenter) and 1 or 0.09)
+				end,
 			},
 			
 			Def.Sprite {
 				Texture=THEME:GetPathG("", "MusicWheel/GroupFrame"),
 				InitCommand=function(self)
 					self:zoom(1.75)
-				end
+				end,
+				OnCommand=function(self) self:playcommand("Refresh") end,
+				RefreshHighlightMessageCommand=function(self) self:playcommand("Refresh") end,
+			
+				RefreshCommand=function(self)
+				self:finishtweening():easeoutexpo(0.4):diffusealpha((IsFocusedMain or i == MainWheelCenter) and 1 or 0.09)
+				end,
 			},
 			
 			Def.BitmapText {
@@ -731,7 +728,7 @@ if usingPOIUX then
 			RefreshSubMessageCommand=function(self, params) self:playcommand("On") end,
 			
 			RefreshHighlightMessageCommand=function(self)
-				self:finishtweening():easeoutexpo(0.4):diffusealpha(IsFocusedMain and 0.2 or 1)
+				self:finishtweening():easeoutexpo(0.4):diffusealpha(IsFocusedMain and 0.09 or 1)
 			end,
 
 			ScrollSubMessageCommand=function(self, params)
@@ -771,9 +768,9 @@ if usingPOIUX then
 
 				-- Animate!
 				self:xy(xpos + displace, SublistWheel_Y)
-				self:rotationy((SCREEN_CENTER_X - xpos - displace) * -WheelRotation)
-				self:z(-math.abs(SCREEN_CENTER_X - xpos - displace) * 0.25)
-			end,
+				self:rotationy((SCREEN_CENTER_X - xpos - displace) * -WheelRotation)				
+				self:z(-math.abs(SCREEN_CENTER_X - xpos - displace) * curvature)
+				end,
 			
 			Def.Sprite {
 				Name="Highlight",
@@ -785,17 +782,16 @@ if usingPOIUX then
 			
 			Def.Sprite {
 				Texture=THEME:GetPathG("", "MusicWheel/GradientBanner"),
-				InitCommand=function(self) self:scaletoclipped(WheelItem.Width, WheelItem.Height) end
+				InitCommand=function(self) self:scaletoclipped(WheelItem.Width, WheelItem.Height):diffusealpha(0) end -- disabling
 			},
 			
 			Def.Banner {
 				Name="Banner",
-				InitCommand=function(self) self:diffusealpha(0) end
 			},
 
 			Def.Sprite {
 				Texture=THEME:GetPathG("", "MusicWheel/GroupFrame"),
-				InitCommand=function(self) self:diffusealpha(0) end
+				InitCommand=function(self) self:diffusealpha(0) end -- disabling
 			},
 			
 			Def.ActorFrame {
@@ -803,7 +799,7 @@ if usingPOIUX then
 					InitCommand=function(self)
 						self:zoomto(60, 18):addy(-50)
 						:diffuse(0,0,0,0.6)
-						:fadeleft(0.3):faderight(0.3):diffusealpha(0)
+						:fadeleft(0.3):faderight(0.3):diffusealpha(0) -- disabled
 					end
 				},
 
@@ -811,7 +807,7 @@ if usingPOIUX then
 					Name="Index",
 					Font="Montserrat semibold 40px",
 					InitCommand=function(self)
-						self:addy(-50):zoom(0.4):skewx(-0.1):diffusetopedge(0.95,0.95,0.95,0.8):shadowlength(1.5):diffusealpha(0)
+						self:addy(-50):zoom(0.4):skewx(-0.1):diffusetopedge(0.95,0.95,0.95,0.8):shadowlength(1.5):diffusealpha(0) -- disabled
 					end,
 					RefreshCommand=function(self, params) self:settext(SubTargets[i]) end
 				}
@@ -834,16 +830,46 @@ if usingPOIUX then
 
 	-- Permanent labels
 	t[#t+1] = Def.ActorFrame {
+		Def.Quad {
+			InitCommand=function(self)
+				self:zoomto(1080, 24)
+				:diffuse(color("#1d1d1d")):diffusebottomedge(color("#7b7b7b"))
+				:xy(SCREEN_CENTER_X, PlaylistWheel_Y - 134)
+			end,
+			
+			OnCommand=function(self) self:playcommand("Refresh") end,
+			RefreshHighlightMessageCommand=function(self) self:playcommand("Refresh") end,
+			
+			RefreshCommand=function(self)
+				self:finishtweening():easeoutexpo(0.4):diffusealpha(IsFocusedMain and 1 or 0.09)
+			end,
+		},
+		
 		Def.BitmapText {
 			Font="Montserrat semibold 20px",
 			Name="PlaylistLabel",
 			Text="Playlists",
 			InitCommand=function(self)
 				self:diffusealpha(1)
-				:xy(SCREEN_CENTER_X, PlaylistWheel_Y - 138)
+				:xy(SCREEN_CENTER_X, PlaylistWheel_Y - 134)
 			end,
 			RefreshHighlightMessageCommand=function(self)
-				self:finishtweening():easeoutexpo(0.4):diffusealpha((IsFocusedMain or i == MainWheelCenter) and 1 or 0.2)
+				self:finishtweening():easeoutexpo(0.4):diffusealpha((IsFocusedMain or i == MainWheelCenter) and 1 or 0.09)
+			end,
+		},
+		
+		Def.Quad {
+			InitCommand=function(self)
+				self:zoomto(1080, 24)
+				:diffuse(color("#1d1d1d")):diffusebottomedge(color("#7b7b7b"))
+				:xy(SCREEN_CENTER_X, SublistWheel_Y - 106)
+			end,
+			
+			OnCommand=function(self) self:playcommand("Refresh") end,
+			RefreshHighlightMessageCommand=function(self) self:playcommand("Refresh") end,
+			
+			RefreshCommand=function(self)
+				self:finishtweening():easeoutexpo(0.4):diffusealpha(IsFocusedMain and 0.09 or 1)
 			end,
 		},
 		Def.BitmapText {
@@ -852,10 +878,10 @@ if usingPOIUX then
 			Text="Sublists",
 			InitCommand=function(self)
 				self:diffusealpha(1)
-				:xy(SCREEN_CENTER_X, SublistLabel_Y)
+				:xy(SCREEN_CENTER_X, SublistWheel_Y - 106)
 			end,
 			RefreshHighlightMessageCommand=function(self)
-				self:finishtweening():easeoutexpo(0.4):diffusealpha(IsFocusedMain and 0.2 or 1)
+				self:finishtweening():easeoutexpo(0.4):diffusealpha(IsFocusedMain and 0.09 or 1)
 			end,
 		},
 	}
