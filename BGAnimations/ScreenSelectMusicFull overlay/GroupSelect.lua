@@ -537,11 +537,10 @@ t[#t+1] = Def.ActorFrame {
 
 local usingPOIUX = LoadModule("Config.Load.lua")("ActivatePOIProjectUX", "Save/OutFoxPrefs.ini") or false
 if usingPOIUX then
-	-- levers
-	local PlaylistLabel_Y = SCREEN_CENTER_Y - 220
-	local PlaylistWheel_Y = SCREEN_CENTER_Y - 98
-	local SublistLabel_Y = SCREEN_CENTER_Y + 30
-	local SublistWheel_Y = SCREEN_CENTER_Y + 110
+	-- levers	
+	local PlaylistWheel_Y = SCREEN_CENTER_Y - 70
+	local SublistWheel_Y = SCREEN_CENTER_Y + 170
+	local SublistLabel_Y = SublistWheel_Y - 100
 	MainWheelSpacing = 460
 	
 	function UpdatePlaylistBanner(self, Banner)
@@ -663,8 +662,9 @@ if usingPOIUX then
 			
 			Def.Quad {
 				InitCommand=function(self)
-					self:zoomto(MainWheelSpacing, 40)
+					self:zoomto(MainWheelSpacing, 24)
 					:diffuse(color("#1d1d1d")):diffusebottomedge(color("#7b7b7b"))
+					:y(-136)
 				end,
 				
 				OnCommand=function(self) self:playcommand("Refresh") end,
@@ -692,13 +692,15 @@ if usingPOIUX then
 				InitCommand=function(self)
 					self:zoom(0.75):skewx(-0.1):diffusetopedge(0.95,0.95,0.95,0.8):shadowlength(1.5)
 					:maxwidth(MainWheelSpacing / self:GetZoom())
+					:diffusealpha(0) -- disabling it
 				end,
 				
 				OnCommand=function(self) self:playcommand("Refresh") end,
 				RefreshHighlightMessageCommand=function(self) self:playcommand("Refresh") end,
 				
 				RefreshCommand=function(self)
-					self:finishtweening():easeoutexpo(0.4):diffusealpha((IsFocusedMain or i == MainWheelCenter) and 1 or 0.2)
+					--self:finishtweening():easeoutexpo(0.4):diffusealpha((IsFocusedMain or i == MainWheelCenter) and 1 or 0.2)
+					self:finishtweening():easeoutexpo(0.4):diffusealpha((IsFocusedMain or i == MainWheelCenter) and 0 or 0)  -- disabling it
 				end,
 			}
 		}
@@ -788,10 +790,12 @@ if usingPOIUX then
 			
 			Def.Banner {
 				Name="Banner",
+				InitCommand=function(self) self:diffusealpha(0) end
 			},
 
 			Def.Sprite {
 				Texture=THEME:GetPathG("", "MusicWheel/GroupFrame"),
+				InitCommand=function(self) self:diffusealpha(0) end
 			},
 			
 			Def.ActorFrame {
@@ -836,7 +840,7 @@ if usingPOIUX then
 			Text="Playlists",
 			InitCommand=function(self)
 				self:diffusealpha(1)
-				:xy(SCREEN_CENTER_X, PlaylistLabel_Y)
+				:xy(SCREEN_CENTER_X, PlaylistWheel_Y - 138)
 			end,
 			RefreshHighlightMessageCommand=function(self)
 				self:finishtweening():easeoutexpo(0.4):diffusealpha((IsFocusedMain or i == MainWheelCenter) and 1 or 0.2)
