@@ -543,6 +543,7 @@ if usingPOIUX then
 	MainWheelSpacing = 460
 	WheelRotation = 0
 	local curvature = 0
+	SubWheelSpacing = 275
 	
 	function UpdatePlaylistBanner(self, Banner)
 		if Banner == "" then Banner = THEME:GetPathG("Common fallback", "banner") end		
@@ -748,16 +749,13 @@ if usingPOIUX then
 				while i > SubWheelSize do i = i - SubWheelSize end
 				while i < 1 do i = i + SubWheelSize end
 
+				-- updates sublist banners
+				self:GetChild("Banner"):visible(true)
+				UpdateBanner(self:GetChild("Banner"), GroupsList[CurMainIndex].SubGroups[SubTargets[i]].Banner)
+				
 				-- Update edge items with new info, they should also never tween
 				if i == 2 or i == SubWheelSize - 1 then
-					-- Force update banners because of how the sub wheel is now refreshed
-					if CurMainIndex == OrigGroupIndex then
-						self:GetChild("Banner"):visible(true)
-						UpdateBanner(self:GetChild("Banner"), GroupsList[CurMainIndex].SubGroups[SubTargets[i]].Banner)
-					else
-						self:GetChild("Banner"):visible(false)
-					end
-					
+					self:GetChild("Banner"):visible(false)					
 					self:GetChild("GroupInfo"):playcommand("Refresh")
 					self:GetChild(""):GetChild("Index"):playcommand("Refresh")
 				elseif tween then
@@ -776,7 +774,8 @@ if usingPOIUX then
 				Name="Highlight",
 				Texture=THEME:GetPathG("", "MusicWheel/FrameHighlight"),
 				RefreshCommand=function(self)
-					self:stoptweening():easeoutexpo(0.4):diffusealpha(i == SubWheelCenter and 1 or 0)
+					--self:stoptweening():easeoutexpo(0.4):diffusealpha(i == SubWheelCenter and 1 or 0)
+					self:stoptweening():easeoutexpo(0.4):diffusealpha(0) -- disabling
 				end
 			},
 			
@@ -819,6 +818,7 @@ if usingPOIUX then
 				InitCommand=function(self)
 					self:y(CurMainIndex == OrigGroupIndex and 64 or -54):zoom(0.5):skewx(-0.1):diffusetopedge(0.95,0.95,0.95,0.8):shadowlength(1.5)
 					:maxwidth(420):vertalign(0):wrapwidthpixels(420):vertspacing(-16)
+					:diffusealpha(0) -- disabling
 				end,
 				RefreshCommand=function(self, params) 
 					self:settext(GroupsList[CurMainIndex].SubGroups[SubTargets[i]].Name) 
