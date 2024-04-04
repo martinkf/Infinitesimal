@@ -6,7 +6,7 @@ function AutoVelocity()
         GoToFirstOnStart = false,
         OneChoiceForAllPlayers = false,
         ExportOnChange = false,
-        Choices = {"+100", "+10", "+1", "-1", "-10", "-100"},
+        Choices = {"+25", "-25"},
         -- We'll do our own load/save functions below
         LoadSelections = function(self, list, pn) end,
         SaveSelections = function(self, list, pn) end,
@@ -16,22 +16,14 @@ function AutoVelocity()
             if not AV then
                 AV = 200
             elseif choice == 1 then
-                AV = AV + 100
+                AV = AV + 25
             elseif choice == 2 then
-                AV = AV + 10
-            elseif choice == 3 then
-                AV = AV + 1
-            elseif choice == 4 then
-                AV = AV - 1
-            elseif choice == 5 then
-                AV = AV - 10
-            elseif choice == 6 then
-                AV = AV - 100
+                AV = AV - 25
             end
             
             -- Clamp values
-            if AV < 100 then AV = 100 end
-            if AV > 999 then AV = 999 end
+            if AV < 200 then AV = 200 end
+            if AV > 900 then AV = 900 end
             
             LoadModule("Config.Save.lua")("AutoVelocity", tostring(AV), CheckIfUserOrMachineProfile(string.sub(pn,-1)-1).."/OutFoxPrefs.ini")
             return true
