@@ -24,7 +24,7 @@ function ResetLuaMods(pn)
     LoadModule("Config.Save.lua")("SongProgress", tostring(false), ProfileDir)
     LoadModule("Config.Save.lua")("ProLifebar", tostring(false), ProfileDir)
     if IsArcade() or (CarryJudgment == false) then
-        LoadModule("Config.Save.lua")("SmartTimings",tostring("Pump Normal"),"Save/OutFoxPrefs.ini")
+        LoadModule("Config.Save.lua")("SmartTimings",tostring("Pump Hard"),"Save/OutFoxPrefs.ini")
     end
 end
 

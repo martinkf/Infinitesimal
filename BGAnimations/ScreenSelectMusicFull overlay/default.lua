@@ -209,7 +209,7 @@ if usingPOIUX then
 		-- Background for the group select wheel
 		Def.Quad {
 			InitCommand=function(self)
-				self:FullScreen():diffuse(Color.Black):diffusebottomedge(color("#001122")):diffusealpha(0)
+				self:CenterX():y(402):zoomto(SCREEN_WIDTH, SCREEN_HEIGHT - 60):diffuse(Color.Black):diffusealpha(0)
 			end,
 			CloseGroupWheelMessageCommand=function(self) self:stoptweening():easeoutexpo(0.25):diffusealpha(0) end,
 			OpenGroupWheelMessageCommand=function(self) self:stoptweening():easeoutexpo(1):diffusealpha(0.95) end,

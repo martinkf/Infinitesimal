@@ -523,7 +523,7 @@ function AssembleGroupSorting_POI()
             }
         }
     }
-	]]--
+	
 	
 	-- ================================================================================================== FOLDERS ==================================================================================================    
     local SongGroups = {}
@@ -559,13 +559,16 @@ function AssembleGroupSorting_POI()
     -- If nothing is available, remove the main entry completely
     if #MasterGroupsList[#MasterGroupsList].SubGroups == 0 then table.remove(MasterGroupsList) end
 	
+	]]--
 	-- ================================================================================================== POI PLAYLISTS ==================================================================================================
 	local numberOfMastergroupsBeforeAdding = #MasterGroupsList
 	local playlistNames = GetPlaylistNames_POI()
-	for i, thisPlaylistName in ipairs(playlistNames) do		
+	for i, thisPlaylistName in ipairs(playlistNames) do
+		local thisPlaylistBanner = GetPlaylistBanner_POI(thisPlaylistName)
+		local bannerPath = THEME:GetPathG("", thisPlaylistBanner)
 		MasterGroupsList[#MasterGroupsList + 1] = {
 			Name = thisPlaylistName,
-			Banner = THEME:GetPathG("", "Common fallback banner"),
+			Banner = bannerPath,
 			SubGroups = {}
 		}		
 	end
@@ -588,9 +591,11 @@ function AssembleGroupSorting_POI()
 			local arrayOfAllowedSongs = CreateSongArrayBasedOnList_POI(listOfAllowedSongsAsString)
 			-- if and only if there are more than 0 allowed songs, create a subgroup with them
 			if #arrayOfAllowedSongs > 0 then
+				local thisSublistBanner = GetSublistBanner_POI(nameOfCurrentPlaylist, nameOfCurrentSublist)				
+				local bannerPath = THEME:GetPathG("", thisSublistBanner)
 				table.insert(MasterGroupsList[i].SubGroups, #(MasterGroupsList[i].SubGroups) + 1, {
 					Name = nameOfCurrentPlaylist .. descriptionOfCurrentSublist,
-					Banner = THEME:GetPathG("", "Common fallback banner"),
+					Banner = bannerPath,
 					Songs = arrayOfAllowedSongs
 					}
 				)

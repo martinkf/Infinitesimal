@@ -243,6 +243,10 @@ if usingPOIUX then
 				removeFirst(PlayerModsArray, CurNoteSkin)
 			end
 
+			-- forcing Arrow 70% because fuck you that's why
+			GAMESTATE:GetPlayerState(pn):GetPlayerOptions("ModsLevel_Preferred"):Mini(0.3)			
+			removeFirst(PlayerModsArray, "30% Mini") -- we don't want it displayed
+			
 			-- Timing mode
 			local TimingMode = LoadModule("Config.Load.lua")("SmartTimings","Save/OutFoxPrefs.ini") or "Unknown"
 			-- We don't want to display NJ!
