@@ -3336,7 +3336,7 @@ function Database_POI()
 			},
 			{	"REMIX STATION",
 				"\n\n\nRemix Station",
-				"Playlists/Sub-REMIX.png",
+				"Playlists/Sub-REMIX STATION.png",
 				{ "/Songs/POI-database/B57 - CANON-D -FULL SONG-/", "EXC2-CRAZY", },
 				{ "/Songs/POI-database/B26 - -REMIX- NOVARASH REMIX/", "EXC2-HARD", "EXC2-CRAZY", "EXC2-FREESTYLE", },
 				{ "/Songs/POI-database/B27 - -REMIX- LEXY & 1TYM REMIX/", "EXC2-HARD", "EXC2-CRAZY", "EXC2-FREESTYLE", },
