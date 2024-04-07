@@ -193,7 +193,7 @@ local usingPOIUX = LoadModule("Config.Load.lua")("ActivatePOIProjectUX", "Save/O
 if usingPOIUX then
 	-- levers
 	local topPanel_Y = -8
-	local timerBG_Y = 31
+	local timerBG_Y = 31+16
 	local screenName_Y = 12
 	local amountLivesLeft_X = -88
 	local amountLivesLeft_Y = 40

@@ -3710,3 +3710,28 @@ function GetSublistBanner_POI(input_playlistName, input_sublistName)
 	
 	return output
 end
+
+function FormatDate_POI(input_date)	
+	local output = ""
+	
+	-- Split the input string based on the hyphen separator
+	local parts = string.split(input_date, "-")
+	
+	-- Assign each part to the corresponding variable
+	local YearAsString = parts[1] or ""
+	local MonthAsNumberString = parts[2] or ""
+	local DayAsNumberString = parts[3] or ""
+	
+	-- Format the month
+	local MonthAsString = ""
+	local monthMap = {
+		["01"] = "Jan", ["02"] = "Feb", ["03"] = "Mar", ["04"] = "Apr", ["05"] = "May", ["06"] = "Jun", 
+		["07"] = "Jul", ["08"] = "Aug", ["09"] = "Sep", ["10"] = "Oct", ["11"] = "Nov", ["12"] = "Dec"
+	}
+	MonthAsString = monthMap[MonthAsNumberString] or ""
+	
+	-- Creates output
+	output = YearAsString .. ", " .. DayAsNumberString .. " " .. MonthAsString
+	
+	return output
+end
