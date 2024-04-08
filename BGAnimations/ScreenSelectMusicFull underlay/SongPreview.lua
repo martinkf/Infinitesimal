@@ -283,15 +283,13 @@ if usingPOIUX then
 	local FrameH2 = 900
 	PreviewDelay = THEME:GetMetric("ScreenSelectMusic", "SampleMusicDelay")
 	--PreviewDelay = 0.11
-	local SongInfo_SelectingSongY = -120
-	local SongInfo_SelectingChartY = -185
-	local SongInfo_SongChangedDelay = 0.5
-	local VHSText_Y = 110
+	local VHSText_Y = -100
+	local SmallerBGAPreview_SelectingSongY = 364
 	local SmallerBGAPreview_SelectingChartY = -80
 	
 	t = Def.ActorFrame {
 		OnCommand=function(self)
-			self:zoom(0.8)		
+			self:xy(SCREEN_CENTER_X, SCREEN_CENTER_Y-100):zoom(0.8)		
 		end,
 		
 		-- noise fx when switching song
@@ -400,19 +398,19 @@ if usingPOIUX then
 			LoadBGCommand=function(self)
 				local Path = Song:GetBackgroundPath()
 				if Path and FILEMAN:DoesFileExist(Path) then
-					self:LoadFromCached("Background", Path):zoomto(FrameW2/8, FrameH2/6.1):y(332):diffusealpha(0)
-					:linear(PreviewDelay):diffusealpha(1)
+					self:LoadFromCached("Background", Path):zoomto(FrameW2/8, FrameH2/6.1):y(SmallerBGAPreview_SelectingSongY):diffusealpha(0)
+					:linear(PreviewDelay):diffusealpha(0)
 				else
-					self:LoadFromCached("Banner", Song:GetBannerPath()):zoomto(FrameW2/8, FrameH2/6.1):y(332):diffusealpha(0)
-					:linear(PreviewDelay):diffusealpha(1)
+					self:LoadFromCached("Banner", Song:GetBannerPath()):zoomto(FrameW2/8, FrameH2/6.1):y(SmallerBGAPreview_SelectingSongY):diffusealpha(0)
+					:linear(PreviewDelay):diffusealpha(0)
 				end
 			end,
 
 			LoadAnimatedCommand=function(self)
 				local Path = Song:GetPreviewVidPath()
 				if Path and FILEMAN:DoesFileExist(Path) then
-					self:Load(Path):zoomto(FrameW2/8, FrameH2/6.1):y(332):diffusealpha(0)
-					:linear(PreviewDelay):diffusealpha(1)
+					self:Load(Path):zoomto(FrameW2/8, FrameH2/6.1):y(SmallerBGAPreview_SelectingSongY):diffusealpha(0)
+					:linear(PreviewDelay):diffusealpha(0)
 				else
 					self:queuecommand("LoadBG")
 				end
@@ -422,32 +420,11 @@ if usingPOIUX then
 				self:stoptweening():easeoutexpo(1):zoomto(FrameW2/3, FrameH2/3):y(SmallerBGAPreview_SelectingChartY):diffusealpha(1)
 			end,
 			SongUnchosenMessageCommand=function(self)				
-				self:stoptweening():easeoutexpo(0.5):zoomto(FrameW2/8, FrameH2/6.1):y(332):diffusealpha(0)
+				self:stoptweening():easeoutexpo(0.5):zoomto(FrameW2/8, FrameH2/6.1):y(SmallerBGAPreview_SelectingSongY):diffusealpha(0)
 			end
 		}
 	}
-	
-	-- song information (song title, artist, bpm, hearts cost)
-	t[#t+1] = Def.ActorFrame {
-		InitCommand=function(self) end,
-		CurrentSongChangedMessageCommand=function(self) self:playcommand("Refresh") end,
-
-		LoadActor("../ScreenEvaluation underlay/EvalSongInfo") .. {
-			InitCommand=function(self)
-				self:xy(0, SongInfo_SelectingSongY)
-			end,
-			CurrentSongChangedMessageCommand=function(self)
-				self:stoptweening():diffusealpha(0):sleep(SongInfo_SongChangedDelay):easeoutexpo(1):diffusealpha(1)
-			end,
-			SongChosenMessageCommand=function(self)            
-				self:stoptweening():diffusealpha(1):easeoutexpo(1):y(SongInfo_SelectingChartY)
-			end,
-			SongUnchosenMessageCommand=function(self)            
-				self:stoptweening():diffusealpha(1):easeoutexpo(0.5):y(SongInfo_SelectingSongY)
-			end
-		}
-	}
-	
+		
 end
 
 return t

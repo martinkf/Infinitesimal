@@ -124,12 +124,12 @@ if usingPOIUX then
 	
 	local machineGradeAnchor_X = 334
 	local machineScoreAnchor_X = 334
-	local machineNameAnchor_X = 445
+	local machineNameAnchor_X = 440
 	local machineDateAnchor_X = 630
 	
 	local personalGradeAnchor_X = 330+60
 	local personalScoreAnchor_X = 330+60
-	local personalNameAnchor_X = 390+60
+	local PersonalDateAnchor_X = 390+60
 	
 	local records_Yspacing = 42
 	local row1Anchor_Y = -64
@@ -186,12 +186,13 @@ if usingPOIUX then
 							local MachineName = scoreIndex:GetName()
 							local MachineDate = scoreIndex:GetDate()
 							local truncatedDate = string.sub(MachineDate, 1, 10)
+							local displayDate = FormatDate_POI(truncatedDate)
 
 							self:GetChild("MachineGrade" .. i):Load(THEME:GetPathG("", "LetterGrades/" .. (ClassicGrades and "" or "New/") ..
 								LoadModule("PIU/Score.Grading.lua")(scoreIndex))):visible(true)
 							self:GetChild("MachineScore" .. i):settext(MachineDP)
 							self:GetChild("MachineName" .. i):settext(MachineName)
-							self:GetChild("MachineDate" .. i):settext(truncatedDate)
+							self:GetChild("MachineDate" .. i):settext(displayDate)
 						else
 							self:GetChild("MachineGrade" .. i):visible(false)
 							self:GetChild("MachineScore" .. i):settext("-")
@@ -211,22 +212,23 @@ if usingPOIUX then
 								local ProfileDP = round(scoreIndex:GetPercentDP() * 100, 2) .. "%"
 								local ProfileDate = scoreIndex:GetDate()
 								local truncatedDate = string.sub(ProfileDate, 1, 10)
+								local displayDate = FormatDate_POI(truncatedDate)
 
 								self:GetChild("PersonalGrade" .. i):Load(THEME:GetPathG("", "LetterGrades/" .. (ClassicGrades and "" or "New/") ..
 									LoadModule("PIU/Score.Grading.lua")(scoreIndex))):visible(true)
 								self:GetChild("PersonalScore" .. i):settext(ProfileDP)
-								self:GetChild("PersonalName" .. i):settext(truncatedDate)
+								self:GetChild("PersonalDate" .. i):settext(displayDate)
 							else								
 								self:GetChild("PersonalGrade" .. i):visible(false)
 								self:GetChild("PersonalScore" .. i):settext("-")
-								self:GetChild("PersonalName" .. i):settext("-")
+								self:GetChild("PersonalDate" .. i):settext("-")
 							end
 						end
 					else
 						for i = 1, 3 do
 							self:GetChild("PersonalGrade" .. i):visible(false)
 							self:GetChild("PersonalScore" .. i):settext("-")
-							self:GetChild("PersonalName" .. i):settext("-")
+							self:GetChild("PersonalDate" .. i):settext("-")
 						end
 					end
 					
@@ -285,7 +287,7 @@ if usingPOIUX then
 				Def.BitmapText { Name="MachineDate1", Font="Common normal", InitCommand=function(self)
 						self:xy((machineDateAnchor_X * (pn == PLAYER_2 and 1 or -1)) + correction_2P, row1Anchor_Y):zoom(0.9):halign((pn == PLAYER_2 and 1 or 0)):diffuse(Color.White):vertspacing(-6):shadowlength(1):maxwidth(265) end, },				
 				Def.BitmapText { Name="MachineName1", Font="Common normal", InitCommand=function(self)
-						self:xy((machineNameAnchor_X * (pn == PLAYER_2 and 1 or -1)) + correction_2P, row1Anchor_Y):zoom(0.9):halign(0.5):diffuse(Color.White):vertspacing(-6):shadowlength(1):maxwidth(150) end, },				
+						self:xy((machineNameAnchor_X * (pn == PLAYER_2 and 1 or -1)) + correction_2P, row1Anchor_Y):zoom(0.9):halign(0.5):diffuse(Color.White):vertspacing(-6):shadowlength(1):maxwidth(130) end, },				
 				Def.Sprite { Name="MachineGrade1", InitCommand=function(self)
 						self:xy(machineGradeAnchor_X * (pn == PLAYER_2 and 1 or -1), row1Anchor_Y):zoom(gradesZoom):diffusealpha(gradesAlpha) end, },				
 				Def.BitmapText { Name="MachineScore1", Font="Common normal", InitCommand=function(self)
@@ -295,7 +297,7 @@ if usingPOIUX then
 				Def.BitmapText { Name="MachineDate2", Font="Common normal", InitCommand=function(self)
 						self:xy((machineDateAnchor_X * (pn == PLAYER_2 and 1 or -1)) + correction_2P, row2Anchor_Y):zoom(0.9):halign((pn == PLAYER_2 and 1 or 0)):diffuse(Color.White):vertspacing(-6):shadowlength(1):maxwidth(265) end, },				
 				Def.BitmapText { Name="MachineName2", Font="Common normal", InitCommand=function(self)
-						self:xy((machineNameAnchor_X * (pn == PLAYER_2 and 1 or -1)) + correction_2P, row2Anchor_Y):zoom(0.9):halign(0.5):diffuse(Color.White):vertspacing(-6):shadowlength(1):maxwidth(150) end, },				
+						self:xy((machineNameAnchor_X * (pn == PLAYER_2 and 1 or -1)) + correction_2P, row2Anchor_Y):zoom(0.9):halign(0.5):diffuse(Color.White):vertspacing(-6):shadowlength(1):maxwidth(130) end, },				
 				Def.Sprite { Name="MachineGrade2", InitCommand=function(self)
 						self:xy(machineGradeAnchor_X * (pn == PLAYER_2 and 1 or -1), row2Anchor_Y):zoom(gradesZoom):diffusealpha(gradesAlpha) end, },				
 				Def.BitmapText { Name="MachineScore2", Font="Common normal", InitCommand=function(self)
@@ -305,7 +307,7 @@ if usingPOIUX then
 				Def.BitmapText { Name="MachineDate3", Font="Common normal", InitCommand=function(self)
 						self:xy((machineDateAnchor_X * (pn == PLAYER_2 and 1 or -1)) + correction_2P, row3Anchor_Y):zoom(0.9):halign((pn == PLAYER_2 and 1 or 0)):diffuse(Color.White):vertspacing(-6):shadowlength(1):maxwidth(265) end, },				
 				Def.BitmapText { Name="MachineName3", Font="Common normal", InitCommand=function(self)
-						self:xy((machineNameAnchor_X * (pn == PLAYER_2 and 1 or -1)) + correction_2P, row3Anchor_Y):zoom(0.9):halign(0.5):diffuse(Color.White):vertspacing(-6):shadowlength(1):maxwidth(150) end, },				
+						self:xy((machineNameAnchor_X * (pn == PLAYER_2 and 1 or -1)) + correction_2P, row3Anchor_Y):zoom(0.9):halign(0.5):diffuse(Color.White):vertspacing(-6):shadowlength(1):maxwidth(130) end, },				
 				Def.Sprite { Name="MachineGrade3", InitCommand=function(self)
 						self:xy(machineGradeAnchor_X * (pn == PLAYER_2 and 1 or -1), row3Anchor_Y):zoom(gradesZoom):diffusealpha(gradesAlpha) end, },				
 				Def.BitmapText { Name="MachineScore3", Font="Common normal", InitCommand=function(self)
@@ -315,7 +317,7 @@ if usingPOIUX then
 				Def.BitmapText { Name="MachineDate4", Font="Common normal", InitCommand=function(self)
 						self:xy((machineDateAnchor_X * (pn == PLAYER_2 and 1 or -1)) + correction_2P, row4Anchor_Y):zoom(0.9):halign((pn == PLAYER_2 and 1 or 0)):diffuse(Color.White):vertspacing(-6):shadowlength(1):maxwidth(265) end, },				
 				Def.BitmapText { Name="MachineName4", Font="Common normal", InitCommand=function(self)
-						self:xy((machineNameAnchor_X * (pn == PLAYER_2 and 1 or -1)) + correction_2P, row4Anchor_Y):zoom(0.9):halign(0.5):diffuse(Color.White):vertspacing(-6):shadowlength(1):maxwidth(150) end, },				
+						self:xy((machineNameAnchor_X * (pn == PLAYER_2 and 1 or -1)) + correction_2P, row4Anchor_Y):zoom(0.9):halign(0.5):diffuse(Color.White):vertspacing(-6):shadowlength(1):maxwidth(130) end, },				
 				Def.Sprite { Name="MachineGrade4", InitCommand=function(self)
 						self:xy(machineGradeAnchor_X * (pn == PLAYER_2 and 1 or -1), row4Anchor_Y):zoom(gradesZoom):diffusealpha(gradesAlpha) end, },				
 				Def.BitmapText { Name="MachineScore4", Font="Common normal", InitCommand=function(self)
@@ -325,7 +327,7 @@ if usingPOIUX then
 				Def.BitmapText { Name="MachineDate5", Font="Common normal", InitCommand=function(self)
 						self:xy((machineDateAnchor_X * (pn == PLAYER_2 and 1 or -1)) + correction_2P, row5Anchor_Y):zoom(0.9):halign((pn == PLAYER_2 and 1 or 0)):diffuse(Color.White):vertspacing(-6):shadowlength(1):maxwidth(265) end, },				
 				Def.BitmapText { Name="MachineName5", Font="Common normal", InitCommand=function(self)
-						self:xy((machineNameAnchor_X * (pn == PLAYER_2 and 1 or -1)) + correction_2P, row5Anchor_Y):zoom(0.9):halign(0.5):diffuse(Color.White):vertspacing(-6):shadowlength(1):maxwidth(150) end, },				
+						self:xy((machineNameAnchor_X * (pn == PLAYER_2 and 1 or -1)) + correction_2P, row5Anchor_Y):zoom(0.9):halign(0.5):diffuse(Color.White):vertspacing(-6):shadowlength(1):maxwidth(130) end, },				
 				Def.Sprite { Name="MachineGrade5", InitCommand=function(self)
 						self:xy(machineGradeAnchor_X * (pn == PLAYER_2 and 1 or -1), row5Anchor_Y):zoom(gradesZoom):diffusealpha(gradesAlpha) end, },				
 				Def.BitmapText { Name="MachineScore5", Font="Common normal", InitCommand=function(self)
@@ -335,7 +337,7 @@ if usingPOIUX then
 				Def.BitmapText { Name="MachineDate6", Font="Common normal", InitCommand=function(self)
 						self:xy((machineDateAnchor_X * (pn == PLAYER_2 and 1 or -1)) + correction_2P, row6Anchor_Y):zoom(0.9):halign((pn == PLAYER_2 and 1 or 0)):diffuse(Color.White):vertspacing(-6):shadowlength(1):maxwidth(265) end, },				
 				Def.BitmapText { Name="MachineName6", Font="Common normal", InitCommand=function(self)
-						self:xy((machineNameAnchor_X * (pn == PLAYER_2 and 1 or -1)) + correction_2P, row6Anchor_Y):zoom(0.9):halign(0.5):diffuse(Color.White):vertspacing(-6):shadowlength(1):maxwidth(150) end, },				
+						self:xy((machineNameAnchor_X * (pn == PLAYER_2 and 1 or -1)) + correction_2P, row6Anchor_Y):zoom(0.9):halign(0.5):diffuse(Color.White):vertspacing(-6):shadowlength(1):maxwidth(130) end, },				
 				Def.Sprite { Name="MachineGrade6", InitCommand=function(self)
 						self:xy(machineGradeAnchor_X * (pn == PLAYER_2 and 1 or -1), row6Anchor_Y):zoom(gradesZoom):diffusealpha(gradesAlpha) end, },				
 				Def.BitmapText { Name="MachineScore6", Font="Common normal", InitCommand=function(self)
@@ -345,7 +347,7 @@ if usingPOIUX then
 				Def.BitmapText { Name="MachineDate7", Font="Common normal", InitCommand=function(self)
 						self:xy((machineDateAnchor_X * (pn == PLAYER_2 and 1 or -1)) + correction_2P, row7Anchor_Y):zoom(0.9):halign((pn == PLAYER_2 and 1 or 0)):diffuse(Color.White):vertspacing(-6):shadowlength(1):maxwidth(265) end, },				
 				Def.BitmapText { Name="MachineName7", Font="Common normal", InitCommand=function(self)
-						self:xy((machineNameAnchor_X * (pn == PLAYER_2 and 1 or -1)) + correction_2P, row7Anchor_Y):zoom(0.9):halign(0.5):diffuse(Color.White):vertspacing(-6):shadowlength(1):maxwidth(150) end, },				
+						self:xy((machineNameAnchor_X * (pn == PLAYER_2 and 1 or -1)) + correction_2P, row7Anchor_Y):zoom(0.9):halign(0.5):diffuse(Color.White):vertspacing(-6):shadowlength(1):maxwidth(130) end, },				
 				Def.Sprite { Name="MachineGrade7", InitCommand=function(self)
 						self:xy(machineGradeAnchor_X * (pn == PLAYER_2 and 1 or -1), row7Anchor_Y):zoom(gradesZoom):diffusealpha(gradesAlpha) end, },				
 				Def.BitmapText { Name="MachineScore7", Font="Common normal", InitCommand=function(self)
@@ -355,7 +357,7 @@ if usingPOIUX then
 				Def.BitmapText { Name="MachineDate8", Font="Common normal", InitCommand=function(self)
 						self:xy((machineDateAnchor_X * (pn == PLAYER_2 and 1 or -1)) + correction_2P, row8Anchor_Y):zoom(0.9):halign((pn == PLAYER_2 and 1 or 0)):diffuse(Color.White):vertspacing(-6):shadowlength(1):maxwidth(265) end, },				
 				Def.BitmapText { Name="MachineName8", Font="Common normal", InitCommand=function(self)
-						self:xy((machineNameAnchor_X * (pn == PLAYER_2 and 1 or -1)) + correction_2P, row8Anchor_Y):zoom(0.9):halign(0.5):diffuse(Color.White):vertspacing(-6):shadowlength(1):maxwidth(150) end, },				
+						self:xy((machineNameAnchor_X * (pn == PLAYER_2 and 1 or -1)) + correction_2P, row8Anchor_Y):zoom(0.9):halign(0.5):diffuse(Color.White):vertspacing(-6):shadowlength(1):maxwidth(130) end, },				
 				Def.Sprite { Name="MachineGrade8", InitCommand=function(self)
 						self:xy(machineGradeAnchor_X * (pn == PLAYER_2 and 1 or -1), row8Anchor_Y):zoom(gradesZoom):diffusealpha(gradesAlpha) end, },				
 				Def.BitmapText { Name="MachineScore8", Font="Common normal", InitCommand=function(self)
@@ -365,7 +367,7 @@ if usingPOIUX then
 				Def.BitmapText { Name="MachineDate9", Font="Common normal", InitCommand=function(self)
 						self:xy((machineDateAnchor_X * (pn == PLAYER_2 and 1 or -1)) + correction_2P, row9Anchor_Y):zoom(0.9):halign((pn == PLAYER_2 and 1 or 0)):diffuse(Color.White):vertspacing(-6):shadowlength(1):maxwidth(265) end, },				
 				Def.BitmapText { Name="MachineName9", Font="Common normal", InitCommand=function(self)
-						self:xy((machineNameAnchor_X * (pn == PLAYER_2 and 1 or -1)) + correction_2P, row9Anchor_Y):zoom(0.9):halign(0.5):diffuse(Color.White):vertspacing(-6):shadowlength(1):maxwidth(150) end, },				
+						self:xy((machineNameAnchor_X * (pn == PLAYER_2 and 1 or -1)) + correction_2P, row9Anchor_Y):zoom(0.9):halign(0.5):diffuse(Color.White):vertspacing(-6):shadowlength(1):maxwidth(130) end, },				
 				Def.Sprite { Name="MachineGrade9", InitCommand=function(self)
 						self:xy(machineGradeAnchor_X * (pn == PLAYER_2 and 1 or -1), row9Anchor_Y):zoom(gradesZoom):diffusealpha(gradesAlpha) end, },				
 				Def.BitmapText { Name="MachineScore9", Font="Common normal", InitCommand=function(self)
@@ -375,7 +377,7 @@ if usingPOIUX then
 				Def.BitmapText { Name="MachineDate10", Font="Common normal", InitCommand=function(self)
 						self:xy((machineDateAnchor_X * (pn == PLAYER_2 and 1 or -1)) + correction_2P, row10Anchor_Y):zoom(0.9):halign((pn == PLAYER_2 and 1 or 0)):diffuse(Color.White):vertspacing(-6):shadowlength(1):maxwidth(265) end, },				
 				Def.BitmapText { Name="MachineName10", Font="Common normal", InitCommand=function(self)
-						self:xy((machineNameAnchor_X * (pn == PLAYER_2 and 1 or -1)) + correction_2P, row10Anchor_Y):zoom(0.9):halign(0.5):diffuse(Color.White):vertspacing(-6):shadowlength(1):maxwidth(150) end, },				
+						self:xy((machineNameAnchor_X * (pn == PLAYER_2 and 1 or -1)) + correction_2P, row10Anchor_Y):zoom(0.9):halign(0.5):diffuse(Color.White):vertspacing(-6):shadowlength(1):maxwidth(130) end, },				
 				Def.Sprite { Name="MachineGrade10", InitCommand=function(self)
 						self:xy(machineGradeAnchor_X * (pn == PLAYER_2 and 1 or -1), row10Anchor_Y):zoom(gradesZoom):diffusealpha(gradesAlpha) end, },				
 				Def.BitmapText { Name="MachineScore10", Font="Common normal", InitCommand=function(self)
@@ -390,24 +392,24 @@ if usingPOIUX then
 						self:xy(personalGradeAnchor_X * (pn == PLAYER_2 and 1 or -1), rowPer1Anchor_Y):zoom(gradesZoom):diffusealpha(gradesAlpha) end, },				
 				Def.BitmapText { Name="PersonalScore1", Font="Common normal", InitCommand=function(self)
 						self:xy((personalScoreAnchor_X * (pn == PLAYER_2 and 1 or -1)) + correction_2P, rowPer1Anchor_Y):zoom(1):halign(0.5):diffuse(Color.White):vertspacing(-6):shadowlength(1) end, },				
-				Def.BitmapText { Name="PersonalName1", Font="Common normal", InitCommand=function(self)
-						self:xy((personalNameAnchor_X * (pn == PLAYER_2 and 1 or -1)) + correction_2P, rowPer1Anchor_Y):zoom(1):halign((pn == PLAYER_2 and 0 or 1)):diffuse(Color.White):vertspacing(-6):shadowlength(1) end, },
+				Def.BitmapText { Name="PersonalDate1", Font="Common normal", InitCommand=function(self)
+						self:xy((PersonalDateAnchor_X * (pn == PLAYER_2 and 1 or -1)) + correction_2P, rowPer1Anchor_Y):zoom(1):halign((pn == PLAYER_2 and 0 or 1)):diffuse(Color.White):vertspacing(-6):shadowlength(1) end, },
 						
 				-- top 2
 				Def.Sprite { Name="PersonalGrade2",	InitCommand=function(self)
 						self:xy(personalGradeAnchor_X * (pn == PLAYER_2 and 1 or -1), rowPer2Anchor_Y):zoom(gradesZoom):diffusealpha(gradesAlpha) end, },
 				Def.BitmapText { Name="PersonalScore2",	Font="Common normal", InitCommand=function(self)
 						self:xy((personalScoreAnchor_X * (pn == PLAYER_2 and 1 or -1)) + correction_2P, rowPer2Anchor_Y):zoom(1):halign(0.5):diffuse(Color.White):vertspacing(-6):shadowlength(1) end, },
-				Def.BitmapText { Name="PersonalName2", Font="Common normal", InitCommand=function(self)
-						self:xy((personalNameAnchor_X * (pn == PLAYER_2 and 1 or -1)) + correction_2P, rowPer2Anchor_Y):zoom(1):halign((pn == PLAYER_2 and 0 or 1)):diffuse(Color.White):vertspacing(-6):shadowlength(1) end, },
+				Def.BitmapText { Name="PersonalDate2", Font="Common normal", InitCommand=function(self)
+						self:xy((PersonalDateAnchor_X * (pn == PLAYER_2 and 1 or -1)) + correction_2P, rowPer2Anchor_Y):zoom(1):halign((pn == PLAYER_2 and 0 or 1)):diffuse(Color.White):vertspacing(-6):shadowlength(1) end, },
 				
 				-- top 3
 				Def.Sprite { Name="PersonalGrade3",	InitCommand=function(self)
 						self:xy(personalGradeAnchor_X * (pn == PLAYER_2 and 1 or -1), rowPer3Anchor_Y):zoom(gradesZoom):diffusealpha(gradesAlpha) end, },
 				Def.BitmapText { Name="PersonalScore3",	Font="Common normal", InitCommand=function(self)
 						self:xy((personalScoreAnchor_X * (pn == PLAYER_2 and 1 or -1)) + correction_2P, rowPer3Anchor_Y):zoom(1):halign(0.5):diffuse(Color.White):vertspacing(-6):shadowlength(1) end, },
-				Def.BitmapText { Name="PersonalName3", Font="Common normal", InitCommand=function(self)
-						self:xy((personalNameAnchor_X * (pn == PLAYER_2 and 1 or -1)) + correction_2P, rowPer3Anchor_Y):zoom(1):halign((pn == PLAYER_2 and 0 or 1)):diffuse(Color.White):vertspacing(-6):shadowlength(1) end, },
+				Def.BitmapText { Name="PersonalDate3", Font="Common normal", InitCommand=function(self)
+						self:xy((PersonalDateAnchor_X * (pn == PLAYER_2 and 1 or -1)) + correction_2P, rowPer3Anchor_Y):zoom(1):halign((pn == PLAYER_2 and 0 or 1)):diffuse(Color.White):vertspacing(-6):shadowlength(1) end, },
 						
 				
 			}

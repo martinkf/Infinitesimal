@@ -5,7 +5,7 @@
 -- to allow more timing windows to be utilized.
 
 TimingWindow = {}
-
+--[[
 TimingWindow[#TimingWindow+1] = function()
     return {
         Name = "Original",
@@ -86,7 +86,7 @@ TimingWindow[#TimingWindow+1] = function()
         },
     }
 end
-
+]]--
 TimingWindow[#TimingWindow+1] = function()
     return {
         Name = "Pump Easy",
@@ -286,7 +286,7 @@ TimingWindow[#TimingWindow+1] = function()
         }
     }
 end
-
+--[[
 TimingWindow[#TimingWindow+1] = function()
     return {
         Name = "Infinity",
@@ -440,7 +440,7 @@ TimingWindow[#TimingWindow+1] = function()
         },
     }
 end
-
+]]--
 function GetWindowSeconds(TimingWindow, Scale, Add, JudgeScale)
 	local fSecs = TimingWindow
 	fSecs = fSecs * Scale -- Timing Window Scale

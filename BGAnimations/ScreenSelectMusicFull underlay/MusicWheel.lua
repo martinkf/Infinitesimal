@@ -298,12 +298,14 @@ if usingPOIUX then
 	WheelRotation = -0.025
 	local curvature = 65
 	local fieldOfView = 90
-	local yValue = 196
-	local EntireWheel_SelectingChartY = -530
+	local EntireWheel_SelectingSongY = 168
+	local EntireWheel_SelectingChartY = -532
+	local WheelNumberQuad_Alpha = 0.6 - 0.6
+	local WheelNumberText_Alpha = 0.9 - 0.9
 	
 	t = Def.ActorFrame {
 		InitCommand=function(self)        
-			self:y(SCREEN_HEIGHT / 2 + yValue):fov(fieldOfView):SetDrawByZPosition(true)
+			self:y(SCREEN_HEIGHT / 2 + EntireWheel_SelectingSongY):fov(fieldOfView):SetDrawByZPosition(true)
 		:vanishpoint(SCREEN_CENTER_X, SCREEN_BOTTOM - 150 + curvature)
 			UpdateItemTargets(SongIndex)
 		end,
@@ -312,7 +314,7 @@ if usingPOIUX then
 			GAMESTATE:SetCurrentSong(Songs[SongIndex])
 			SCREENMAN:GetTopScreen():AddInputCallback(InputHandler)
 			
-			self:easeoutexpo(1):y(SCREEN_HEIGHT / 2 - yValue)
+			self:easeoutexpo(1):y(SCREEN_HEIGHT / 2 - EntireWheel_SelectingSongY)
 		end,
 		
 		-- Race condition workaround (yuck)
@@ -325,7 +327,7 @@ if usingPOIUX then
 			:playcommand("Busy")
 		end,
 		SongUnchosenMessageCommand=function(self)			
-			self:stoptweening():easeoutexpo(0.5):vanishpoint(SCREEN_CENTER_X, SCREEN_BOTTOM - 150 + curvature):y(SCREEN_HEIGHT / 2 - yValue):zoom(1):x(0)
+			self:stoptweening():easeoutexpo(0.5):vanishpoint(SCREEN_CENTER_X, SCREEN_BOTTOM - 150 + curvature):y(SCREEN_HEIGHT / 2 - EntireWheel_SelectingSongY):zoom(1):x(0)
 			:playcommand("NotBusy")
 		end,
 		
@@ -480,7 +482,7 @@ if usingPOIUX then
 				Def.Quad {
 					InitCommand=function(self)
 						self:zoomto(60, 18):addy(73)
-						:diffuse(0,0,0,0.6)
+						:diffuse(0,0,0,WheelNumberQuad_Alpha)
 						:fadeleft(0.3):faderight(0.3)
 					end
 				},
@@ -489,9 +491,9 @@ if usingPOIUX then
 					Name="Index",
 					Font="Montserrat semibold 40px",
 					InitCommand=function(self)
-						self:addy(73):zoom(0.4):skewx(-0.1):diffusetopedge(0.95,0.95,0.95,0.8):shadowlength(1.5)
+						self:addy(73):zoom(0.4):skewx(-0.1):shadowlength(1.5)
 					end,
-					RefreshCommand=function(self,param) self:settext(Targets[i]):diffuse(ColorFromSongGenre_POI(Songs[Targets[i]])) end
+					RefreshCommand=function(self,param) self:settext(Targets[i]):diffuse(ColorFromSongGenre_POI(Songs[Targets[i]])):diffusealpha(WheelNumberText_Alpha) end
 				},
 				
 				-- quad SongOrigin
