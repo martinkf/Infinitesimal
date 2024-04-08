@@ -19,7 +19,9 @@ for pn in ivalues(GAMESTATE:GetHumanPlayers()) do
     
     t[#t+1] = Def.ActorFrame {
         LoadModule("PIU/Gameplay." .. Scoring .. "Score.lua")(pn),
-        LoadActor("NameBadge.lua", pn)
+        
+		-- disabling NameBadge
+		--LoadActor("NameBadge.lua", pn)
     }
     
     if LoadModule("Config.Load.lua")("MeasureCounter",CheckIfUserOrMachineProfile(string.sub(pn,-1)-1).."/OutFoxPrefs.ini") then
