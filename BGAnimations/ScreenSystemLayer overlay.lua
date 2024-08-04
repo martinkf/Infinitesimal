@@ -1,6 +1,3 @@
-local credits_Y = SCREEN_TOP + 8
-local credits_size = 0.8
-
 local t = Def.ActorFrame {
 	InitCommand=function(self)
 		if LoadModule("Config.Load.lua")("AutogenBasicMode", "Save/OutFoxPrefs.ini") == true then
@@ -10,49 +7,7 @@ local t = Def.ActorFrame {
 		end
 		
 		POIBranch_AssembleGroupSorting()
-	end,
-	
-	Def.BitmapText {
-		Font="Common normal",
-		InitCommand=function(self)
-			self:xy(SCREEN_CENTER_X, credits_Y):shadowlength(1):zoom(credits_size):queuecommand('Refresh')
-		end,
-		
-		ScreenChangedMessageCommand=function(self)
-			local Screen = SCREENMAN:GetTopScreen()
-			local IsVisible = true
-			if Screen then
-				local sClass = Screen:GetName()
-				IsVisible = THEME:GetMetric(sClass, "ShowCreditDisplay")
-			end
-			
-			self:visible(IsVisible)
-		end,
-		
-		OnCommand=function(self) self:playcommand('Refresh') end,
-		CoinInsertedMessageCommand=function(self) self:playcommand('Refresh') end,
-		PlayerJoinedMessageCommand=function(self) self:playcommand('Refresh') end,
-		ScreenChangedMessageCommand=function(self) self:playcommand('Refresh') end,
-		RefreshCreditTextMessageCommand=function(self) self:playcommand('Refresh') end,
-
-		RefreshCommand=function(self)
-			local CoinMode = GAMESTATE:GetCoinMode()
-			local EventMode = GAMESTATE:IsEventMode()
-			
-			-- no one wants screen burn-in at home!
-			-- i do. fucker
-			if CoinMode == "CoinMode_Home" then
-				self:visible(true):settext("POI PROJECT")
-			elseif EventMode then
-				self:visible(true):settext("EVENT MODE")
-			elseif CoinMode == 'CoinMode_Free' then
-				self:visible(true):settext("FREE PLAY")
-			elseif CoinMode == 'CoinMode_Pay' then
-				local CreditText = GAMESTATE:GetCoins() .. " CREDITS"
-				self:visible(true):settext(CreditText)
-			end
-		end
-	}
+	end,	
 }
 
 -- SCREENMAN:SystemMessage display

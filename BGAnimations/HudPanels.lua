@@ -16,6 +16,8 @@ local profileLevelText_X = 510-120
 local profileLevelText_Y = profileNameText_Y
 local profilePic_X = 600+4
 local profilePic_Y = 637+43+4
+local credits_Y = SCREEN_TOP + 8
+local credits_size = 0.4
 
 local t = Def.ActorFrame {
 	Def.ActorFrame {
@@ -28,9 +30,8 @@ local t = Def.ActorFrame {
 		OffCommand=function(self)
 			self:easeoutexpo(0.5):xy(SCREEN_CENTER_X, -128)
 		end,
-
 		
-		-- Top panel			
+		-- Top panel graphic art
 		Def.Sprite {
 			Texture=THEME:GetPathG("", "UI/PanelTop"),
 			InitCommand=function(self)
@@ -38,32 +39,37 @@ local t = Def.ActorFrame {
 				self:scaletofit(0, 0, 1280, 128):xy(0, topPanel_Y):valign(0):visible(true)
 			end,
 		},
-
-		--[[
-		-- Screen name
-		Def.BitmapText {
-			Name="ScreenName",
-			Font="Montserrat normal 40px",
-			Text=ToUpper(Screen.String("HeaderText")),
-			InitCommand=function(self)
-				self:xy(-WideScale(200, 200), screenName_Y+8):halign(1):zoom(0.6)
-				:diffuse(Color.Black):shadowlength(1)
-
-				local IsSelectMusic = self:GetText() == "SELECT MUSIC"
-				if IsSelectMusic then self:y(screenName_Y) end					
-			end,
-		},
-		-- Stage count
-		Def.BitmapText {
-			Font="Montserrat normal 40px",
-			InitCommand=function(self)
-				self:visible(Screen.String("HeaderText") == "Select Music" and true or false)
-				self:settext("STAGE "..string.format("%02d", GAMESTATE:GetCurrentStageIndex() + 1))
-				self:xy(-WideScale(200, 200), screenName_Y+20):halign(1):zoom(0.5):diffuse(Color.Black)
-			end,
-		},
-		]]--
 		
+		-- game mode / number of credits
+		Def.BitmapText {
+			Font="Montserrat semibold 40px",
+			InitCommand=function(self)
+				self:xy(0, credits_Y):shadowlength(1):zoom(credits_size):queuecommand('Refresh')
+			end,
+			
+			OnCommand=function(self) self:playcommand('Refresh') end,
+			CoinInsertedMessageCommand=function(self) self:playcommand('Refresh') end,
+			PlayerJoinedMessageCommand=function(self) self:playcommand('Refresh') end,
+			ScreenChangedMessageCommand=function(self) self:playcommand('Refresh') end,
+			RefreshCreditTextMessageCommand=function(self) self:playcommand('Refresh') end,
+
+			RefreshCommand=function(self)
+				local CoinMode = GAMESTATE:GetCoinMode()
+				local EventMode = GAMESTATE:IsEventMode()
+								
+				if CoinMode == "CoinMode_Home" then
+					self:visible(true):settext("POI PROJECT")
+				elseif EventMode then
+					self:visible(true):settext("EVENT MODE")
+				elseif CoinMode == 'CoinMode_Free' then
+					self:visible(true):settext("FREE PLAY")
+				elseif CoinMode == 'CoinMode_Pay' then
+					local CreditText = GAMESTATE:GetCoins() .. " CREDITS"
+					self:visible(true):settext(CreditText)
+				end
+			end
+		},
+	
 		-- timer BG
 		Def.Sprite {
 			Texture=THEME:GetPathG("", "UI/TimerBG"),
