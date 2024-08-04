@@ -34,8 +34,7 @@ local t = Def.ActorFrame {
 		-- Top panel graphic art
 		Def.Sprite {
 			Texture=THEME:GetPathG("", "UI/PanelTop"),
-			InitCommand=function(self)
-				--self:scaletofit(0, 0, 1280, 128):xy(0, topPanel_Y):valign(0):visible(Screen.String("HeaderText") ~= "Select Profile") --hidden in Select Profile screen (?)
+			InitCommand=function(self)				
 				self:scaletofit(0, 0, 1280, 128):xy(0, topPanel_Y):valign(0):visible(true)
 			end,
 		},
@@ -73,7 +72,21 @@ local t = Def.ActorFrame {
 		-- timer BG
 		Def.Sprite {
 			Texture=THEME:GetPathG("", "UI/TimerBG"),
-			InitCommand=function(self) self:zoom(0.4):xy(0,timerBG_Y) end
+			InitCommand=function(self)
+				self:zoom(0.4):xy(0,timerBG_Y):queuecommand('Refresh')
+			end,
+			
+			ScreenChangedMessageCommand=function(self) self:playcommand('Refresh') end,
+			
+			RefreshCommand=function(self)
+				local currentScreenName = SCREENMAN:GetTopScreen():GetName()
+								
+				if currentScreenName == "ScreenTitleMenu" then
+					self:visible(false)
+				else
+					self:visible(true)
+				end
+			end
 		},
 		
 		-- Amount of lives left			
