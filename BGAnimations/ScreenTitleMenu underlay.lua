@@ -79,7 +79,15 @@ local t = Def.ActorFrame {
                 :zoom(2):diffusealpha(0)
             end,
         }
-    }
+    },
+	
+	Def.ActorFrame {
+		OnCommand=function(self)            
+			self:xy(0,0)
+        end,
+		
+		LoadActor("HudPanels")
+	}
 }
 
 if IsHome() then
