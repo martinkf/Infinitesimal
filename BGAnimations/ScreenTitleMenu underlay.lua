@@ -79,15 +79,17 @@ local t = Def.ActorFrame {
                 :zoom(2):diffusealpha(0)
             end,
         }
-    },
+    }
+}
 
-    Def.ActorFrame {
-        InitCommand=function(self)
-            self:xy(SCREEN_CENTER_X, 20)
+if IsHome() then
+	t[#t+1] = Def.ActorFrame {
+		InitCommand=function(self)
+            self:xy(SCREEN_CENTER_X, 660)
         end,
 
         OffCommand=function(self)
-            self:stoptweening():easeoutexpo(1):xy(SCREEN_CENTER_X, -80)
+            self:stoptweening():easeoutexpo(1):xy(SCREEN_CENTER_X, 800)
         end,
 
         Def.BitmapText {
@@ -113,8 +115,8 @@ local t = Def.ActorFrame {
             AltText="OutFox",
             InitCommand=function(self) self:y(20) end
         }
-    }
-}
+	}
+end
 
 if not IsHome() and GAMESTATE:EnoughCreditsToJoin() then
     t[#t+1] = Def.ActorFrame {
