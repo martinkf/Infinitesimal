@@ -1,7 +1,7 @@
 local credits_Y = SCREEN_TOP + 8
 local credits_size = 0.8
 
-t = Def.ActorFrame {
+local t = Def.ActorFrame {
 	InitCommand=function(self)
 		if LoadModule("Config.Load.lua")("AutogenBasicMode", "Save/OutFoxPrefs.ini") == true then
 			AssembleBasicMode()

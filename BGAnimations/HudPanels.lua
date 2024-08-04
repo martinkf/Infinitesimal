@@ -17,7 +17,7 @@ local profileLevelText_Y = profileNameText_Y
 local profilePic_X = 600+4
 local profilePic_Y = 637+43+4
 
-t = Def.ActorFrame {
+local t = Def.ActorFrame {
 	Def.ActorFrame {
 		InitCommand=function(self)
 			self:xy(SCREEN_CENTER_X, -128)
