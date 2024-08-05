@@ -218,30 +218,6 @@ if usingPOIUX then
 			end
 		},
 		
-		Def.Sprite {
-			Texture=THEME:GetPathG("", "UI/Heart"),
-			InitCommand=function(self)
-				self:xy(FrameW / 2 - 80, 10):zoom(0.3):diffuse(Color.Black)
-			end,
-		},
-		Def.Sprite {
-			Texture=THEME:GetPathG("", "UI/Heart"),
-			InitCommand=function(self)
-				self:xy(FrameW / 2 - 82, 9):zoom(0.3)
-			end,
-		},
-				
-		Def.BitmapText {
-			Font="Montserrat normal 20px",
-			Name="Length",
-			InitCommand=function(self)
-				self:zoom(1):halign(1):valign(1)
-				:maxwidth(FrameW * 0.2 / self:GetZoom())
-				:diffuse(Color.Black)
-				:xy(FrameW / 2 - 36, 16)
-			end
-		},
-
 		Def.BitmapText {
 			Font="Montserrat normal 20px",
 			Name="BPM",
@@ -251,7 +227,38 @@ if usingPOIUX then
 				:diffuse(Color.Black)
 				:xy(-FrameW / 2 + 36, 16)
 			end
-		}
+		},
+		
+		-- currently disabled since the game always spends 1 Heart for now
+		Def.Sprite {
+			Texture=THEME:GetPathG("", "UI/Heart"),
+			InitCommand=function(self)
+				self:xy(FrameW / 2 - 80, 10):zoom(0.3):diffuse(Color.Black)
+				:visible(false)
+			end,
+		},
+		
+		-- currently disabled since the game always spends 1 Heart for now
+		Def.Sprite {
+			Texture=THEME:GetPathG("", "UI/Heart"),
+			InitCommand=function(self)
+				self:xy(FrameW / 2 - 82, 9):zoom(0.3)
+				:visible(false)
+			end,
+		},
+		
+		-- currently disabled since the game always spends 1 Heart for now	
+		Def.BitmapText {
+			Font="Montserrat normal 20px",
+			Name="Length",
+			InitCommand=function(self)
+				self:zoom(1):halign(1):valign(1)
+				:maxwidth(FrameW * 0.2 / self:GetZoom())
+				:diffuse(Color.Black)
+				:xy(FrameW / 2 - 36, 16)
+				:visible(false)
+			end
+		}		
 	}
 end
 
