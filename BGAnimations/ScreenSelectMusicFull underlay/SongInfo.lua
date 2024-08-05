@@ -1,5 +1,5 @@
 local SongInfo_SelectingSongY = 543
-local SongInfo_SelectingChartY = 246
+local SongInfo_SelectingChartY = 136
 local SongInfo_SongChangedDelay = 0.5
 
 local t = Def.ActorFrame {
