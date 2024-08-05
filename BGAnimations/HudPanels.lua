@@ -31,12 +31,48 @@ local t = Def.ActorFrame {
 			self:easeoutexpo(0.5):xy(SCREEN_CENTER_X, -128)
 		end,
 		
-		-- Top panel graphic art
+		-- Top panel graphic art (big, white)
 		Def.Sprite {
 			Texture=THEME:GetPathG("", "UI/PanelTop"),
 			InitCommand=function(self)				
-				self:scaletofit(0, 0, 1280, 128):xy(0, topPanel_Y):valign(0):visible(true)
+				self:scaletofit(0, 0, 1280, 128):xy(0, topPanel_Y):valign(0):queuecommand('Refresh')
 			end,
+			
+			ScreenChangedMessageCommand=function(self) self:playcommand('Refresh') end,
+			
+			RefreshCommand=function(self)
+				local currentScreenName = SCREENMAN:GetTopScreen():GetName()
+								
+				if 
+				currentScreenName == "ScreenTitleMenu" or 
+				currentScreenName == "ScreenTitleJoin" then
+					self:visible(false)
+				else
+					self:visible(true)
+				end
+			end
+		},
+		
+		-- Top panel graphic art (small, black)
+		Def.Sprite {
+			Texture=THEME:GetPathG("", "UI/PanelBottom"),
+			InitCommand=function(self)				
+				self:scaletofit(0, 0, 1280, 128):xy(0, topPanel_Y-52):valign(0):queuecommand('Refresh')
+			end,
+			
+			ScreenChangedMessageCommand=function(self) self:playcommand('Refresh') end,
+			
+			RefreshCommand=function(self)
+				local currentScreenName = SCREENMAN:GetTopScreen():GetName()
+								
+				if 
+				currentScreenName == "ScreenTitleMenu" or 
+				currentScreenName == "ScreenTitleJoin" then
+					self:visible(true)
+				else
+					self:visible(false)
+				end
+			end
 		},
 		
 		-- game mode / number of credits
@@ -81,7 +117,9 @@ local t = Def.ActorFrame {
 			RefreshCommand=function(self)
 				local currentScreenName = SCREENMAN:GetTopScreen():GetName()
 								
-				if currentScreenName == "ScreenTitleMenu" then
+				if 
+				currentScreenName == "ScreenTitleMenu" or 
+				currentScreenName == "ScreenTitleJoin" then
 					self:visible(false)
 				else
 					self:visible(true)
