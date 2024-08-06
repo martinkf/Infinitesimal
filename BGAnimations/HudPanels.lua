@@ -135,7 +135,38 @@ local t = Def.ActorFrame {
 			end
 		},
 		
-		-- Amount of lives left			
+		-- StageCount text
+		Def.BitmapText {
+			Font="Montserrat semibold 40px",			
+			InitCommand=function(self)
+				self:y(55):addx(-1):zoom(0.7):shadowlength(1):queuecommand('Refresh')
+			end,
+			
+			ScreenChangedMessageCommand=function(self) self:playcommand('Refresh') end,
+			
+			RefreshCommand=function(self)
+				local currentScreenName = SCREENMAN:GetTopScreen():GetName()
+								
+				if 
+				currentScreenName == "ScreenTitleMenu" or 
+				currentScreenName == "ScreenTitleJoin" or
+				currentScreenName == "ScreenLogo" or
+				currentScreenName == "ScreenSelectProfile" then
+					self:visible(false)
+				else
+					self:visible(true)
+				end
+				
+				if currentScreenName == "ScreenEvaluationNormal" then
+					self:settext(string.format("%02d", GAMESTATE:GetCurrentStageIndex()))
+				else
+					self:settext(string.format("%02d", GAMESTATE:GetCurrentStageIndex() + 1))
+				end
+			end,
+		},
+		
+		-- Amount of lives left	for P1 - disabled
+		--[[
 		Def.ActorFrame {
 			InitCommand=function(self)
 				self:xy(amountLivesLeft_X, amountLivesLeft_Y):visible(Screen.String("HeaderText") == "Select Music")
@@ -168,7 +199,10 @@ local t = Def.ActorFrame {
 				end
 			},
 		},
-		-- duplicating manually as a hotfix
+		]]--
+		
+		-- Amount of lives left	for P2 - disabled
+		--[[
 		Def.ActorFrame {
 			InitCommand=function(self)
 				self:xy(amountLivesRight_X, amountLivesRight_Y):visible(Screen.String("HeaderText") == "Select Music")
@@ -200,7 +234,8 @@ local t = Def.ActorFrame {
 					self:settext("x " .. (GAMESTATE:IsEventMode() and "∞" or Hearts))
 				end
 			},
-		}
+		},
+		]]--
 	}
 }
 
