@@ -45,7 +45,9 @@ local t = Def.ActorFrame {
 								
 				if 
 				currentScreenName == "ScreenTitleMenu" or 
-				currentScreenName == "ScreenTitleJoin" then
+				currentScreenName == "ScreenTitleJoin" or
+				currentScreenName == "ScreenLogo" or
+				currentScreenName == "ScreenSelectProfile" then
 					self:visible(false)
 				else
 					self:visible(true)
@@ -67,7 +69,9 @@ local t = Def.ActorFrame {
 								
 				if 
 				currentScreenName == "ScreenTitleMenu" or 
-				currentScreenName == "ScreenTitleJoin" then
+				currentScreenName == "ScreenTitleJoin" or
+				currentScreenName == "ScreenLogo" or
+				currentScreenName == "ScreenSelectProfile" then
 					self:visible(true)
 				else
 					self:visible(false)
@@ -93,13 +97,16 @@ local t = Def.ActorFrame {
 				local EventMode = GAMESTATE:IsEventMode()
 								
 				if CoinMode == "CoinMode_Home" then
-					self:visible(true):settext("POI PROJECT")
+					self:visible(true):settext("HOME MODE")
 				elseif EventMode then
 					self:visible(true):settext("EVENT MODE")
 				elseif CoinMode == 'CoinMode_Free' then
 					self:visible(true):settext("FREE PLAY")
 				elseif CoinMode == 'CoinMode_Pay' then
-					local CreditText = GAMESTATE:GetCoins() .. " CREDITS"
+					local numberofcredits = GAMESTATE:GetCoins()
+					local suffix = ""
+					if numberofcredits == 1 then suffix = " CREDIT" else suffix = " CREDITS" end
+					local CreditText = numberofcredits .. suffix
 					self:visible(true):settext(CreditText)
 				end
 			end
@@ -119,7 +126,9 @@ local t = Def.ActorFrame {
 								
 				if 
 				currentScreenName == "ScreenTitleMenu" or 
-				currentScreenName == "ScreenTitleJoin" then
+				currentScreenName == "ScreenTitleJoin" or
+				currentScreenName == "ScreenLogo" or
+				currentScreenName == "ScreenSelectProfile" then
 					self:visible(false)
 				else
 					self:visible(true)
