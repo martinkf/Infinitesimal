@@ -11,7 +11,7 @@ local WheelRotation = -0.025
 local curvature = 65
 local fieldOfView = 90
 local EntireWheel_SelectingSongY = 168
-local EntireWheel_SelectingChartY = -452 -- this must match SmallerBGAPreview_SelectingChartY from SongPreview.lua
+local EntireWheel_SelectingChartY = -460 -- this must match SmallerBGAPreview_SelectingChartY from SongPreview.lua
 local WheelNumberQuad_Alpha = 0.6 - 0.6
 local WheelNumberText_Alpha = 0.9 - 0.9
 

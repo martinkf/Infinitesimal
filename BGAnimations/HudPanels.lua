@@ -1,5 +1,4 @@
 local topPanel_Y = -8
-local timerBG_Y = 31+16
 local screenName_Y = 12
 local amountLivesLeft_X = -88
 local amountLivesLeft_Y = 40
@@ -112,11 +111,11 @@ local t = Def.ActorFrame {
 			end
 		},
 	
-		-- timer BG
+		-- StageCount BG UI art
 		Def.Sprite {
-			Texture=THEME:GetPathG("", "UI/TimerBG"),
+			Texture=THEME:GetPathG("", "UI/StageCount"),
 			InitCommand=function(self)
-				self:zoom(0.4):xy(0,timerBG_Y):queuecommand('Refresh')
+				self:zoom(0.4):xy(0,47):queuecommand('Refresh')
 			end,
 			
 			ScreenChangedMessageCommand=function(self) self:playcommand('Refresh') end,
@@ -202,26 +201,7 @@ local t = Def.ActorFrame {
 				end
 			},
 		}
-	},
-
-	--[[
-	-- Bottom panel
-	Def.Sprite {
-		Texture=THEME:GetPathG("", "UI/PanelBottom"),
-		InitCommand=function(self)
-			self:scaletofit(0, 0, 1280, 128)
-			:xy(SCREEN_CENTER_X, SCREEN_BOTTOM + 128):valign(1)
-		end,
-		OnCommand=function(self)
-			self:easeoutexpo(0.5)
-			:xy(SCREEN_CENTER_X, bottomPanel_Y)
-		end,
-		OffCommand=function(self)
-			self:easeoutexpo(0.5)
-			:xy(SCREEN_CENTER_X, SCREEN_BOTTOM + 128)
-		end,
-	},
-	]]--
+	}
 }
 
 -- Profile info (clones for every active player)
