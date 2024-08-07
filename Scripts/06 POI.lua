@@ -3354,6 +3354,17 @@ function Database_POI()
 				{ "/Songs/POI-database/1059 - EXCEED 2 OPENING -SHORT CUT-/", "EXC2-STAFFROLL", },
 			},
 		},
+		{	"Zero",
+			"Playlists/16-zero.png",
+			{	"EASY STATION",
+				"\n\n\nEasy Station",
+				"Playlists/Sub-TEST.png",				
+				{ "/Songs/POI-database/103 - FOREVER LOVE/", "ZERO-NIGHTMARE", },
+				{ "/Songs/POI-database/318 - WE ARE/", "3RD-HARD", },
+				{ "/Songs/POI-database/318 - WE ARE/", "PREX3-CRAZY", },
+				{ "/Songs/POI-database/318 - WE ARE/", "ZERO-NIGHTMARE", },
+			},
+		},
 	}
 end
 
