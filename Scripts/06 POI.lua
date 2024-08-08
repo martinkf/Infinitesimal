@@ -52,7 +52,45 @@ function Database_POI()
 				{ "/Songs/POI-database/117 - -REMIX- 1ST DISCO REMIX/", "1ST-HARD" },
 				{ "/Songs/POI-database/118 - -REMIX- 1ST TECHNO REMIX/", "1ST-HARD" },
 				{ "/Songs/POI-database/119 - -REMIX- TURBO REMIX/", "1ST-HARD" },
-			},			
+			},
+			{	"PROGRESSIVE",
+				"\n\n\nProgressive",
+				"Playlists/Sub-PROGRESSIVE.png",
+				{ "/Songs/POI-database/103 - FOREVER LOVE/", "1ST-NORMAL" },
+				{ "/Songs/POI-database/104 - PASSION/", "1ST-NORMAL" },
+				{ "/Songs/POI-database/106 - POM POM POM/", "1ST-NORMAL" },
+				{ "/Songs/POI-database/107 - THE RAP/", "1ST-NORMAL" },
+				{ "/Songs/POI-database/108 - COME TO ME/", "1ST-NORMAL" },
+				{ "/Songs/POI-database/110 - WHAT DO U REALLY WANT/", "1ST-NORMAL" },
+				{ "/Songs/POI-database/112 - ANOTHER TRUTH/", "1ST-NORMAL" },
+				{ "/Songs/POI-database/113 - I WANT U/", "1ST-NORMAL" },
+				{ "/Songs/POI-database/114 - I DON'T KNOW ANYTHING/", "1ST-NORMAL" },
+				{ "/Songs/POI-database/115 - NO PARTICULAR REASON/", "1ST-NORMAL" },
+				{ "/Songs/POI-database/101 - IGNITION STARTS/", "1ST-HARD" },
+				{ "/Songs/POI-database/102 - HYPNOSIS/", "1ST-HARD" },
+				{ "/Songs/POI-database/104 - PASSION/", "1ST-HARD" },
+				{ "/Songs/POI-database/105 - BLACK CAT/", "1ST-HARD" },
+				{ "/Songs/POI-database/106 - POM POM POM/", "1ST-HARD" },
+				{ "/Songs/POI-database/108 - COME TO ME/", "1ST-HARD" },
+				{ "/Songs/POI-database/109 - FUNKY TONIGHT/", "1ST-HARD" },
+				{ "/Songs/POI-database/111 - HATRED/", "1ST-HARD" },
+				{ "/Songs/POI-database/112 - ANOTHER TRUTH/", "1ST-HARD" },
+				{ "/Songs/POI-database/116 - -REMIX- 1ST DIVA REMIX/", "1ST-HARD" },
+				{ "/Songs/POI-database/117 - -REMIX- 1ST DISCO REMIX/", "1ST-HARD" },
+				{ "/Songs/POI-database/118 - -REMIX- 1ST TECHNO REMIX/", "1ST-HARD" },
+				{ "/Songs/POI-database/119 - -REMIX- TURBO REMIX/", "1ST-HARD" },
+				{ "/Songs/POI-database/101 - IGNITION STARTS/", "1ST-FREESTYLE" },
+				{ "/Songs/POI-database/102 - HYPNOSIS/", "1ST-FREESTYLE" },
+				{ "/Songs/POI-database/104 - PASSION/", "1ST-FREESTYLE" },
+				{ "/Songs/POI-database/105 - BLACK CAT/", "1ST-FREESTYLE" },
+				{ "/Songs/POI-database/106 - POM POM POM/", "1ST-FREESTYLE" },
+				{ "/Songs/POI-database/108 - COME TO ME/", "1ST-FREESTYLE" },
+				{ "/Songs/POI-database/109 - FUNKY TONIGHT/", "1ST-FREESTYLE" },
+				{ "/Songs/POI-database/111 - HATRED/", "1ST-FREESTYLE" },
+				{ "/Songs/POI-database/113 - I WANT U/", "1ST-FREESTYLE" },
+				{ "/Songs/POI-database/114 - I DON'T KNOW ANYTHING/", "1ST-FREESTYLE" },
+				{ "/Songs/POI-database/115 - NO PARTICULAR REASON/", "1ST-FREESTYLE" },
+			},
 		},
 		{	"The 2nd DF",
 			"Playlists/02-the2nddf.png",
@@ -3520,20 +3558,26 @@ function GetChartsFromSublist_POI(input_sublistTable,input_songDir)
 	return output
 end
 
-function GetAllowedCharts_POI(input_playlistName,input_sublistName,input_songObj)
-	local output = {}
+function GetAllowedCharts_POI(input_playlistName,input_sublistName,input_currentIndex)
+	-- for example the input could be | "Exceed 2" , "BANYA CHANNEL" , 3 |
+	-- the output should be in that case, {"EXC2-NORMAL", "EXC2-HARD", "EXC2-CRAZY", "EXC2-FREESTYLE", "EXC2-NIGHTMARE"}
 	
-	-- extracts the song dir string from the song object
-	local songDir = input_songObj:GetSongDir()
-		
+	local output = {}
+			
 	-- from the database, get the Playlist related to what we're searching
 	local thisPlaylist = GetPlaylistData_POI(input_playlistName)
 	
 	-- from the Playlist, get the Sublist related to what we're searching
 	local thisSublist = GetSublistData_POI(thisPlaylist,input_sublistName)
-	
-	-- from the Sublist, get the array of charts related to the song
-	output = GetChartsFromSublist_POI(thisSublist,songDir)
+	-- at this moment, thisSublist would be at the given example like this:
+		
+	--if input_currentIndex >= 1 and input_currentIndex <= #thisSublist then
+        -- Get the desired sublist based on the current index
+    testing = thisSublist[input_currentIndex]
+	output = thisSublist[input_currentIndex]
+        -- Remove the first item (the song path) from the result
+    output = { table.unpack(output, 2) }
+    --end
 		
 	return output
 end
@@ -3555,7 +3599,7 @@ function CreateChartArrayBasedOnList_POI(input_ChartArray, input_allowedCharts)
     return output_ChartArray
 end
 
-function FilterChartFromSublist_POI(input_CurGroupName,input_CurrentSong,input_ChartArray)
+function FilterChartFromSublist_POI(input_CurGroupName,input_CurrentIndex,input_ChartArray)
 	-- declares our output
 	local outputChartArray = input_ChartArray
 	
@@ -3580,50 +3624,8 @@ function FilterChartFromSublist_POI(input_CurGroupName,input_CurrentSong,input_C
         end
     end
 	
-	-- grabs an array of strings, representing the charts that are allowed to be displayed considering this Playlist, this Sublist, and this Song	
-	local listOfAllowedChartsAsString = GetAllowedCharts_POI(playlistName,sublistName,input_CurrentSong)	
-	
-	-- creates an array of Chart objects that match the list of charts allowed in
-	outputChartArray = CreateChartArrayBasedOnList_POI(input_ChartArray, listOfAllowedChartsAsString)
-	
-	-- checks if outputChartArray was left empty
-	if #outputChartArray == 0 then
-		return {} -- this will make the function return an empty ChartArray, and ChartDisplay.lua will repopulate it with all possible charts for this song "to avoid other crashes" in their words
-	end
-	
-	return outputChartArray
-end
-
-function FilterChartFromSublist_NEWPOI(input_CurGroupName,input_CurrentIndex,input_ChartArray)
-	-- this is WIP WIP WIP
-	
-	
-	-- declares our output
-	local outputChartArray = input_ChartArray
-	
-	-- don't use any logic if the group is "All Tunes"
-	if input_CurGroupName == "All Tunes" or input_CurGroupName == "OffsetControl" or input_CurGroupName == "POI-database" then
-		return input_ChartArray
-	end
-		
-	-- grabbing the playlistName by looking at input_CurGroupName
-	local playlistName = input_CurGroupName:match("^(.-)\n\n\n")
-	-- grabbing the sublistDesc by looking at input_CurGroupName
-	local sublistDesc = input_CurGroupName:match("(\n\n\n.*)$")
-	-- grabbing the sublistName by looking at input_CurGroupName
-	local sublistName = ""
-	for _, playlistData in ipairs(Database_POI()) do
-        if playlistData[1] == playlistName then
-            for _, subgroup in ipairs(playlistData) do
-                if type(subgroup) == "table" and subgroup[2] == sublistDesc then
-                    sublistName = subgroup[1]
-                end
-            end
-        end
-    end
-	
-	-- grabs an array of strings, representing the charts that are allowed to be displayed considering this Playlist, this Sublist, and this Song	
-	local listOfAllowedChartsAsString = GetAllowedCharts_POI(playlistName,sublistName,input_CurrentSong)	-- remember that input_CurrentSong doesnt exist anymore
+	-- grabs an array of strings, representing the charts that are allowed to be displayed considering this Playlist, this Sublist, and this MusicWheel SongIndex
+	local listOfAllowedChartsAsString = GetAllowedCharts_POI(playlistName,sublistName,input_CurrentIndex)	
 	
 	-- creates an array of Chart objects that match the list of charts allowed in
 	outputChartArray = CreateChartArrayBasedOnList_POI(input_ChartArray, listOfAllowedChartsAsString)

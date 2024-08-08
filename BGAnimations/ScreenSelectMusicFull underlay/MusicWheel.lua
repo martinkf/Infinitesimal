@@ -12,8 +12,8 @@ local curvature = 65
 local fieldOfView = 90
 local EntireWheel_SelectingSongY = 168
 local EntireWheel_SelectingChartY = -460 -- this must match SmallerBGAPreview_SelectingChartY from SongPreview.lua
-local WheelNumberQuad_Alpha = 0.6 - 0.6
-local WheelNumberText_Alpha = 0.9 - 0.9
+local WheelNumberQuad_Alpha = 0.6
+local WheelNumberText_Alpha = 0.9
 
 
 --
@@ -315,9 +315,9 @@ for i = 1, WheelSize do
 			-- quad WheelSongNumber
 			Def.Quad {
 				InitCommand=function(self)
-					self:zoomto(60, 18):addy(73)
+					self:zoomto(120, 18):addy(49)
 					:diffuse(0,0,0,WheelNumberQuad_Alpha)
-					:fadeleft(0.3):faderight(0.3)
+					:fadeleft(0.4):faderight(0.4)
 				end
 			},
 			-- text WheelSongNumber
@@ -325,7 +325,7 @@ for i = 1, WheelSize do
 				Name="Index",
 				Font="Montserrat semibold 40px",
 				InitCommand=function(self)
-					self:addy(73):zoom(0.4):skewx(-0.1):shadowlength(1.5)
+					self:addy(49):zoom(0.4):skewx(-0.1):shadowlength(1.5)
 				end,
 				RefreshCommand=function(self,param) self:settext(Targets[i]):diffuse(ColorFromSongGenre_POI(Songs[Targets[i]])):diffusealpha(WheelNumberText_Alpha) end
 			},
