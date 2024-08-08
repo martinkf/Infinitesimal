@@ -3594,6 +3594,48 @@ function FilterChartFromSublist_POI(input_CurGroupName,input_CurrentSong,input_C
 	return outputChartArray
 end
 
+function FilterChartFromSublist_NEWPOI(input_CurGroupName,input_CurrentIndex,input_ChartArray)
+	-- this is WIP WIP WIP
+	
+	
+	-- declares our output
+	local outputChartArray = input_ChartArray
+	
+	-- don't use any logic if the group is "All Tunes"
+	if input_CurGroupName == "All Tunes" or input_CurGroupName == "OffsetControl" or input_CurGroupName == "POI-database" then
+		return input_ChartArray
+	end
+		
+	-- grabbing the playlistName by looking at input_CurGroupName
+	local playlistName = input_CurGroupName:match("^(.-)\n\n\n")
+	-- grabbing the sublistDesc by looking at input_CurGroupName
+	local sublistDesc = input_CurGroupName:match("(\n\n\n.*)$")
+	-- grabbing the sublistName by looking at input_CurGroupName
+	local sublistName = ""
+	for _, playlistData in ipairs(Database_POI()) do
+        if playlistData[1] == playlistName then
+            for _, subgroup in ipairs(playlistData) do
+                if type(subgroup) == "table" and subgroup[2] == sublistDesc then
+                    sublistName = subgroup[1]
+                end
+            end
+        end
+    end
+	
+	-- grabs an array of strings, representing the charts that are allowed to be displayed considering this Playlist, this Sublist, and this Song	
+	local listOfAllowedChartsAsString = GetAllowedCharts_POI(playlistName,sublistName,input_CurrentSong)	-- remember that input_CurrentSong doesnt exist anymore
+	
+	-- creates an array of Chart objects that match the list of charts allowed in
+	outputChartArray = CreateChartArrayBasedOnList_POI(input_ChartArray, listOfAllowedChartsAsString)
+	
+	-- checks if outputChartArray was left empty
+	if #outputChartArray == 0 then
+		return {} -- this will make the function return an empty ChartArray, and ChartDisplay.lua will repopulate it with all possible charts for this song "to avoid other crashes" in their words
+	end
+	
+	return outputChartArray
+end
+
 function FetchFirstTag_POI(input_song)
 	local output = ""
 	

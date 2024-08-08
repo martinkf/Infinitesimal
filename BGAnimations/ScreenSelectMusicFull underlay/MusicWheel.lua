@@ -133,6 +133,10 @@ end
 --
 
 
+function GetCurrentSongIndex()
+    return SongIndex
+end
+
 local t = Def.ActorFrame {
 	InitCommand=function(self)        
 		self:y(SCREEN_HEIGHT / 2 + EntireWheel_SelectingSongY):fov(fieldOfView):SetDrawByZPosition(true)
