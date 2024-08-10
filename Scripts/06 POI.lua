@@ -1394,6 +1394,7 @@ function Database_POI()
 				{ "/Songs/POI-database/327 - -REMIX- BANYA HARD REMIX/", "3RD-HARD", "3RD-CRAZY" },
 				{ "/Songs/POI-database/225 - -REMIX- 2ND HIDDEN REMIX/", "3RD-HARD", "3RD-CRAZY" },
 				{ "/Songs/POI-database/415 - -REMIX- SECHSKIES REMIX/", "OBGSE-HARD", "OBGSE-CRAZY" },
+				{ "/Songs/OffsetControl/18034 - See/", "PERF-CRAZY" },
 			},
 			{	"REMIX DOUBLE",
 				"\n\n\nRemix Double",
@@ -7818,7 +7819,7 @@ function TableOfColors_POI()
 		{"Placeholder",color("#888888")}, -- medium gray
 		-- chart stepstype
 		{"Single",color("#ff8811")}, -- orange
-		{"Halfdouble",color("#d9ff00")}, -- limeish yellowish green
+		{"Halfdouble",color("#11eeee")}, -- cyan
 		{"Double",color("#119922")}, -- forest green
 		-- song origins
 		{"The 1st DF",color("#ff00ff")}, --pink
