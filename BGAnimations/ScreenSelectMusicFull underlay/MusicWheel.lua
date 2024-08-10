@@ -64,9 +64,15 @@ Songs = GroupsList[GroupMainIndex].SubGroups[GroupSubIndex].Songs
 local function UpdateItemTargets(val)
     for i = 1, WheelSize do
         Targets[i] = val + i - WheelCenter
-        -- Wrap to fit to Songs list size
-        while Targets[i] > #Songs do Targets[i] = Targets[i] - #Songs end
-        while Targets[i] < 1 do Targets[i] = Targets[i] + #Songs end
+        	
+		--strip
+		--donothing
+		
+		--wheel
+		-- Wrap to fit to Songs list size
+        --while Targets[i] > #Songs do Targets[i] = Targets[i] - #Songs end
+        --while Targets[i] < 1 do Targets[i] = Targets[i] + #Songs end
+		
     end
 end
 
@@ -94,20 +100,36 @@ local function InputHandler(event)
 
     if not IsBusy then
         if button == "Left" or button == "MenuLeft" or button == "DownLeft" then
-            SongIndex = SongIndex - 1
-            if SongIndex < 1 then SongIndex = #Songs end
-            
-            GAMESTATE:SetCurrentSong(Songs[SongIndex])
-            UpdateItemTargets(SongIndex)
-            MESSAGEMAN:Broadcast("Scroll", { Direction = -1 })
+			--strip
+			if SongIndex > 1 then 
+				SongIndex = SongIndex - 1
+				GAMESTATE:SetCurrentSong(Songs[SongIndex])
+				UpdateItemTargets(SongIndex)
+				MESSAGEMAN:Broadcast("Scroll", { Direction = -1 })
+			end
+			
+			--wheel
+            --SongIndex = SongIndex - 1
+            --if SongIndex < 1 then SongIndex = #Songs end            
+            --GAMESTATE:SetCurrentSong(Songs[SongIndex])
+            --UpdateItemTargets(SongIndex)
+            --MESSAGEMAN:Broadcast("Scroll", { Direction = -1 })
 
         elseif button == "Right" or button == "MenuRight" or button == "DownRight" then
-            SongIndex = SongIndex + 1
-            if SongIndex > #Songs then SongIndex = 1 end
-            
-            GAMESTATE:SetCurrentSong(Songs[SongIndex])
-            UpdateItemTargets(SongIndex)
-            MESSAGEMAN:Broadcast("Scroll", { Direction = 1 })
+			--strip
+			if SongIndex < #Songs then 
+				SongIndex = SongIndex + 1
+				GAMESTATE:SetCurrentSong(Songs[SongIndex])
+				UpdateItemTargets(SongIndex)
+				MESSAGEMAN:Broadcast("Scroll", { Direction = 1 })
+			end
+			
+			--wheel
+            --SongIndex = SongIndex + 1
+            --if SongIndex > #Songs then SongIndex = 1 end            
+            --GAMESTATE:SetCurrentSong(Songs[SongIndex])
+            --UpdateItemTargets(SongIndex)
+            --MESSAGEMAN:Broadcast("Scroll", { Direction = 1 })
             
         elseif button == "Start" or button == "MenuStart" or button == "Center" then
             -- Save this for later
@@ -275,6 +297,17 @@ for i = 1, WheelSize do
 			self:GetChild(""):GetChild("OriginLabel"):playcommand("Refresh")
 			self:GetChild(""):GetChild("CategoryQuad"):playcommand("Refresh")
 			self:GetChild(""):GetChild("CategoryLabel"):playcommand("Refresh")
+			
+			-- calculate if should be visible or not
+			--strip
+			if Targets[i] > 0 and Targets[i] <= #Songs then
+				self:visible(true)
+			else
+				self:visible(false)
+			end
+			
+			--wheel
+			--donothing
 		end,
 
 
