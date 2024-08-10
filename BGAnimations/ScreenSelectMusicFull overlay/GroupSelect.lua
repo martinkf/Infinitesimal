@@ -1,8 +1,8 @@
-local MainWheelSize = 15
+local MainWheelSize = 99
 local MainWheelCenter = math.ceil( MainWheelSize * 0.5 )
 local MainWheelSpacing = 180 + 280
 
-local SubWheelSize = 13
+local SubWheelSize = 99
 local SubWheelCenter = math.ceil( SubWheelSize * 0.5 )
 local SubWheelSpacing = 250 + 25
 
@@ -23,6 +23,10 @@ local curvature = 0
 function UpdatePlaylistBanner(self, Banner)
 	if Banner == "" then Banner = THEME:GetPathG("Common fallback", "banner") end		
 	self:Load(Banner):zoom(0.19)
+end
+
+function UpdatePlaylistFrame(self, visibility)	
+	self:visible(visibility)
 end
 
 -- Not load anything if no group sorts are available (catastrophic event or no songs)
@@ -90,22 +94,22 @@ if SONGMAN:GetNumSongs() == 0 then
 else
 
 	-- Update Group item targets
-	local function UpdateMainItemTargets(val)
+	local function UpdateMainItemTargets(val)		
 		for i = 1, MainWheelSize do
 			MainTargets[i] = val + i - MainWheelCenter
-			-- Wrap to fit to Songs list size
-			while MainTargets[i] > #GroupsList do MainTargets[i] = MainTargets[i] - #GroupsList end
-			while MainTargets[i] < 1 do MainTargets[i] = MainTargets[i] + #GroupsList end
-		end
+			-- Wrap to fit to Songs list size --disabling this because I don't want a wheel, I want a strip
+			--while MainTargets[i] > #GroupsList do MainTargets[i] = MainTargets[i] - #GroupsList end
+			--while MainTargets[i] < 1 do MainTargets[i] = MainTargets[i] + #GroupsList end
+		end		
 	end
 
 	local function UpdateSubItemTargets(val)
-		for i = 1, SubWheelSize do
+		for i = 1, SubWheelSize do			
 			SubTargets[i] = val + i - SubWheelCenter
-			-- Wrap to fit to Songs list size
-			while SubTargets[i] > #GroupsList[CurMainIndex].SubGroups do SubTargets[i] = SubTargets[i] - #GroupsList[CurMainIndex].SubGroups end
-			while SubTargets[i] < 1 do SubTargets[i] = SubTargets[i] + #GroupsList[CurMainIndex].SubGroups end
-		end
+			-- Wrap to fit to Songs list size --disabling this because I don't want a wheel, I want a strip
+			--while SubTargets[i] > #GroupsList[CurMainIndex].SubGroups do SubTargets[i] = SubTargets[i] - #GroupsList[CurMainIndex].SubGroups end
+			--while SubTargets[i] < 1 do SubTargets[i] = SubTargets[i] + #GroupsList[CurMainIndex].SubGroups end
+		end		
 	end
 
 	-- Manages banner on sprite
@@ -134,42 +138,44 @@ else
 		if IsSelectingGroup then
 			if button == "Left" or button == "MenuLeft" or button == "DownLeft" then
 				if IsFocusedMain then
-					CurMainIndex = CurMainIndex - 1
-					if CurMainIndex < 1 then CurMainIndex = #GroupsList end
-					UpdateMainItemTargets(CurMainIndex)
+					if CurMainIndex > 1 then
+						CurMainIndex = CurMainIndex - 1
+						UpdateMainItemTargets(CurMainIndex)
 					
-					CurSubIndex = 1
-					UpdateSubItemTargets(CurSubIndex)
-					
-					MESSAGEMAN:Broadcast("ScrollMain", { Direction = -1 })
-					MESSAGEMAN:Broadcast("RefreshSub")
+						CurSubIndex = 1
+						UpdateSubItemTargets(CurSubIndex)
+						
+						MESSAGEMAN:Broadcast("ScrollMain", { Direction = -1 })
+						MESSAGEMAN:Broadcast("RefreshSub")
+					end
 				else
-					CurSubIndex = CurSubIndex - 1
-					if CurSubIndex < 1 then CurSubIndex = #GroupsList[CurMainIndex].SubGroups end
+					if CurSubIndex > 1 then
+						CurSubIndex = CurSubIndex - 1
+						UpdateSubItemTargets(CurSubIndex)
 					
-					UpdateSubItemTargets(CurSubIndex)
-					
-					MESSAGEMAN:Broadcast("ScrollSub", { Direction = -1 })
+						MESSAGEMAN:Broadcast("ScrollSub", { Direction = -1 })
+					end
 				end
 				
 			elseif button == "Right" or button == "MenuRight" or button == "DownRight" then
 				if IsFocusedMain then
-					CurMainIndex = CurMainIndex + 1
-					if CurMainIndex > #GroupsList then CurMainIndex = 1 end
-					UpdateMainItemTargets(CurMainIndex)
+					if CurMainIndex < #GroupsList then
+						CurMainIndex = CurMainIndex + 1
+						UpdateMainItemTargets(CurMainIndex)
 					
-					CurSubIndex = 1
-					UpdateSubItemTargets(CurSubIndex)
-					
-					MESSAGEMAN:Broadcast("ScrollMain", { Direction = 1 })
-					MESSAGEMAN:Broadcast("RefreshSub")
+						CurSubIndex = 1
+						UpdateSubItemTargets(CurSubIndex)
+						
+						MESSAGEMAN:Broadcast("ScrollMain", { Direction = 1 })
+						MESSAGEMAN:Broadcast("RefreshSub")
+					end
 				else
-					CurSubIndex = CurSubIndex + 1
-					if CurSubIndex > #GroupsList[CurMainIndex].SubGroups then CurSubIndex = 1 end
+					if CurSubIndex < #GroupsList[CurMainIndex].SubGroups then
+						CurSubIndex = CurSubIndex + 1
+						UpdateSubItemTargets(CurSubIndex)
 					
-					UpdateSubItemTargets(CurSubIndex)
-					
-					MESSAGEMAN:Broadcast("ScrollSub", { Direction = 1 })
+						MESSAGEMAN:Broadcast("ScrollSub", { Direction = 1 })
+					end
 				end
 			elseif button == "Start" or button == "MenuStart" or button == "Center" then
 				if IsFocusedMain then 
@@ -297,9 +303,11 @@ else
 				-- Set initial position, Direction = 0 means it won't tween
 				self:playcommand("ScrollMain", {Direction = 0})
 				
-				-- updates playlist banner pic				
+				-- updates playlist banner pic and its frame			
 				self:GetChild("PlaylistBanner"):visible(true)
+				self:GetChild("PlaylistFrame"):visible(true)
 				UpdatePlaylistBanner(self:GetChild("PlaylistBanner"), GroupsList[MainTargets[i]].Banner)
+				UpdatePlaylistFrame(self:GetChild("PlaylistFrame"), true)
 			end,
 
 			ScrollMainMessageCommand=function(self, params)
@@ -313,11 +321,12 @@ else
 
 				-- Only tween if a direction was specified
 				local tween = params and params.Direction and math.abs(params.Direction) > 0
-				
+								
 				-- Adjust and wrap actor index
 				i = i - params.Direction
-				while i > MainWheelSize do i = i - MainWheelSize end
-				while i < 1 do i = i + MainWheelSize end
+				--disabling these because I don't want a wheel, I want a strip
+				--while i > MainWheelSize do i = i - MainWheelSize end
+				--while i < 1 do i = i + MainWheelSize end
 
 				-- If it's an edge item, update text. Edge items should never tween
 				if i == 2 or i == MainWheelSize - 1 then
@@ -325,7 +334,7 @@ else
 				elseif tween then
 					self:easeoutexpo(0.4)
 				end
-
+				
 				-- Animate!
 				self:xy(xpos + displace, PlaylistWheel_Y)
 			end,
@@ -341,9 +350,10 @@ else
 			},
 			
 			Def.Sprite {
+				Name="PlaylistFrame",
 				Texture=THEME:GetPathG("", "MusicWheel/GroupFrame"),
 				InitCommand=function(self)
-					self:zoom(1.75)
+					self:zoom(1.75):visible(false)
 				end,
 				OnCommand=function(self) self:playcommand("Refresh") end,
 				RefreshHighlightMessageCommand=function(self) self:playcommand("Refresh") end,
@@ -377,6 +387,13 @@ else
 	for i = 1, SubWheelSize do
 		t[#t+1] = Def.ActorFrame{
 			OnCommand=function(self)
+				-- Clear all banners before redrawing them
+				self:GetChild("Banner"):visible(false)
+				UpdateBanner(self:GetChild("Banner"), GroupsList[CurMainIndex].SubGroups[SubTargets[i]].Banner)
+				self:GetChild("GroupInfo"):playcommand("Refresh")
+				self:GetChild(""):GetChild("Index"):playcommand("Refresh")
+				
+				-- Proceed as original code
 				if CurMainIndex == OrigGroupIndex then
 					self:GetChild("Banner"):visible(true)
 					UpdateBanner(self:GetChild("Banner"), GroupsList[CurMainIndex].SubGroups[SubTargets[i]].Banner)
@@ -395,7 +412,16 @@ else
 			end,
 			
 			-- This is so that whenever the main wheel scrolls all the bottom items can update as well.
-			RefreshSubMessageCommand=function(self, params) self:playcommand("On") end,
+			RefreshSubMessageCommand=function(self, params)
+				-- Clear all banners before redrawing them
+				self:GetChild("Banner"):visible(false)
+				UpdateBanner(self:GetChild("Banner"), GroupsList[CurMainIndex].SubGroups[SubTargets[i]].Banner)
+				self:GetChild("GroupInfo"):playcommand("Refresh")
+				self:GetChild(""):GetChild("Index"):playcommand("Refresh")
+				
+				-- Proceed as original code
+				self:playcommand("On") 
+			end,
 			
 			RefreshHighlightMessageCommand=function(self)
 				self:finishtweening():easeoutexpo(0.4):diffusealpha(IsFocusedMain and 0.09 or 1)
@@ -403,7 +429,7 @@ else
 
 			ScrollSubMessageCommand=function(self, params)
 				self:stoptweening()
-
+				
 				-- Calculate position
 				local xpos = SCREEN_CENTER_X + (i - SubWheelCenter) * SubWheelSpacing
 
@@ -415,9 +441,17 @@ else
 				
 				-- Adjust and wrap actor index
 				i = i - params.Direction
-				while i > SubWheelSize do i = i - SubWheelSize end
-				while i < 1 do i = i + SubWheelSize end
+				--disabling these because I don't want a wheel, I want a strip
+				--while i > SubWheelSize do i = i - SubWheelSize end
+				--while i < 1 do i = i + SubWheelSize end
 
+				-- Clear all banners before redrawing them
+				self:GetChild("Banner"):visible(false)
+				UpdateBanner(self:GetChild("Banner"), GroupsList[CurMainIndex].SubGroups[SubTargets[i]].Banner)
+				self:GetChild("GroupInfo"):playcommand("Refresh")
+				self:GetChild(""):GetChild("Index"):playcommand("Refresh")
+				
+				-- Proceed as original code
 				-- updates sublist banners
 				self:GetChild("Banner"):visible(true)
 				UpdateBanner(self:GetChild("Banner"), GroupsList[CurMainIndex].SubGroups[SubTargets[i]].Banner)
