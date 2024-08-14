@@ -7787,24 +7787,23 @@ function Database_POI()
 			},
 		},
 		{	"Zero",
-			"Playlists/16-zero.png",
+			"Playlists/16-zero.png",			
+			{	"Problematic",
+				"\n\n\nProblematic",
+				"Playlists/Sub-PROBLEM.png",
+				{ "/Songs/POI-database/205 - EXTRAVAGANZA/", },				
+				{ "/Songs/POI-database/414 - RUN TO YOU/", },
+				{ "/Songs/POI-database/503 - ROLLING CHRISTMAS/", },
+				{ "/Songs/POI-database/906 - STARIAN/", },
+				{ "/Songs/POI-database/708 - POINT BREAK/", },
+				{ "/Songs/POI-database/807 - D GANG/", },
+				{ "/Songs/POI-database/822 - JUST A GIRL/", },
+				{ "/Songs/POI-database/A01 - FINAL AUDITION 3 U.F/", },
+			},
 			{	"TEMP",
 				"\n\n\nTemp",
 				"Playlists/Sub-TEMP.png",				
-				{ "/Songs/POI-database/103 - FOREVER LOVE/", "ZERO-EASYSTATION", "ZERO-NIGHTMARE", },				
-				{ "/Songs/POI-database/109 - FUNKY TONIGHT/", "ZERO-CRAZY", },
-				{ "/Songs/POI-database/112 - ANOTHER TRUTH/", "ZERO-EASYSTATION", "ZERO-CRAZY", "ZERO-ANIGHTMARE", },
-				{ "/Songs/POI-database/119 - -REMIX- TURBO REMIX/", "ZERO-CRAZY", },
-				{ "/Songs/POI-database/204 - FINAL AUDITION/", "ZERO-EASYSTATION", "ZERO-ACRAZY", "ZERO-ANIGHTMARE", },
-				{ "/Songs/POI-database/205 - EXTRAVAGANZA/", "ZERO-ACRAZY", "ZERO-ANIGHTMARE", },
-				{ "/Songs/POI-database/212 - COM'BACK/", "ZERO-CRAZY", "ZERO-NIGHTMARE", },				
-				{ "/Songs/POI-database/213 - MOBIUS STRIP/", "ZERO-CRAZY", "ZERO-NIGHTMARE", },				
-				{ "/Songs/POI-database/301 - FINAL AUDITION 2/", "ZERO-ACRAZY", "ZERO-ANIGHTMARE", },				
-				{ "/Songs/POI-database/302 - NAISSANCE/", "ZERO-NIGHTMARE", },
-				{ "/Songs/POI-database/303 - TURKEY MARCH/", "ZERO-EASYSTATION", },
-				{ "/Songs/POI-database/304 - WITH MY LOVER/", "ZERO-CRAZY", "ZERO-NIGHTMARE", },				
-				{ "/Songs/POI-database/308 - FREE STYLE/", "ZERO-EASYSTATION", },
-				{ "/Songs/POI-database/318 - WE ARE/", "ZERO-NIGHTMARE", },
+				{ "/Songs/POI-database/818 - MEXI MEXI/", "ZERO-EASYSTATION", },
 			},
 		},
 	}
@@ -7815,7 +7814,7 @@ function TableOfColors_POI()
 		-- black
 		{"Black",color("#ffffff")},
 		-- IDK or Placeholder charts
-		{"IDK",color("#333333")}, -- dark gray
+		{"IDK",color("#FFFF00")}, -- yellow
 		{"Placeholder",color("#888888")}, -- medium gray
 		-- chart stepstype
 		{"Single",color("#ff8811")}, -- orange
