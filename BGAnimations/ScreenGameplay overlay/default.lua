@@ -26,7 +26,9 @@ local t = Def.ActorFrame {
         end
     end,
     
-    LoadActor("StageCount")
+    --LoadActor("StageCount"),
+	
+	LoadActor("../HudPanels"),	
 }
 
 for pn in ivalues(GAMESTATE:GetHumanPlayers()) do
