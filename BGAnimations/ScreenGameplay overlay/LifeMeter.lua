@@ -137,6 +137,7 @@ local t = Def.ActorFrame {
         InitCommand=function(self)
             self:scaletofit(0, 0, 30, 30)
             :xy(pn == PLAYER_1 and -BarW / 2 - 15 or BarW / 2 + 15, 0)
+			:visible(false) --disabling this avatar icon
         end
     },
 
@@ -145,6 +146,7 @@ local t = Def.ActorFrame {
         Texture=THEME:GetPathG("", "UI/BarBody"),
         InitCommand=function(self)
             self:setsize(BarW - 12, BarH)
+			:addy(3)
         end
     },
 
@@ -153,6 +155,7 @@ local t = Def.ActorFrame {
         Texture=THEME:GetPathG("", "UI/BarEdge"),
         InitCommand=function(self)
             self:x(-BarW / 2):halign(0)
+			:addy(3)
         end
     },
 
@@ -161,6 +164,7 @@ local t = Def.ActorFrame {
         Texture=THEME:GetPathG("", "UI/BarEdge"),
         InitCommand=function(self)
             self:x(BarW / 2):halign(0):rotationz(180)
+			:addy(3)
         end
     },
 
@@ -168,8 +172,9 @@ local t = Def.ActorFrame {
         Name="Mask",
         InitCommand=function(self)
             self:zoomto(BarW - 12, BarH - 12)
-            :diffuse(color(1,1,1,1))
+            :diffuse(color(1,1,1,1))			
             :MaskSource()
+			:addy(3)
         end
     },
 
@@ -180,6 +185,7 @@ local t = Def.ActorFrame {
             :diffuse(pn == PLAYER_1 and color("#f7931e") or color("#ab78f5"))
             :diffusebottomedge(pn == PLAYER_1 and color("#ed1e79") or color("#1fbcff"))
             :MaskDest():ztestmode("ZTestMode_WriteOnFail")
+			:addy(3)
         end
     },
 
@@ -189,9 +195,10 @@ local t = Def.ActorFrame {
             self:zoomto(20, BarH - 12):halign(0)
             :diffuse(pn == PLAYER_1 and color("#f7931e") or color("#ab78f5"))
             :diffusebottomedge(pn == PLAYER_1 and color("#ed1e79") or color("#1fbcff"))
-
+			
             self:bounce():effectmagnitude(-20,0,0):effectclock("bgm"):effecttiming(1,0,0,0)
             :MaskDest():ztestmode("ZTestMode_WriteOnFail")
+			:addy(3)
         end
     },
 
@@ -202,6 +209,7 @@ local t = Def.ActorFrame {
             :diffuse(pn == PLAYER_1 and color("#f7931e") or color("#ab78f5"))
             :diffusebottomedge(Color.White)
             :MaskDest():ztestmode("ZTestMode_WriteOnFail")
+			:addy(3)
         end
     },
 
@@ -213,6 +221,7 @@ local t = Def.ActorFrame {
             :diffusebottomedge(Color.White)
             self:bounce():effectmagnitude(-20,0,0):effectclock("bgm"):effecttiming(1,0,0,0)
             :MaskDest():ztestmode("ZTestMode_WriteOnFail")
+			:addy(3)
         end
     },
 
@@ -223,6 +232,7 @@ local t = Def.ActorFrame {
             self:zoomto(BarW - 12, BarH - 12)
             :texcoordvelocity(-0.5, 0)
             :diffusealpha(0)
+			:addy(3)
         end
     },
 
@@ -231,6 +241,7 @@ local t = Def.ActorFrame {
         InitCommand=function(self)
             self:x(BarW / 2 - 10):zoom(0.8):skewx(-0.2):halign(1)
             :diffuse(Color.Yellow):shadowlength(1):playcommand("Refresh")
+			:addy(3)
         end,
         JudgmentMessageCommand=function(self, params)
             if pn == params.Player and ScoreDisplay == "Percent" then

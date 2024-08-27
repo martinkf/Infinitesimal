@@ -18,6 +18,9 @@ local profilePic_Y = 637+43+4
 local credits_Y = SCREEN_TOP + 8
 local credits_size = 0.4
 
+local modIcons_X = 96
+local modIcons_Y = 45
+
 local t = Def.ActorFrame {
 	Def.ActorFrame {
 		InitCommand=function(self)
@@ -26,9 +29,8 @@ local t = Def.ActorFrame {
 		OnCommand=function(self)
 			self:easeoutexpo(0.5):xy(SCREEN_CENTER_X, 0)
 		end,
-		OffCommand=function(self)
-			self:easeoutexpo(0.5):xy(SCREEN_CENTER_X, -128)
-		end,
+		--OffCommand=function(self) self:easeoutexpo(0.5):xy(SCREEN_CENTER_X, -128) end,
+		OffCommand=function(self) end,
 		
 		-- Top panel graphic art (big, white)
 		Def.Sprite {
@@ -49,7 +51,8 @@ local t = Def.ActorFrame {
 				currentScreenName == "ScreenSelectProfile" then
 					self:visible(false)
 				else
-					self:visible(true)
+					--self:visible(true) --temp disabling it
+					self:visible(false)
 				end
 			end
 		},
@@ -71,10 +74,40 @@ local t = Def.ActorFrame {
 				currentScreenName == "ScreenTitleJoin" or
 				currentScreenName == "ScreenLogo" or
 				currentScreenName == "ScreenSelectProfile" then
-					self:visible(true)
+					self:visible(false) --temp disabling it
 				else
 					self:visible(false)
 				end
+			end
+		},
+		
+		-- top back panel graphic art (quad test)
+		Def.Quad {			
+			InitCommand=function(self)				
+				self:xy(0, topPanel_Y):setsize(1280, 162):diffuse(color("0,0,0,0.25")):queuecommand('Refresh')
+			end,
+			
+			ScreenChangedMessageCommand=function(self) self:playcommand('Refresh') end,
+			
+			RefreshCommand=function(self)
+				local currentScreenName = SCREENMAN:GetTopScreen():GetName()
+								
+				if 
+				currentScreenName == "ScreenTitleMenu" or 
+				currentScreenName == "ScreenTitleJoin" or
+				currentScreenName == "ScreenLogo" or
+				currentScreenName == "ScreenSelectProfile" then
+					self:visible(false)
+				else
+					self:visible(true)
+				end
+			end
+		},
+		
+		-- Top panel graphic art (quad test)
+		Def.Quad {			
+			InitCommand=function(self)				
+				self:xy(0, topPanel_Y):setsize(1280, 50):diffuse(color("0,0,0,0.9"))
 			end
 		},
 		
@@ -115,7 +148,7 @@ local t = Def.ActorFrame {
 		Def.Sprite {
 			Texture=THEME:GetPathG("", "UI/StageCount"),
 			InitCommand=function(self)
-				self:zoom(0.4):xy(0,47):queuecommand('Refresh')
+				self:zoom(0.4):xy(0,45):queuecommand('Refresh')
 			end,
 			
 			ScreenChangedMessageCommand=function(self) self:playcommand('Refresh') end,
@@ -139,7 +172,7 @@ local t = Def.ActorFrame {
 		Def.BitmapText {
 			Font="Montserrat semibold 40px",			
 			InitCommand=function(self)
-				self:y(55):addx(-1):zoom(0.7):shadowlength(1):queuecommand('Refresh')
+				self:y(53):addx(-1):zoom(0.7):shadowlength(1):queuecommand('Refresh')
 			end,
 			
 			ScreenChangedMessageCommand=function(self) self:playcommand('Refresh') end,
@@ -246,7 +279,8 @@ for pn in ivalues(GAMESTATE:GetHumanPlayers()) do
 			Def.ActorFrame {
 				InitCommand=function(self) self:y(128) end,
 				OnCommand=function(self) self:easeoutexpo(0.5):y(0) end,
-				OffCommand=function(self) self:easeoutexpo(0.5):y(128) end,
+				--OffCommand=function(self) self:easeoutexpo(0.5):y(128) end,
+				OffCommand=function(self) end,
 
 				-- profile name BG graphic
 				Def.Sprite {
@@ -254,6 +288,7 @@ for pn in ivalues(GAMESTATE:GetHumanPlayers()) do
 					InitCommand=function(self)
 						self:xy(SCREEN_CENTER_X + (pn == PLAYER_2 and profileNameBG_X or -profileNameBG_X), SCREEN_BOTTOM - profileNameBG_Y)
 						:halign(pn == PLAYER_2 and 0 or 1):valign(1):rotationz(180):zoomx(2)
+						:visible(false) --disabling
 					end
 				},
 				
@@ -304,7 +339,38 @@ for pn in ivalues(GAMESTATE:GetHumanPlayers()) do
 						self:scaletocover(0, 0, 64, 64)
 						:xy(SCREEN_CENTER_X + (pn == PLAYER_2 and profilePic_X or -profilePic_X), SCREEN_BOTTOM - profilePic_Y)
 					end
-				}
+				},
+				
+				-- mod icons (horizontal)
+				LoadActor("ModIcons.lua", pn) .. {
+					InitCommand=function(self)
+						self:xy(pn == PLAYER_2 and modIcons_X * 2 or modIcons_X * -2, modIcons_Y)
+						:easeoutexpo(0.5):x(pn == PLAYER_2 and SCREEN_RIGHT - modIcons_X or modIcons_X)
+						:queuecommand('Refresh')
+					end,
+					
+					RefreshCommand=function(self)
+						if SCREENMAN:GetTopScreen():GetName() == "ScreenGameplay" then						
+							self:visible(false)
+						end
+					end,
+				},
+				
+				-- mod icons (vertical)
+				LoadActor("ModIconsVertical.lua", pn) .. {
+					InitCommand=function(self)
+						--self:xy(pn == PLAYER_2 and modIcons_X * 2 or modIcons_X * -2, modIcons_Y)
+						self:xy(pn == PLAYER_2 and modIcons_X * 2 or modIcons_X * -2, modIcons_Y-500)
+						:easeoutexpo(0.5):x(pn == PLAYER_2 and SCREEN_RIGHT - modIcons_X or modIcons_X)
+						:queuecommand('Refresh')
+					end,
+					
+					RefreshCommand=function(self)
+						if SCREENMAN:GetTopScreen():GetName() ~= "ScreenGameplay" then						
+							self:visible(false)
+						end
+					end,
+				},
 			}
 		}
 	end

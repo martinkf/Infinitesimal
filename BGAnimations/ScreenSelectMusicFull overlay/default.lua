@@ -1,6 +1,4 @@
 local MenuButtonsOnly = PREFSMAN:GetPreference("OnlyDedicatedMenuButtons")
-local modIcons_X = 94
-local modIcons_Y = 49
 local joinAnotherPlayer_X = 0.475
 local joinAnotherPlayer_Y = 258
 local joinAnotherPlayer_zoom = 0.4
@@ -37,17 +35,6 @@ for pn in ivalues(GAMESTATE:GetHumanPlayers()) do
 			-- Make sure the speed is set relative to the selected song when going to gameplay
 			OffCommand=function(self)
 				LoadModule("Player.SetSpeed.lua")(pn)
-			end
-		},
-
-		-- mod icons
-		LoadActor("../ModIcons", pn) .. {
-			InitCommand=function(self)					
-				self:xy(pn == PLAYER_2 and modIcons_X * 2 or modIcons_X * -2, modIcons_Y)
-				:easeoutexpo(0.5):x(pn == PLAYER_2 and SCREEN_RIGHT - modIcons_X or modIcons_X)
-			end,
-			OffCommand=function(self)
-				self:stoptweening():easeoutexpo(1):x(pn == PLAYER_2 and SCREEN_RIGHT + modIcons_X * 2 or -(modIcons_X) * 2)
 			end
 		},
 	}

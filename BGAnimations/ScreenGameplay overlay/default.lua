@@ -37,7 +37,7 @@ for pn in ivalues(GAMESTATE:GetHumanPlayers()) do
     local PosX = IsCenter and SCREEN_CENTER_X or THEME:GetMetric(Var "LoadingScreen", "Player" .. ToEnumShortString(pn) .. "OnePlayerOneSideX")
     
     local IsReverse = GAMESTATE:GetPlayerState(pn):GetCurrentPlayerOptions():Reverse() > 0 and ShouldReverse
-    local PosY = IsReverse and SCREEN_BOTTOM - 30 or 30
+    local PosY = IsReverse and (SCREEN_BOTTOM - 30) or 42
     
     t[#t+1] = Def.ActorFrame {
         InitCommand=function(self)
