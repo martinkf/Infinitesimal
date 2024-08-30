@@ -2,8 +2,7 @@
 local numPlayers = GAMESTATE:GetNumPlayersEnabled()
 local center1P = PREFSMAN:GetPreference("Center1Player")
 
---local padding = 8 -- 4px on each side
-local padding = -40 -- this is so hacky and dirty lol
+local padding = -22 -- 4px on each side
 
 local filterColor = color("#000000")
 local filterAlphas = {
