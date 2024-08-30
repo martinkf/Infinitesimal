@@ -115,7 +115,7 @@ local t = Def.ActorFrame {
 		Def.BitmapText {
 			Font="Montserrat semibold 40px",
 			InitCommand=function(self)
-				self:xy(0, credits_Y):shadowlength(1):zoom(credits_size):queuecommand('Refresh')
+				self:xy(0,credits_Y):shadowlength(1):zoom(credits_size):queuecommand('Refresh')
 			end,
 			
 			OnCommand=function(self) self:playcommand('Refresh') end,
@@ -148,7 +148,7 @@ local t = Def.ActorFrame {
 		Def.Sprite {
 			Texture=THEME:GetPathG("", "UI/StageCount"),
 			InitCommand=function(self)
-				self:zoom(0.4):xy(0,45):queuecommand('Refresh')
+				self:zoom(0.4):y(45):queuecommand('Refresh')
 			end,
 			
 			ScreenChangedMessageCommand=function(self) self:playcommand('Refresh') end,
@@ -164,6 +164,12 @@ local t = Def.ActorFrame {
 					self:visible(false)
 				else
 					self:visible(true)
+				end
+				
+				if (GAMESTATE:GetCurrentStyle():GetStyleType() == "StyleType_OnePlayerTwoSides") then
+					self:x(-426)
+				else
+					self:x(0)
 				end
 			end
 		},
@@ -194,6 +200,12 @@ local t = Def.ActorFrame {
 					self:settext(string.format("%02d", GAMESTATE:GetCurrentStageIndex()))
 				else
 					self:settext(string.format("%02d", GAMESTATE:GetCurrentStageIndex() + 1))
+				end
+				
+				if (GAMESTATE:GetCurrentStyle():GetStyleType() == "StyleType_OnePlayerTwoSides") then
+					self:x(-426)
+				else
+					self:x(0)
 				end
 			end,
 		},
