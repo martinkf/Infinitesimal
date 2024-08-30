@@ -5,18 +5,19 @@ local amountLivesLeft_Y = 40
 local amountLivesRight_X = 0 - amountLivesLeft_X
 local amountLivesRight_Y = amountLivesLeft_Y
 local bottomPanel_Y = 762
+local credits_Y = SCREEN_TOP + 8
+local credits_size = 0.4
 local profileNameBG_X = 572
 local profileNameBG_Y = 668+53
-local profileNameText_X = 510
-local profileNameText_Y = 653+53
+local profileNameText_X = 522
+local profileNameText_Y = 711
 local profileLevelBG_X = profileNameBG_X
 local profileLevelBG_Y = 640
 local profileLevelText_X = 510-120
 local profileLevelText_Y = profileNameText_Y
 local profilePic_X = 600+4
 local profilePic_Y = 637+43+4
-local credits_Y = SCREEN_TOP + 8
-local credits_size = 0.4
+
 
 local modIcons_X = 96
 local modIcons_Y = 45
@@ -306,10 +307,10 @@ for pn in ivalues(GAMESTATE:GetHumanPlayers()) do
 				
 				-- profile name (text)
 				Def.BitmapText {
-					Font="Montserrat semibold 20px",
+					Font="Montserrat semibold 40px",
 					Text=PROFILEMAN:GetProfile(pn):GetDisplayName(),
 					InitCommand=function(self)
-						self:xy(SCREEN_CENTER_X + (pn == PLAYER_2 and profileNameText_X or -profileNameText_X), SCREEN_BOTTOM - profileNameText_Y):zoom(0.9)
+						self:xy(SCREEN_CENTER_X + (pn == PLAYER_2 and profileNameText_X or -profileNameText_X), SCREEN_BOTTOM - profileNameText_Y):zoom(credits_size)
 						:maxwidth(112 / self:GetZoom()):skewx(-0.2):shadowlength(1)
 
 						if PROFILEMAN:GetProfile(pn):GetDisplayName() == "" then
@@ -329,7 +330,8 @@ for pn in ivalues(GAMESTATE:GetHumanPlayers()) do
 				},
 				]]--
 				
-				-- player level (text)
+				--[[
+				-- player level (text) (disabled)
 				Def.BitmapText {
 					Font="Montserrat semibold 20px",
 					-- This ingenious level system was made up at 4am
@@ -343,6 +345,7 @@ for pn in ivalues(GAMESTATE:GetHumanPlayers()) do
 						self:settext(THEME:GetString("ProfileStats", "Level") .. " " .. lvl)
 					end
 				},
+				]]--
 				
 				-- player profile pic
 				Def.Sprite {
@@ -369,9 +372,9 @@ for pn in ivalues(GAMESTATE:GetHumanPlayers()) do
 				},
 				
 				-- mod icons (vertical)
+				-- NYI
 				LoadActor("ModIconsVertical.lua", pn) .. {
-					InitCommand=function(self)
-						--self:xy(pn == PLAYER_2 and modIcons_X * 2 or modIcons_X * -2, modIcons_Y)
+					InitCommand=function(self)						
 						self:xy(pn == PLAYER_2 and modIcons_X * 2 or modIcons_X * -2, modIcons_Y-500)
 						:easeoutexpo(0.5):x(pn == PLAYER_2 and SCREEN_RIGHT - modIcons_X or modIcons_X)
 						:queuecommand('Refresh')
