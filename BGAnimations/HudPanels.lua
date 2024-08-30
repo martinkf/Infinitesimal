@@ -17,8 +17,6 @@ local profileLevelText_X = 510-120
 local profileLevelText_Y = profileNameText_Y
 local profilePic_X = 600+4
 local profilePic_Y = 637+43+4
-
-
 local modIcons_X = 96
 local modIcons_Y = 45
 
@@ -33,56 +31,14 @@ local t = Def.ActorFrame {
 		--OffCommand=function(self) self:easeoutexpo(0.5):xy(SCREEN_CENTER_X, -128) end,
 		OffCommand=function(self) end,
 		
-		-- Top panel graphic art (big, white)
-		Def.Sprite {
-			Texture=THEME:GetPathG("", "UI/PanelTop"),
-			InitCommand=function(self)				
-				self:scaletofit(0, 0, 1280, 128):xy(0, topPanel_Y):valign(0):queuecommand('Refresh')
-			end,
-			
-			ScreenChangedMessageCommand=function(self) self:playcommand('Refresh') end,
-			
-			RefreshCommand=function(self)
-				local currentScreenName = SCREENMAN:GetTopScreen():GetName()
-								
-				if 
-				currentScreenName == "ScreenTitleMenu" or 
-				currentScreenName == "ScreenTitleJoin" or
-				currentScreenName == "ScreenLogo" or
-				currentScreenName == "ScreenSelectProfile" then
-					self:visible(false)
-				else
-					--self:visible(true) --temp disabling it
-					self:visible(false)
-				end
-			end
-		},
-		
 		-- Top panel graphic art (small, black)
-		Def.Sprite {
-			Texture=THEME:GetPathG("", "UI/PanelBottom"),
+		Def.Quad {			
 			InitCommand=function(self)				
-				self:scaletofit(0, 0, 1280, 128):xy(0, topPanel_Y-52):valign(0):queuecommand('Refresh')
-			end,
-			
-			ScreenChangedMessageCommand=function(self) self:playcommand('Refresh') end,
-			
-			RefreshCommand=function(self)
-				local currentScreenName = SCREENMAN:GetTopScreen():GetName()
-								
-				if 
-				currentScreenName == "ScreenTitleMenu" or 
-				currentScreenName == "ScreenTitleJoin" or
-				currentScreenName == "ScreenLogo" or
-				currentScreenName == "ScreenSelectProfile" then
-					self:visible(false) --temp disabling it
-				else
-					self:visible(false)
-				end
+				self:xy(0, topPanel_Y):setsize(1280, 50):diffuse(color("0,0,0,0.9"))
 			end
 		},
 		
-		-- top back panel graphic art (quad test)
+		-- quad for alignment (temporary)
 		Def.Quad {			
 			InitCommand=function(self)				
 				self:xy(0, topPanel_Y):setsize(1280, 162):diffuse(color("0,0,0,0.25")):queuecommand('Refresh')
@@ -100,15 +56,8 @@ local t = Def.ActorFrame {
 				currentScreenName == "ScreenSelectProfile" then
 					self:visible(false)
 				else
-					self:visible(true)
+					self:visible(false) --disabling it
 				end
-			end
-		},
-		
-		-- Top panel graphic art (quad test)
-		Def.Quad {			
-			InitCommand=function(self)				
-				self:xy(0, topPanel_Y):setsize(1280, 50):diffuse(color("0,0,0,0.9"))
 			end
 		},
 		
@@ -179,7 +128,7 @@ local t = Def.ActorFrame {
 		Def.BitmapText {
 			Font="Montserrat semibold 40px",			
 			InitCommand=function(self)
-				self:y(53):addx(-1):zoom(0.7):shadowlength(1):queuecommand('Refresh')
+				self:y(53):zoom(0.7):shadowlength(1):queuecommand('Refresh')
 			end,
 			
 			ScreenChangedMessageCommand=function(self) self:playcommand('Refresh') end,
@@ -210,78 +159,6 @@ local t = Def.ActorFrame {
 				end
 			end,
 		},
-		
-		-- Amount of lives left	for P1 - disabled
-		--[[
-		Def.ActorFrame {
-			InitCommand=function(self)
-				self:xy(amountLivesLeft_X, amountLivesLeft_Y):visible(Screen.String("HeaderText") == "Select Music")
-			end,
-
-			Def.Sprite {
-				Texture=THEME:GetPathG("", "UI/Button"),
-				InitCommand=function(self) self:zoom(0.65) end,
-			},
-			LoadFont("Common Normal")..{
-				InitCommand=function(self)
-					self:settext()
-						:xy(SCREEN_CENTER_X, SCREEN_CENTER_Y)
-						:diffuse(color("#FF0000")) -- Set text color to red
-				end
-			},
-			Def.Sprite {
-				Texture=THEME:GetPathG("", "UI/Heart"),
-				InitCommand=function(self)
-					self:x(-21):zoom(0.3)
-				end,
-			},
-			Def.BitmapText {
-				Font="Montserrat semibold 40px",
-				InitCommand=function(self)
-					self:x(-6):zoom(0.6):halign(0)
-
-					local Hearts = GAMESTATE:GetNumStagesLeft(PLAYER_1) + GAMESTATE:GetNumStagesLeft(PLAYER_2)
-					self:settext("x " .. (GAMESTATE:IsEventMode() and "∞" or Hearts))
-				end
-			},
-		},
-		]]--
-		
-		-- Amount of lives left	for P2 - disabled
-		--[[
-		Def.ActorFrame {
-			InitCommand=function(self)
-				self:xy(amountLivesRight_X, amountLivesRight_Y):visible(Screen.String("HeaderText") == "Select Music")
-			end,
-
-			Def.Sprite {
-				Texture=THEME:GetPathG("", "UI/Button"),
-				InitCommand=function(self) self:zoom(0.65) end,
-			},
-			LoadFont("Common Normal")..{
-				InitCommand=function(self)
-					self:settext()
-						:xy(SCREEN_CENTER_X, SCREEN_CENTER_Y)
-						:diffuse(color("#FF0000")) -- Set text color to red
-				end
-			},
-			Def.Sprite {
-				Texture=THEME:GetPathG("", "UI/Heart"),
-				InitCommand=function(self)
-					self:x(-21):zoom(0.3)
-				end,
-			},
-			Def.BitmapText {
-				Font="Montserrat semibold 40px",
-				InitCommand=function(self)
-					self:x(-6):zoom(0.6):halign(0)
-
-					local Hearts = GAMESTATE:GetNumStagesLeft(PLAYER_1) + GAMESTATE:GetNumStagesLeft(PLAYER_2)
-					self:settext("x " .. (GAMESTATE:IsEventMode() and "∞" or Hearts))
-				end
-			},
-		},
-		]]--
 	}
 }
 
@@ -290,7 +167,7 @@ for pn in ivalues(GAMESTATE:GetHumanPlayers()) do
 	if PROFILEMAN:GetProfile(pn) and (PROFILEMAN:IsPersistentProfile(pn) or PROFILEMAN:ProfileWasLoadedFromMemoryCard(pn)) then
 		t[#t+1] = Def.ActorFrame {            
 			Def.ActorFrame {
-				InitCommand=function(self) self:y(128) end,
+				InitCommand=function(self) self:y(-128) end,
 				OnCommand=function(self) self:easeoutexpo(0.5):y(0) end,
 				--OffCommand=function(self) self:easeoutexpo(0.5):y(128) end,
 				OffCommand=function(self) end,
@@ -375,8 +252,8 @@ for pn in ivalues(GAMESTATE:GetHumanPlayers()) do
 				-- NYI
 				LoadActor("ModIconsVertical.lua", pn) .. {
 					InitCommand=function(self)						
-						self:xy(pn == PLAYER_2 and modIcons_X * 2 or modIcons_X * -2, modIcons_Y-500)
-						:easeoutexpo(0.5):x(pn == PLAYER_2 and SCREEN_RIGHT - modIcons_X or modIcons_X)
+						self:xy(pn == PLAYER_2 and (modIcons_X * 2) or (modIcons_X * -2), modIcons_Y+50)
+						:easeoutexpo(0.5):x(pn == PLAYER_2 and (SCREEN_RIGHT - modIcons_X + 69) or (modIcons_X - 69))
 						:queuecommand('Refresh')
 					end,
 					
