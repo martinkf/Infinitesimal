@@ -2,7 +2,7 @@ local pn = ...
 local IconW = 46
 local IconH = 46
 local IconAmount = 8
-local IconSpacing = 1
+local IconSpacing = 3
 	
 local pnNum = (pn == PLAYER_1) and 0 or 1
 local PlayerMods = GAMESTATE:GetPlayerState(pn):GetPlayerOptions("ModsLevel_Preferred")
@@ -123,12 +123,17 @@ local t = Def.ActorFrame {
 	end,
 
 	-- Noteskin display
-	Def.Sprite {
+	Def.Quad {
+		InitCommand=function(self) 
+			self:x(0):setsize(46,46):diffuse(0,0,0,0.4)
+		end
+	}
+	--[[Def.Sprite {
 		Texture=THEME:GetPathG("", "UI/ModIcon"),
 		InitCommand=function(self) 
 		self:x(0):zoomx(IconW/64)
 		end
-	}
+	}]]--
 }
 
 -- This will be responsible for displaying the selected noteskin
@@ -151,19 +156,27 @@ t[#t+1] = Def.ActorProxy {
 for i = 1, IconAmount do
 	t[#t+1] = Def.ActorFrame {
 		Name="IconFrame",
-		Def.Sprite {
+		Def.Quad {
+			Name="Icon",
+			InitCommand=function(self)					
+				self:y((IconH + IconSpacing) + (i - 1) * (IconH + IconSpacing))
+				:setsize(46,46):diffuse(0,0,0,0.4)
+				:visible(false):x(0)
+			end
+		},
+		--[[Def.Sprite {
 			Name="Icon",
 			Texture=THEME:GetPathG("", "UI/ModIcon"),
 			InitCommand=function(self)					
-				self:y((pnNum == 1) and -(IconH + IconSpacing) - (i - 1) * (IconH + IconSpacing) or (IconH + IconSpacing) + (i - 1) * (IconH + IconSpacing))
+				self:y((IconH + IconSpacing) + (i - 1) * (IconH + IconSpacing))
 				:visible(false):zoomx(IconW/64):x(0)
 			end
-		},
+		},]]--
 		Def.BitmapText {
 			Name="Text",
 			Font="Montserrat semibold 40px",
 			InitCommand=function(self)
-				self:y((pnNum == 1) and -(IconH + IconSpacing) - (i - 1) * (IconH + IconSpacing) or (IconH + IconSpacing) + (i - 1) * (IconH + IconSpacing))
+				self:y((IconH + IconSpacing) + (i - 1) * (IconH + IconSpacing))
 				:zoom(0.4):vertspacing(-20):shadowlength(1)
 				:wrapwidthpixels((IconW - 4) / self:GetZoom())
 				:maxwidth((IconW - 4) / self:GetZoom())

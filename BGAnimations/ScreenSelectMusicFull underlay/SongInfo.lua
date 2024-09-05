@@ -1,4 +1,4 @@
-local SongInfo_SelectingSongY = 543
+local SongInfo_SelectingSongY = 536
 local SongInfo_SelectingChartY = 136
 local SongInfo_SongChangedDelay = 0.5
 

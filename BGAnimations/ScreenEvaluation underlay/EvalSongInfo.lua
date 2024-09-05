@@ -76,42 +76,46 @@ local t = Def.ActorFrame {
 		end
 	end,
 
-	Def.Sprite {
-		Texture=THEME:GetPathG("", "Evaluation/EvalSongInfo"),    },
-
-	Def.BitmapText {
-		Font="Montserrat semibold 40px",
-		Name="Title",
+	Def.Quad {
 		InitCommand=function(self)
-			self:zoom(0.8):valign(0)
-			:maxwidth(FrameW * 0.89 / self:GetZoom())
-			:diffuse(Color.Black)
-			:y(-33)
+			self:xy(0,0)
+			:setsize(410,84):diffuse(1,1,1,0.8)
+		end
+	},
+	Def.Quad { --left diffusor
+		InitCommand=function(self)
+			self:xy(-280,0)
+			:setsize(150,84):diffuse(1,1,1,0.8)
+			:diffuseleftedge(1,1,1,0)
+		end
+	},
+	Def.Quad { --right diffusor
+		InitCommand=function(self)
+			self:xy(280,0)
+			:setsize(150,84):diffuse(1,1,1,0.8)
+			:diffuserightedge(1,1,1,0)
 		end
 	},
 
-	--separator between artist and bpm
-	Def.BitmapText {
-		Font="Montserrat normal 20px",
-		Name="Separator",
-		Text="·",
-		InitCommand=function(self)
-			self:zoom(1):valign(1)			
-			:maxwidth(FrameW * 0.5 / self:GetZoom())
-			:diffuse(Color.Black)
-			:y(16)
-		end
-	},
-	
 	Def.BitmapText {
 		Font="Montserrat normal 20px",
 		Name="Artist",
 		InitCommand=function(self)
-			self:zoom(1):valign(1)
-			:halign(1):x(-10)
-			:maxwidth(FrameW * 0.5 / self:GetZoom())
+			self:zoom(1):halign(0.5):valign(0.5)			
+			:maxwidth(FrameW * 1 / self:GetZoom())
 			:diffuse(Color.Black)
-			:y(16)
+			:xy(0,-28)
+		end
+	},
+	
+	Def.BitmapText {
+		Font="Montserrat semibold 40px",
+		Name="Title",
+		InitCommand=function(self)
+			self:zoom(0.8):halign(0.5):valign(0.5)
+			:maxwidth(FrameW * 0.89 / self:GetZoom())
+			:diffuse(Color.Black)
+			:y(0)
 		end
 	},
 	
@@ -119,12 +123,15 @@ local t = Def.ActorFrame {
 		Font="Montserrat normal 20px",
 		Name="BPM",
 		InitCommand=function(self)
-			self:zoom(1):halign(0):valign(1)
-			:maxwidth(130)
+			self:zoom(1):halign(0.5):valign(0.5)
+			:maxwidth(FrameW * 1 / self:GetZoom())
 			:diffuse(Color.Black)
-			:xy(10, 16)
+			:xy(0,28)
 		end
 	},
+	
+	
+	
 	
 	-- currently disabled since the Hearts system is NYI
 	Def.Sprite {

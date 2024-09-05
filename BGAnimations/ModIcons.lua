@@ -287,12 +287,17 @@ if usingPOIUX then
 		end,
 
 		-- Noteskin display
-		Def.Sprite {
-			Texture=THEME:GetPathG("", "UI/ModIcon"),
+		Def.Quad {
 			InitCommand=function(self) 
-			self:x(0):zoomx(IconW/64)
+				self:x(0):setsize(46,46):diffuse(0,0,0,0.4)
 			end
 		}
+		--Def.Sprite {
+			--Texture=THEME:GetPathG("", "UI/ModIcon"),
+			--InitCommand=function(self) 
+			--self:x(0):zoomx(IconW/64)
+			--end
+		--}
 	}
 
 	-- This will be responsible for displaying the selected noteskin
@@ -315,14 +320,22 @@ if usingPOIUX then
 	for i = 1, IconAmount do
 		t[#t+1] = Def.ActorFrame {
 			Name="IconFrame",
-			Def.Sprite {
+			Def.Quad {
+				Name="Icon",
+				InitCommand=function(self)					
+					self:x((pnNum == 1) and -(IconW + IconSpacing) - (i - 1) * (IconW + IconSpacing) or (IconW + IconSpacing) + (i - 1) * (IconW + IconSpacing))
+					:setsize(46,46):diffuse(0,0,0,0.4)
+					:visible(false):y(0)
+				end
+			},
+			--[[Def.Sprite {
 				Name="Icon",
 				Texture=THEME:GetPathG("", "UI/ModIcon"),
 				InitCommand=function(self)					
 					self:x((pnNum == 1) and -(IconW + IconSpacing) - (i - 1) * (IconW + IconSpacing) or (IconW + IconSpacing) + (i - 1) * (IconW + IconSpacing))
 					:visible(false):zoomx(IconW/64):y(0)
 				end
-			},
+			},]]--
 			Def.BitmapText {
 				Name="Text",
 				Font="Montserrat semibold 40px",

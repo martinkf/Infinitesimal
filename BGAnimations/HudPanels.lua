@@ -41,7 +41,7 @@ local t = Def.ActorFrame {
 		-- quad for alignment (temporary)
 		Def.Quad {			
 			InitCommand=function(self)				
-				self:xy(0, topPanel_Y):setsize(1280, 162):diffuse(color("0,0,0,0.25")):queuecommand('Refresh')
+				self:xy(0, topPanel_Y):setsize(1280, 163):diffuse(color("0,0,0,0.25")):queuecommand('Refresh')
 			end,
 			
 			ScreenChangedMessageCommand=function(self) self:playcommand('Refresh') end,
@@ -95,10 +95,9 @@ local t = Def.ActorFrame {
 		},
 	
 		-- StageCount BG UI art
-		Def.Sprite {
-			Texture=THEME:GetPathG("", "UI/StageCount"),
+		Def.Quad {
 			InitCommand=function(self)
-				self:zoom(0.4):y(45):queuecommand('Refresh')
+				self:setsize(92, 46):diffuse(color("0,0,0,0.4")):xy(0,45):queuecommand('Refresh')
 			end,
 			
 			ScreenChangedMessageCommand=function(self) self:playcommand('Refresh') end,
@@ -116,19 +115,50 @@ local t = Def.ActorFrame {
 					self:visible(true)
 				end
 				
-				if (GAMESTATE:GetCurrentStyle():GetStyleType() == "StyleType_OnePlayerTwoSides") then
-					self:x(-426)
+				if (GAMESTATE:GetCurrentStyle():GetStyleType() == "StyleType_OnePlayerTwoSides") and (SCREENMAN:GetTopScreen():GetName() == "ScreenGameplay") then
+					self:x(-430)
 				else
 					self:x(0)
 				end
 			end
 		},
 		
+		-- StageCount label
+		Def.BitmapText {
+			Font="Montserrat semibold 40px",			
+			InitCommand=function(self)
+				self:y(31):zoom(0.4):shadowlength(1)
+				:settext("STAGE"):queuecommand('Refresh')
+			end,
+			
+			ScreenChangedMessageCommand=function(self) self:playcommand('Refresh') end,
+			
+			RefreshCommand=function(self)
+				local currentScreenName = SCREENMAN:GetTopScreen():GetName()
+								
+				if 
+				currentScreenName == "ScreenTitleMenu" or 
+				currentScreenName == "ScreenTitleJoin" or
+				currentScreenName == "ScreenLogo" or
+				currentScreenName == "ScreenSelectProfile" then
+					self:visible(false)
+				else
+					self:visible(true)
+				end
+				
+				if (GAMESTATE:GetCurrentStyle():GetStyleType() == "StyleType_OnePlayerTwoSides") and (SCREENMAN:GetTopScreen():GetName() == "ScreenGameplay") then
+					self:x(-430)
+				else
+					self:x(0)
+				end
+			end,
+		},
+		
 		-- StageCount text
 		Def.BitmapText {
 			Font="Montserrat semibold 40px",			
 			InitCommand=function(self)
-				self:y(53):zoom(0.7):shadowlength(1):queuecommand('Refresh')
+				self:y(52):zoom(0.7):shadowlength(1):queuecommand('Refresh')
 			end,
 			
 			ScreenChangedMessageCommand=function(self) self:playcommand('Refresh') end,
@@ -152,8 +182,8 @@ local t = Def.ActorFrame {
 					self:settext(string.format("%02d", GAMESTATE:GetCurrentStageIndex() + 1))
 				end
 				
-				if (GAMESTATE:GetCurrentStyle():GetStyleType() == "StyleType_OnePlayerTwoSides") then
-					self:x(-426)
+				if (GAMESTATE:GetCurrentStyle():GetStyleType() == "StyleType_OnePlayerTwoSides") and (SCREENMAN:GetTopScreen():GetName() == "ScreenGameplay") then
+					self:x(-430)
 				else
 					self:x(0)
 				end
